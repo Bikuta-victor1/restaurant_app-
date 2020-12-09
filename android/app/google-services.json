@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "818174373494",
+    "project_id": "menu-app-258ce",
+    "storage_bucket": "menu-app-258ce.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:818174373494:android:22f37be660322962a93957",
+        "android_client_info": {
+          "package_name": "com.ultralounge.menuapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "818174373494-eedspuftffdicu38jsfnlai1eg9la465.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC1Im1PtqsAz0gk-EqbRy7Mwabz4cSrRgo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "818174373494-eedspuftffdicu38jsfnlai1eg9la465.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:restaurant_app/screens/details.dart';
-import 'package:restaurant_app/util/const.dart';
-import 'package:restaurant_app/widgets/smooth_star_rating.dart';
+import 'package:menuapp/screens/details.dart';
+import 'package:menuapp/util/const.dart';
+import 'package:menuapp/widgets/smooth_star_rating.dart';
 
 class CartItem extends StatelessWidget {
   final String name;

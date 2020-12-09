@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:restaurant_app/screens/dishes.dart';
-import 'package:restaurant_app/widgets/grid_product.dart';
-import 'package:restaurant_app/widgets/home_category.dart';
-import 'package:restaurant_app/widgets/slider_item.dart';
-import 'package:restaurant_app/util/foods.dart';
-import 'package:restaurant_app/util/categories.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+//import 'package:menuapp/screens/categories_screen.dart';
+import 'package:menuapp/screens/dishes.dart';
+import 'package:menuapp/screens/drinkscreen.dart';
+import 'package:menuapp/screens/mealscreen.dart';
+import 'package:menuapp/widgets/grid_product.dart';
+//import 'package:menuapp/widgets/home_category.dart';
+import 'package:menuapp/widgets/slider_item.dart';
+import 'package:menuapp/util/foods.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 
 class Home extends StatefulWidget {
@@ -38,6 +41,8 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin<Home> {
                 Text(
                   "Dishes",
                   style: TextStyle(
+                    fontFamily: 'Vivaldii',
+                    letterSpacing: 1.4,
                     fontSize: 23,
                     fontWeight: FontWeight.w800,
                   ),
@@ -46,6 +51,8 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin<Home> {
                   child: Text(
                     "View More",
                     style: TextStyle(
+                      fontFamily: 'Vivaldii',
+                      letterSpacing: 1.4,
 //                      fontSize: 22,
 //                      fontWeight: FontWeight.w800,
                       color: Theme.of(context).accentColor,
@@ -99,26 +106,141 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin<Home> {
               "Food Categories",
               style: TextStyle(
                 fontSize: 23,
+                fontFamily: 'Vivaldii',
+                letterSpacing: 1.4,
                 fontWeight: FontWeight.w800,
               ),
             ),
             SizedBox(height: 10.0),
-
             Container(
               height: 65.0,
-              child: ListView.builder(
+              child: ListView(
                 scrollDirection: Axis.horizontal,
                 shrinkWrap: true,
-                itemCount: categories == null ? 0 : categories.length,
-                itemBuilder: (BuildContext context, int index) {
-                  Map cat = categories[index];
-                  return HomeCategory(
-                    icon: cat['icon'],
-                    title: cat['name'],
-                    items: cat['items'].toString(),
-                    isHome: true,
-                  );
-                },
+                children: [
+                  InkWell(
+                    onTap: () {
+                      Navigator.of(context).push(
+                        MaterialPageRoute(
+                          builder: (BuildContext context) {
+                            return MealScreen();
+                          },
+                        ),
+                      );
+                    },
+                    child: Card(
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10.0)),
+                      elevation: 4.0,
+                      child: Padding(
+                        padding: EdgeInsets.fromLTRB(10.0, 0.0, 10.0, 0.0),
+                        child: Row(
+                          children: <Widget>[
+                            Padding(
+                              padding: EdgeInsets.only(left: 0.0, right: 10.0),
+                              child: Icon(
+                                FontAwesomeIcons.breadSlice,
+                                color: Theme.of(context).accentColor,
+                              ),
+                            ),
+                            SizedBox(width: 5),
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              mainAxisSize: MainAxisSize.min,
+                              children: <Widget>[
+                                SizedBox(height: 10.0),
+                                Text(
+                                  "Meals",
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.w900,
+                                    fontFamily: 'Vivaldii',
+                                    letterSpacing: 1.4,
+                                    fontSize: 17,
+                                  ),
+                                ),
+                                Text(
+                                  "7 Items",
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.w400,
+                                    fontSize: 10,
+                                  ),
+                                ),
+                                SizedBox(height: 5),
+                              ],
+                            ),
+                            SizedBox(width: 5),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                  InkWell(
+                    onTap: () {
+                      Navigator.of(context).push(
+                        MaterialPageRoute(
+                          builder: (BuildContext context) {
+                            return DrinkScreen();
+                          },
+                        ),
+                      );
+                    },
+                    child: Card(
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10.0)),
+                      elevation: 4.0,
+                      child: Padding(
+                        padding: EdgeInsets.fromLTRB(10.0, 0.0, 10.0, 0.0),
+                        child: Row(
+                          children: <Widget>[
+                            Padding(
+                              padding: EdgeInsets.only(left: 0.0, right: 10.0),
+                              child: Icon(
+                                FontAwesomeIcons.wineBottle,
+                                color: Theme.of(context).accentColor,
+                              ),
+                            ),
+                            SizedBox(width: 5),
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              mainAxisSize: MainAxisSize.min,
+                              children: <Widget>[
+                                SizedBox(height: 10.0),
+                                Text(
+                                  "Drinks",
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.w900,
+                                    fontFamily: 'Vivaldii',
+                                    letterSpacing: 1.4,
+                                    fontSize: 17,
+                                  ),
+                                ),
+                                Text(
+                                  "8 Items",
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.w400,
+                                    fontSize: 10,
+                                  ),
+                                ),
+                                SizedBox(height: 5),
+                              ],
+                            ),
+                            SizedBox(width: 5),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+                // itemCount: categories == null ? 0 : categories.length,
+                // itemBuilder: (BuildContext context, int index) {
+                //   Map cat = categories[index];
+                //  return HomeCategory(
+                //     icon: cat['icon'],
+                //     title: cat['name'],
+                //     items: cat['items'].toString(),
+                //     isHome: true,
+                //   );
+                // },
               ),
             ),
 
@@ -131,6 +253,8 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin<Home> {
                   "Popular Items",
                   style: TextStyle(
                     fontSize: 23,
+                    fontFamily: 'Vivaldii',
+                    letterSpacing: 1.4,
                     fontWeight: FontWeight.w800,
                   ),
                 ),
@@ -138,6 +262,8 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin<Home> {
                   child: Text(
                     "View More",
                     style: TextStyle(
+                      fontFamily: 'Vivaldii',
+                      letterSpacing: 1.4,
 //                      fontSize: 22,
 //                      fontWeight: FontWeight.w800,
                       color: Theme.of(context).accentColor,
@@ -148,7 +274,6 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin<Home> {
               ],
             ),
             SizedBox(height: 10.0),
-
             GridView.builder(
               shrinkWrap: true,
               primary: false,
@@ -166,10 +291,8 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin<Home> {
 //                print(foods.length);
                 return GridProduct(
                   img: food['img'],
-                  isFav: false,
                   name: food['name'],
-                  rating: 5.0,
-                  raters: 23,
+                  route: food['route'],
                 );
               },
             ),

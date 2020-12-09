@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:restaurant_app/util/foods.dart';
-import 'package:restaurant_app/widgets/cart_item.dart';
+import 'package:menuapp/util/foods.dart';
+import 'package:menuapp/widgets/cart_item.dart';
 
 class Checkout extends StatefulWidget {
   @override

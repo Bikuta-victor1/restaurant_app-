@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:restaurant_app/util/foods.dart';
-import 'package:restaurant_app/widgets/grid_product.dart';
+import 'package:menuapp/util/foods.dart';
+import 'package:menuapp/widgets/grid_product.dart';
 
 class FavoriteScreen extends StatefulWidget {
   @override
@@ -42,12 +42,7 @@ class _FavoriteScreenState extends State<FavoriteScreen>
 //                print(foods);
 //                print(foods.length);
                 return GridProduct(
-                  img: food['img'],
-                  isFav: true,
-                  name: food['name'],
-                  rating: 5.0,
-                  raters: 23,
-                );
+                    img: food['img'], name: food['name'], route: food['route']);
               },
             ),
             SizedBox(height: 30),

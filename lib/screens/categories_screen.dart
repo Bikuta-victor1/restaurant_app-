@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:restaurant_app/screens/notifications.dart';
-import 'package:restaurant_app/util/categories.dart';
-import 'package:restaurant_app/util/foods.dart';
-import 'package:restaurant_app/widgets/badge.dart';
-import 'package:restaurant_app/widgets/grid_product.dart';
-import 'package:restaurant_app/widgets/home_category.dart';
+import 'package:menuapp/screens/notifications.dart';
+import 'package:menuapp/util/foods.dart';
+import 'package:menuapp/widgets/badge.dart';
+import 'package:menuapp/widgets/grid_product.dart';
 
 class CategoriesScreen extends StatefulWidget {
   @override
@@ -52,31 +50,31 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
         child: ListView(
           children: <Widget>[
             SizedBox(height: 10.0),
-            Container(
-              height: 65.0,
-              child: ListView.builder(
-                scrollDirection: Axis.horizontal,
-                shrinkWrap: true,
-                itemCount: categories == null ? 0 : categories.length,
-                itemBuilder: (BuildContext context, int index) {
-                  Map cat = categories[index];
-                  return HomeCategory(
-                    icon: cat['icon'],
-                    title: cat['name'],
-                    items: cat['items'].toString(),
-                    isHome: false,
-                    tap: () {
-                      setState(() {
-                        catie = "${cat['name']}";
-                      });
-                    },
-                  );
-                },
-              ),
-            ),
-            SizedBox(height: 20.0),
+            // Container(
+            //   height: 65.0,
+            //   child: ListView.builder(
+            //     scrollDirection: Axis.horizontal,
+            //     shrinkWrap: true,
+            //     itemCount: categories == null ? 0 : categories.length,
+            //     itemBuilder: (BuildContext context, int index) {
+            //       Map cat = categories[index];
+            //       return HomeCategory(
+            //         icon: cat['icon'],
+            //         title: cat['name'],
+            //         items: cat['items'].toString(),
+            //         isHome: false,
+            //         tap: () {
+            //           setState(() {
+            //             catie = "${cat['name']}";
+            //           });
+            //         },
+            //       );
+            //     },
+            //   ),
+            // ),
+            //SizedBox(height: 20.0),
             Text(
-              "$catie",
+              "Meals",
               style: TextStyle(
                 fontSize: 23,
                 fontWeight: FontWeight.w800,
@@ -98,10 +96,11 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                 Map food = foods[index];
                 return GridProduct(
                   img: food['img'],
-                  isFav: false,
+                  //isFav: false,
                   name: food['name'],
-                  rating: 5.0,
-                  raters: 23,
+                  // rating: 5.0,
+                  // raters: 23,
+                  route: food['route'],
                 );
               },
             ),

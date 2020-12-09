@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:introduction_screen/introduction_screen.dart';
-import 'package:restaurant_app/screens/join.dart';
+import 'package:menuapp/screens/main_screen.dart';
 
 class Walkthrough extends StatefulWidget {
   @override
@@ -52,7 +52,7 @@ class _WalkthroughState extends State<Walkthrough> {
               Navigator.of(context).push(
                 MaterialPageRoute(
                   builder: (BuildContext context) {
-                    return JoinApp();
+                    return MainScreen();
                   },
                 ),
               );
@@ -61,7 +61,7 @@ class _WalkthroughState extends State<Walkthrough> {
               Navigator.of(context).push(
                 MaterialPageRoute(
                   builder: (BuildContext context) {
-                    return JoinApp();
+                    return MainScreen();
                   },
                 ),
               );

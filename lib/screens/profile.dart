@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:restaurant_app/providers/app_provider.dart';
-import 'package:restaurant_app/screens/splash.dart';
-import 'package:restaurant_app/util/const.dart';
+import 'package:menuapp/providers/app_provider.dart';
+import 'package:menuapp/screens/splash.dart';
+import 'package:menuapp/util/const.dart';
 
 class Profile extends StatefulWidget {
   @override
@@ -20,15 +20,16 @@ class _ProfileState extends State<Profile> {
             Row(
               mainAxisAlignment: MainAxisAlignment.start,
               children: <Widget>[
-                Padding(
-                  padding: EdgeInsets.only(left: 10.0, right: 10.0),
-                  child: Image.asset(
-                    "assets/kakashi.jpg",
-                    fit: BoxFit.cover,
-                    width: 100.0,
-                    height: 100.0,
-                  ),
-                ),
+                // Padding(
+                //   padding: EdgeInsets.only(left: 10.0, right: 10.0),
+                //   child: Image.asset(
+                //   //  "assets/kakashi.jpg",
+                //   ,
+                //     fit: BoxFit.cover,
+                //     width: 100.0,
+                //     height: 100.0,
+                //   ),
+                // ),
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,

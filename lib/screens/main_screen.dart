@@ -1,13 +1,13 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:restaurant_app/screens/cart.dart';
-import 'package:restaurant_app/screens/favorite_screen.dart';
-import 'package:restaurant_app/screens/home.dart';
-import 'package:restaurant_app/screens/notifications.dart';
-import 'package:restaurant_app/screens/profile.dart';
-import 'package:restaurant_app/screens/search.dart';
-import 'package:restaurant_app/util/const.dart';
-import 'package:restaurant_app/widgets/badge.dart';
+import 'package:menuapp/screens/cart.dart';
+import 'package:menuapp/screens/favorite_screen.dart';
+import 'package:menuapp/screens/home.dart';
+import 'package:menuapp/screens/notifications.dart';
+import 'package:menuapp/screens/profile.dart';
+import 'package:menuapp/screens/search.dart';
+import 'package:menuapp/util/const.dart';
+import 'package:menuapp/widgets/badge.dart';
 
 class MainScreen extends StatefulWidget {
   @override
@@ -28,25 +28,30 @@ class _MainScreenState extends State<MainScreen> {
           centerTitle: true,
           title: Text(
             Constants.appName,
+            style: TextStyle(
+              fontFamily: 'Vivaldii',
+              fontSize: 32,
+              letterSpacing: 1.3,
+            ),
           ),
           elevation: 0.0,
           actions: <Widget>[
-            IconButton(
-              icon: IconBadge(
-                icon: Icons.notifications,
-                size: 22.0,
-              ),
-              onPressed: () {
-                Navigator.of(context).push(
-                  MaterialPageRoute(
-                    builder: (BuildContext context) {
-                      return Notifications();
-                    },
-                  ),
-                );
-              },
-              tooltip: "Notifications",
-            ),
+            // IconButton(
+            //   icon: IconBadge(
+            //     icon: Icons.notifications,
+            //     size: 22.0,
+            //   ),
+            //   onPressed: () {
+            //     Navigator.of(context).push(
+            //       MaterialPageRoute(
+            //         builder: (BuildContext context) {
+            //           return Notifications();
+            //         },
+            //       ),
+            //     );
+            //   },
+            //   tooltip: "Notifications",
+            // ),
           ],
         ),
         body: PageView(
@@ -58,7 +63,7 @@ class _MainScreenState extends State<MainScreen> {
             FavoriteScreen(),
             SearchScreen(),
             CartScreen(),
-            Profile(),
+            //      Profile(),
           ],
         ),
         bottomNavigationBar: BottomAppBar(
@@ -91,7 +96,7 @@ class _MainScreenState extends State<MainScreen> {
                 icon: Icon(
                   Icons.search,
                   size: 24.0,
-                  color: Theme.of(context).primaryColor,
+                  // color: Theme.of(context).primaryColor,
                 ),
                 color: _page == 2
                     ? Theme.of(context).accentColor
@@ -108,31 +113,31 @@ class _MainScreenState extends State<MainScreen> {
                     : Theme.of(context).textTheme.caption.color,
                 onPressed: () => _pageController.jumpToPage(3),
               ),
-              IconButton(
-                icon: Icon(
-                  Icons.person,
-                  size: 24.0,
-                ),
-                color: _page == 4
-                    ? Theme.of(context).accentColor
-                    : Theme.of(context).textTheme.caption.color,
-                onPressed: () => _pageController.jumpToPage(4),
-              ),
+              // IconButton(
+              //   icon: Icon(
+              //     Icons.person,
+              //     size: 24.0,
+              //   ),
+              //   color: _page == 4
+              //       ? Theme.of(context).accentColor
+              //       : Theme.of(context).textTheme.caption.color,
+              //   onPressed: () => _pageController.jumpToPage(4),
+              // ),
               SizedBox(width: 7),
             ],
           ),
           color: Theme.of(context).primaryColor,
-          shape: CircularNotchedRectangle(),
+          //   shape: CircularNotchedRectangle(),
         ),
-        floatingActionButtonAnimator: FloatingActionButtonAnimator.scaling,
-        floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-        floatingActionButton: FloatingActionButton(
-          elevation: 4.0,
-          child: Icon(
-            Icons.search,
-          ),
-          onPressed: () => _pageController.jumpToPage(2),
-        ),
+        // floatingActionButtonAnimator: FloatingActionButtonAnimator.scaling,
+        // floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+        // floatingActionButton: FloatingActionButton(
+        //   elevation: 4.0,
+        //   child: Icon(
+        //     Icons.search,
+        //   ),
+        //    onPressed: () => _pageController.jumpToPage(2),
+        //),
       ),
     );
   }

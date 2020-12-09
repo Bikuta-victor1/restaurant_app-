@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:restaurant_app/screens/categories_screen.dart';
+import 'package:menuapp/screens/categories_screen.dart';
 
 class HomeCategory extends StatefulWidget {
   final IconData icon;
@@ -61,6 +61,8 @@ class _HomeCategoryState extends State<HomeCategory> {
                     "${widget.title}",
                     style: TextStyle(
                       fontWeight: FontWeight.w900,
+                      fontFamily: 'Vivaldii',
+                      letterSpacing: 1.4,
                       fontSize: 17,
                     ),
                   ),

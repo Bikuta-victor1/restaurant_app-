@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:restaurant_app/screens/notifications.dart';
-import 'package:restaurant_app/util/comments.dart';
-import 'package:restaurant_app/util/const.dart';
-import 'package:restaurant_app/util/foods.dart';
-import 'package:restaurant_app/widgets/badge.dart';
-import 'package:restaurant_app/widgets/smooth_star_rating.dart';
+import 'package:menuapp/screens/notifications.dart';
+import 'package:menuapp/util/comments.dart';
+import 'package:menuapp/util/const.dart';
+import 'package:menuapp/util/foods.dart';
+import 'package:menuapp/widgets/badge.dart';
+import 'package:menuapp/widgets/smooth_star_rating.dart';
 
 class ProductDetails extends StatefulWidget {
   @override

@@ -1,4 +1,4 @@
-name: restaurant_app
+name: menuapp
 description: A new Flutter application.
 
 # The following defines the version and build number for your application.
@@ -24,6 +24,8 @@ dependencies:
   shared_preferences: ^0.5.4+5
   font_awesome_flutter: ^8.5.0
   carousel_slider: ^1.4.1
+  firebase_core: ^0.5.3
+  cloud_firestore: ^0.14.4
   provider: ^4.0.1
 
 
@@ -66,6 +68,12 @@ flutter:
     - assets/cm2.jpeg
     - assets/cm3.jpeg
     - assets/cm4.jpeg
+    - assets/logo1.png
+  # fonts:
+  # - family: Vivaldii     
+  #   fonts:
+  #     - asset: assets/vivaldii.ttf
+
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
@@ -78,11 +86,11 @@ flutter:
   # "family" key with the font family name, and a "fonts" key with a
   # list giving the asset and other descriptors for the font. For
   # example:
-  # fonts:
-  #   - family: Schyler
-  #     fonts:
-  #       - asset: fonts/Schyler-Regular.ttf
-  #       - asset: fonts/Schyler-Italic.ttf
+  fonts:
+    - family: Vivaldii
+      fonts:
+        - asset: assets/vivaldii.ttf
+        # - asset: fonts/Schyler-Italic.ttf
   #         style: italic
   #   - family: Trajan Pro
   #     fonts:

@@ -1,7 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:restaurant_app/util/const.dart';
+import 'package:menuapp/util/const.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class AppProvider extends ChangeNotifier {

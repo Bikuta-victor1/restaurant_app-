@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:restaurant_app/screens/checkout.dart';
-import 'package:restaurant_app/util/foods.dart';
-import 'package:restaurant_app/widgets/cart_item.dart';
+import 'package:menuapp/screens/checkout.dart';
+import 'package:menuapp/util/foods.dart';
+import 'package:menuapp/widgets/cart_item.dart';
 
 class CartScreen extends StatefulWidget {
   @override

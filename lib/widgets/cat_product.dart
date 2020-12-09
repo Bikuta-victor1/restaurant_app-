@@ -1,24 +1,25 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:menuapp/screens/details.dart';
 import 'package:menuapp/util/const.dart';
 import 'package:menuapp/widgets/smooth_star_rating.dart';
 
-class SliderItem extends StatelessWidget {
+class CatProduct extends StatelessWidget {
   final String name;
   final String img;
+  final bool inCart;
   final bool isFav;
   final double rating;
-  final int raters;
+  // final String table;
 
-  SliderItem(
-      {Key key,
-      @required this.name,
-      @required this.img,
-      @required this.isFav,
-      @required this.rating,
-      @required this.raters})
-      : super(key: key);
-
+  CatProduct({
+    Key key,
+    @required this.name,
+    @required this.img,
+    @required this.inCart,
+    @required this.isFav,
+    @required this.rating,
+    //  @required this.table,
+  }) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return InkWell(
@@ -29,8 +30,8 @@ class SliderItem extends StatelessWidget {
           Stack(
             children: <Widget>[
               Container(
-                height: MediaQuery.of(context).size.height / 3.2,
-                width: MediaQuery.of(context).size.width,
+                height: MediaQuery.of(context).size.height / 3.9,
+                width: MediaQuery.of(context).size.width / 2.2,
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(8.0),
                   child: Image.asset(
@@ -64,10 +65,11 @@ class SliderItem extends StatelessWidget {
             child: Text(
               "$name",
               style: TextStyle(
-                  fontSize: 20.0,
-                  fontFamily: 'Vivaldii',
-                  fontWeight: FontWeight.w900,
-                  letterSpacing: 1.4),
+                fontSize: 20.0,
+                fontFamily: 'Vivaldii',
+                letterSpacing: 1.4,
+                fontWeight: FontWeight.w900,
+              ),
               maxLines: 2,
             ),
           ),
@@ -80,10 +82,10 @@ class SliderItem extends StatelessWidget {
                   color: Constants.ratingBG,
                   allowHalfRating: true,
                   rating: rating,
-                  size: 10.0,
+                  size: 13.0,
                 ),
                 Text(
-                  " $rating ($raters Reviews)",
+                  "$rating",
                   style: TextStyle(
                     fontSize: 11.0,
                   ),
@@ -94,13 +96,7 @@ class SliderItem extends StatelessWidget {
         ],
       ),
       onTap: () {
-        Navigator.of(context).push(
-          MaterialPageRoute(
-            builder: (BuildContext context) {
-              return ProductDetails();
-            },
-          ),
-        );
+        //  Navigator.pushNamed(context, "/nullroute");
       },
     );
   }
