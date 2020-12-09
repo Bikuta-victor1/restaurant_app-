@@ -79,7 +79,7 @@ class _DrinkScreenState extends State<DrinkScreen> {
                   name: food['name'],
                   inCart: food['inCart'],
                   isFav: false,
-                  rating: 3.0,
+                  rating: 3,
                 );
               },
             ),
@@ -112,7 +112,7 @@ class _DrinkScreenState extends State<DrinkScreen> {
                     name: food['name'],
                     inCart: food['inCart'],
                     isFav: false,
-                    rating: 3.0);
+                    rating: 3);
               },
             ),
             SizedBox(height: 20.0),
@@ -144,7 +144,7 @@ class _DrinkScreenState extends State<DrinkScreen> {
                     name: food['name'],
                     inCart: food['inCart'],
                     isFav: false,
-                    rating: 3.0);
+                    rating: 3);
               },
             ),
             Text(
@@ -175,7 +175,7 @@ class _DrinkScreenState extends State<DrinkScreen> {
                     name: food['name'],
                     inCart: food['inCart'],
                     isFav: false,
-                    rating: 3.0);
+                    rating: 3);
               },
             ),
             Text(
@@ -206,7 +206,7 @@ class _DrinkScreenState extends State<DrinkScreen> {
                     name: food['name'],
                     inCart: food['inCart'],
                     isFav: false,
-                    rating: 3.0);
+                    rating: 3);
               },
             ),
             Text(
@@ -237,7 +237,7 @@ class _DrinkScreenState extends State<DrinkScreen> {
                     name: food['name'],
                     inCart: food['inCart'],
                     isFav: false,
-                    rating: 3.0);
+                    rating: 3);
               },
             ),
             Text(
@@ -268,7 +268,7 @@ class _DrinkScreenState extends State<DrinkScreen> {
                     name: food['name'],
                     inCart: food['inCart'],
                     isFav: false,
-                    rating: 3.0);
+                    rating: 3);
               },
             ),
             Text(
@@ -299,7 +299,7 @@ class _DrinkScreenState extends State<DrinkScreen> {
                     name: food['name'],
                     inCart: food['inCart'],
                     isFav: false,
-                    rating: 3.0);
+                    rating: 3);
               },
             ),
           ],

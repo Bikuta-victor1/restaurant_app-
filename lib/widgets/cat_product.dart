@@ -8,7 +8,7 @@ class CatProduct extends StatelessWidget {
   final String img;
   final bool inCart;
   final bool isFav;
-  final double rating;
+  final int rating;
   // final String table;
 
   CatProduct({
@@ -31,7 +31,7 @@ class CatProduct extends StatelessWidget {
             children: <Widget>[
               Container(
                 height: MediaQuery.of(context).size.height / 3.9,
-                width: MediaQuery.of(context).size.width / 2.2,
+                width: MediaQuery.of(context).size.width / 1.8,
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(8.0),
                   child: Image.asset(
@@ -81,11 +81,11 @@ class CatProduct extends StatelessWidget {
                   starCount: 5,
                   color: Constants.ratingBG,
                   allowHalfRating: true,
-                  rating: rating,
+                  rating: rating.toDouble(),
                   size: 13.0,
                 ),
                 Text(
-                  "$rating",
+                  "$rating.0",
                   style: TextStyle(
                     fontSize: 11.0,
                   ),

@@ -7,6 +7,9 @@ import 'package:menuapp/widgets/cat_product.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class MealScreen extends StatefulWidget {
+  // final String documentId;
+
+  // MealScreen(this.documentId);
   @override
   _MealScreenState createState() => _MealScreenState();
 }
@@ -63,45 +66,47 @@ class _MealScreenState extends State<MealScreen> {
               maxLines: 2,
             ),
             Divider(),
-            // FutureBuilder(
-            //     future: FirebaseFirestore.instance
-            //         .doc("lists")
-            //         .collection(documentID.toString())
-            //         .get(),
+            // StreamBuilder<QuerySnapshot>(
+            //     stream: FirebaseFirestore.instance
+            //         .collection('grill-list')
+            //         .snapshots(),
             //     builder:
             //         (BuildContext ctx, AsyncSnapshot<QuerySnapshot> snapshot) {
             //       if (snapshot.connectionState == ConnectionState.waiting) {
             //         return Center(
             //           child: CircularProgressIndicator(),
             //         );
-            //       } else if (snapshot.hasData) {
-            //         final documents = snapshot.data.docs;
-            //         return GridView.builder(
-            //           shrinkWrap: true,
-            //           primary: false,
-            //           physics: NeverScrollableScrollPhysics(),
-            //           gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-            //             crossAxisCount: 2,
-            //             childAspectRatio: MediaQuery.of(context).size.width /
-            //                 (MediaQuery.of(context).size.height / 1.25),
-            //           ),
-            //           itemCount: documents.length,
-            //           itemBuilder: (BuildContext context, int index) {
-            //             // Map food = foods[index];
-            //             return CatProduct(
-            //               img: documents[index].data()['photourl'],
-            //               name: documents[index].data()['name'],
-            //               inCart: documents[index].data()['inCart'],
-            //               isFav: documents[index].data()['inFav'],
-            //               rating: documents[index].data()['totalrating'],
-            //               //table: '',
-            //             );
-            //           },
-            //         );
-            //       } else {
-            //         return Text('Nothing here ');
             //       }
-            //     }),
+            //       if (snapshot.hasError) {
+            //         return Text("Something went wrong");
+            //       }
+
+            //       final documents = snapshot.data.docs;
+            //       return GridView.builder(
+            //         shrinkWrap: true,
+            //         primary: false,
+            //         physics: NeverScrollableScrollPhysics(),
+            //         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+            //           crossAxisCount: 2,
+            //           childAspectRatio: MediaQuery.of(context).size.width /
+            //               (MediaQuery.of(context).size.height / 1.25),
+            //         ),
+            //         itemCount: documents.length,
+            //         itemBuilder: (BuildContext context, int index) {
+            //           // Map food = foods[index];
+            //           return CatProduct(
+            //             img: documents[index].data()['photourl'],
+            //             name: documents[index].data()['name '],
+            //             inCart: documents[index].data()['inCart'],
+            //             isFav: documents[index].data()['inFav'],
+            //             rating: documents[index].data()['totalrating'],
+            //             //table: '',
+            //           );
+            //         },
+            //       );
+            //     }
+            //     // return Text("loading");
+            //     ),
             SizedBox(height: 20.0),
             Text(
               "Air Fried",
@@ -131,7 +136,7 @@ class _MealScreenState extends State<MealScreen> {
                     name: food['name'],
                     inCart: food['inCart'],
                     isFav: false,
-                    rating: 3.0);
+                    rating: 3);
               },
             ),
             SizedBox(height: 20.0),
@@ -163,7 +168,7 @@ class _MealScreenState extends State<MealScreen> {
                     name: food['name'],
                     inCart: food['inCart'],
                     isFav: false,
-                    rating: 3.0);
+                    rating: 3);
               },
             ),
             Text(
@@ -194,7 +199,7 @@ class _MealScreenState extends State<MealScreen> {
                     name: food['name'],
                     inCart: food['inCart'],
                     isFav: false,
-                    rating: 3.0);
+                    rating: 3);
               },
             ),
             Text(
@@ -225,7 +230,7 @@ class _MealScreenState extends State<MealScreen> {
                     name: food['name'],
                     inCart: food['inCart'],
                     isFav: false,
-                    rating: 3.0);
+                    rating: 3);
               },
             ),
             Text(
@@ -256,7 +261,7 @@ class _MealScreenState extends State<MealScreen> {
                     name: food['name'],
                     inCart: food['inCart'],
                     isFav: false,
-                    rating: 3.0);
+                    rating: 3);
               },
             ),
             Text(
@@ -287,7 +292,7 @@ class _MealScreenState extends State<MealScreen> {
                     name: food['name'],
                     inCart: food['inCart'],
                     isFav: false,
-                    rating: 3.0);
+                    rating: 3);
               },
             ),
           ],

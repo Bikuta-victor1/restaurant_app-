@@ -5,7 +5,6 @@ import 'package:menuapp/providers/app_provider.dart';
 //import 'package:restaurant_app/screens/main_screen.dart';
 import 'package:menuapp/screens/splash.dart';
 import 'package:menuapp/util/const.dart';
-
 import 'util/const.dart';
 
 void main() async {
