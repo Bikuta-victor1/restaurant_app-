@@ -42,7 +42,7 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin<Home> {
                 Text(
                   "Dishes",
                   style: TextStyle(
-                    fontFamily: 'Vivaldii',
+                    //            fontFamily: 'Vivaldii',
                     letterSpacing: 1.4,
                     fontSize: 23,
                     fontWeight: FontWeight.w800,
@@ -310,7 +310,7 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin<Home> {
                   "Popular Items",
                   style: TextStyle(
                     fontSize: 23,
-                    fontFamily: 'Vivaldii',
+                    //      fontFamily: 'Vivaldii',
                     letterSpacing: 1.4,
                     fontWeight: FontWeight.w800,
                   ),
