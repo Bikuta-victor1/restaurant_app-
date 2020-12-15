@@ -65,7 +65,7 @@ class SliderItem extends StatelessWidget {
               "$name",
               style: TextStyle(
                   fontSize: 20.0,
-                  fontFamily: 'Vivaldii',
+               //   fontFamily: 'Vivaldii',
                   fontWeight: FontWeight.w900,
                   letterSpacing: 1.4),
               maxLines: 2,

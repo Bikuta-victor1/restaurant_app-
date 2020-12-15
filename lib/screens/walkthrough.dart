@@ -99,7 +99,7 @@ class _WalkthroughState extends State<Walkthrough> {
       decoration: PageDecoration(
         titleTextStyle: TextStyle(
           fontSize: 31.0,
-          fontFamily: 'Vivaldii',
+      //    fontFamily: 'Vivaldii',
           letterSpacing: 1.4,
           fontWeight: FontWeight.w600,
           color: Theme.of(context).accentColor,

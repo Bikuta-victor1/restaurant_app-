@@ -29,7 +29,7 @@ class _MainScreenState extends State<MainScreen> {
           title: Text(
             Constants.appName,
             style: TextStyle(
-              fontFamily: 'Vivaldii',
+     //         fontFamily: 'Vivaldii',
               fontSize: 32,
               letterSpacing: 1.3,
             ),

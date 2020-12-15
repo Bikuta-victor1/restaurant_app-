@@ -30,7 +30,8 @@ class _MealScreenState extends State<MealScreen> {
         title: Text(
           "Meals",
           style: TextStyle(
-              fontFamily: 'Vivaldii', letterSpacing: 1.4, fontSize: 26),
+            //  fontFamily: 'Vivaldii',
+               letterSpacing: 1.4, fontSize: 26),
         ),
         elevation: 0.0,
         actions: <Widget>[
@@ -113,7 +114,7 @@ class _MealScreenState extends State<MealScreen> {
               style: TextStyle(
                 fontSize: 20,
                 fontWeight: FontWeight.w800,
-                fontFamily: 'Vivaldii',
+            //    fontFamily: 'Vivaldii',
                 letterSpacing: 1.4,
               ),
               maxLines: 2,
@@ -144,7 +145,7 @@ class _MealScreenState extends State<MealScreen> {
               "Peppered",
               style: TextStyle(
                 fontSize: 20,
-                fontFamily: 'Vivaldii',
+           //     fontFamily: 'Vivaldii',
                 letterSpacing: 1.4,
                 fontWeight: FontWeight.w800,
               ),
@@ -206,7 +207,7 @@ class _MealScreenState extends State<MealScreen> {
               "Soup",
               style: TextStyle(
                 fontSize: 20,
-                fontFamily: 'Vivaldii',
+           //     fontFamily: 'Vivaldii',
                 letterSpacing: 1.4,
                 fontWeight: FontWeight.w800,
               ),
@@ -237,7 +238,7 @@ class _MealScreenState extends State<MealScreen> {
               "Chips",
               style: TextStyle(
                 fontSize: 20,
-                fontFamily: 'Vivaldii',
+             //   fontFamily: 'Vivaldii',
                 letterSpacing: 1.4,
                 fontWeight: FontWeight.w800,
               ),
@@ -268,7 +269,7 @@ class _MealScreenState extends State<MealScreen> {
               "Fries",
               style: TextStyle(
                 fontSize: 20,
-                fontFamily: 'Vivaldii',
+         //       fontFamily: 'Vivaldii',
                 letterSpacing: 1.4,
                 fontWeight: FontWeight.w800,
               ),

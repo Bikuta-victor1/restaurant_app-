@@ -61,7 +61,7 @@ class _HomeCategoryState extends State<HomeCategory> {
                     "${widget.title}",
                     style: TextStyle(
                       fontWeight: FontWeight.w900,
-                      fontFamily: 'Vivaldii',
+                  //    fontFamily: 'Vivaldii',
                       letterSpacing: 1.4,
                       fontSize: 17,
                     ),

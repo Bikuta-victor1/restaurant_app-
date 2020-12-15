@@ -26,7 +26,9 @@ class _DrinkScreenState extends State<DrinkScreen> {
         title: Text(
           "Drinks",
           style: TextStyle(
-              fontFamily: 'Vivaldii', letterSpacing: 1.4, fontSize: 26),
+            //  fontFamily: 'Vivaldii', 
+              letterSpacing: 1.4,
+               fontSize: 26),
         ),
         elevation: 0.0,
         actions: <Widget>[
@@ -55,7 +57,7 @@ class _DrinkScreenState extends State<DrinkScreen> {
               "Wines",
               style: TextStyle(
                 fontSize: 20,
-                fontFamily: 'Vivaldii',
+                //fontFamily: 'Vivaldii',
                 letterSpacing: 1.4,
                 fontWeight: FontWeight.w800,
               ),
@@ -88,7 +90,7 @@ class _DrinkScreenState extends State<DrinkScreen> {
               "Champagne",
               style: TextStyle(
                 fontSize: 20,
-                fontFamily: 'Vivaldii',
+              //  fontFamily: 'Vivaldii',
                 letterSpacing: 1.4,
                 fontWeight: FontWeight.w800,
               ),
@@ -120,7 +122,7 @@ class _DrinkScreenState extends State<DrinkScreen> {
               "Gins",
               style: TextStyle(
                 fontSize: 20,
-                fontFamily: 'Vivaldii',
+               // fontFamily: 'Vivaldii',
                 letterSpacing: 1.4,
                 fontWeight: FontWeight.w800,
               ),
@@ -151,7 +153,7 @@ class _DrinkScreenState extends State<DrinkScreen> {
               "Liquer",
               style: TextStyle(
                 fontSize: 20,
-                fontFamily: 'Vivaldii',
+               // fontFamily: 'Vivaldii',
                 letterSpacing: 1.4,
                 fontWeight: FontWeight.w800,
               ),
@@ -182,7 +184,7 @@ class _DrinkScreenState extends State<DrinkScreen> {
               "Vodka",
               style: TextStyle(
                 fontSize: 20,
-                fontFamily: 'Vivaldii',
+              //  fontFamily: 'Vivaldii',
                 letterSpacing: 1.4,
                 fontWeight: FontWeight.w800,
               ),
@@ -213,7 +215,7 @@ class _DrinkScreenState extends State<DrinkScreen> {
               "Cognac",
               style: TextStyle(
                 fontSize: 20,
-                fontFamily: 'Vivaldii',
+              //  fontFamily: 'Vivaldii',
                 letterSpacing: 1.4,
                 fontWeight: FontWeight.w800,
               ),
@@ -244,7 +246,7 @@ class _DrinkScreenState extends State<DrinkScreen> {
               "Whisky",
               style: TextStyle(
                 fontSize: 20,
-                fontFamily: 'Vivaldii',
+              //  fontFamily: 'Vivaldii',
                 letterSpacing: 1.4,
                 fontWeight: FontWeight.w800,
               ),
@@ -275,7 +277,7 @@ class _DrinkScreenState extends State<DrinkScreen> {
               "Water",
               style: TextStyle(
                 fontSize: 20,
-                fontFamily: 'Vivaldii',
+               // fontFamily: 'Vivaldii',
                 letterSpacing: 1.4,
                 fontWeight: FontWeight.w800,
               ),
