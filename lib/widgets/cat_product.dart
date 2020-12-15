@@ -66,7 +66,7 @@ class CatProduct extends StatelessWidget {
               "$name",
               style: TextStyle(
                 fontSize: 20.0,
-                fontFamily: 'Vivaldii',
+                //    fontFamily: 'Vivaldii',
                 letterSpacing: 1.4,
                 fontWeight: FontWeight.w900,
               ),
