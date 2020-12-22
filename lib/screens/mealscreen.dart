@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:menuapp/models/foodmodel.dart';
 //import 'package:restaurant_app/screens/notifications.dart';
 import 'package:menuapp/util/foods.dart';
 //import 'package:restaurant_app/widgets/badge.dart';
@@ -68,47 +69,47 @@ class _MealScreenState extends State<MealScreen> {
               maxLines: 2,
             ),
             Divider(),
-            // StreamBuilder<QuerySnapshot>(
-            //     stream: FirebaseFirestore.instance
-            //         .collection('grill-list')
-            //         .snapshots(),
-            //     builder:
-            //         (BuildContext ctx, AsyncSnapshot<QuerySnapshot> snapshot) {
-            //       if (snapshot.connectionState == ConnectionState.waiting) {
-            //         return Center(
-            //           child: CircularProgressIndicator(),
-            //         );
-            //       }
-            //       if (snapshot.hasError) {
-            //         return Text("Something went wrong");
-            //       }
-
-            //       final documents = snapshot.data.docs;
-            //       return GridView.builder(
-            //         shrinkWrap: true,
-            //         primary: false,
-            //         physics: NeverScrollableScrollPhysics(),
-            //         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-            //           crossAxisCount: 2,
-            //           childAspectRatio: MediaQuery.of(context).size.width /
-            //               (MediaQuery.of(context).size.height / 1.25),
-            //         ),
-            //         itemCount: documents.length,
-            //         itemBuilder: (BuildContext context, int index) {
-            //           // Map food = foods[index];
-            //           return CatProduct(
-            //             img: documents[index].data()['photourl'],
-            //             name: documents[index].data()['name '],
-            //             inCart: documents[index].data()['inCart'],
-            //             isFav: documents[index].data()['inFav'],
-            //             rating: documents[index].data()['totalrating'],
-            //             //table: '',
-            //           );
-            //         },
-            //       );
-            //     }
-            //     // return Text("loading");
-            //     ),
+            StreamBuilder<QuerySnapshot>(
+                stream: FirebaseFirestore.instance
+                    .collection('grill-list')
+                    .snapshots(),
+                builder:
+                    (BuildContext ctx, AsyncSnapshot<QuerySnapshot> snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return Center(
+                      child: CircularProgressIndicator(),
+                    );
+                  }
+                  if (snapshot.hasError) {
+                    return Text("Something went wrong");
+                  }
+               
+                  final documents = snapshot.data.docs;
+                  return GridView.builder(
+                    shrinkWrap: true,
+                    primary: false,
+                    physics: NeverScrollableScrollPhysics(),
+                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 2,
+                      childAspectRatio: MediaQuery.of(context).size.width /
+                          (MediaQuery.of(context).size.height / 1.25),
+                    ),
+                    itemCount: documents.length,
+                    itemBuilder: (BuildContext context, int index) {
+                      // Map food = foods[index];
+                      return CatProduct(
+                        img: documents[index].data()['photourl'],
+                        name: documents[index].data()['name'],
+                        inCart: false,
+                        //isFav: documents[index].data()['inFav'],
+                        rating: documents[index].data()['totalrating'],
+                        description: documents[index].data()['description'],
+                      );
+                    },
+                  );
+                }
+                // return Text("loading");
+                ),
             SizedBox(height: 20.0),
             Text(
               "Air Fried",
@@ -137,7 +138,7 @@ class _MealScreenState extends State<MealScreen> {
                     img: food['img'],
                     name: food['name'],
                     inCart: food['inCart'],
-                    isFav: false,
+                    // isFav: false,
                     rating: 3);
               },
             ),
@@ -169,7 +170,7 @@ class _MealScreenState extends State<MealScreen> {
                     img: food['img'],
                     name: food['name'],
                     inCart: food['inCart'],
-                    isFav: false,
+                    //  isFav: false,
                     rating: 3);
               },
             ),
@@ -200,7 +201,7 @@ class _MealScreenState extends State<MealScreen> {
                     img: food['img'],
                     name: food['name'],
                     inCart: food['inCart'],
-                    isFav: false,
+                    //  isFav: false,
                     rating: 3);
               },
             ),
@@ -231,7 +232,7 @@ class _MealScreenState extends State<MealScreen> {
                     img: food['img'],
                     name: food['name'],
                     inCart: food['inCart'],
-                    isFav: false,
+                    // isFav: false,
                     rating: 3);
               },
             ),
@@ -262,7 +263,7 @@ class _MealScreenState extends State<MealScreen> {
                     img: food['img'],
                     name: food['name'],
                     inCart: food['inCart'],
-                    isFav: false,
+                    //  isFav: false,
                     rating: 3);
               },
             ),
@@ -293,7 +294,7 @@ class _MealScreenState extends State<MealScreen> {
                     img: food['img'],
                     name: food['name'],
                     inCart: food['inCart'],
-                    isFav: false,
+                    // isFav: false,
                     rating: 3);
               },
             ),

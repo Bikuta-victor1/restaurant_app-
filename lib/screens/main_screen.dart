@@ -1,10 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:menuapp/models/foodmodel.dart';
 import 'package:menuapp/screens/cart.dart';
-import 'package:menuapp/screens/favorite_screen.dart';
 import 'package:menuapp/screens/home.dart';
-import 'package:menuapp/screens/notifications.dart';
-import 'package:menuapp/screens/profile.dart';
 import 'package:menuapp/screens/search.dart';
 import 'package:menuapp/util/const.dart';
 import 'package:menuapp/widgets/badge.dart';
@@ -19,6 +17,13 @@ class _MainScreenState extends State<MainScreen> {
   int _page = 0;
 
   @override
+  void didChangeDependencies() async {
+    // TODO: implement didChangeDependencies
+    await addUserWithToken();
+    super.didChangeDependencies();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return WillPopScope(
       onWillPop: () => Future.value(false),
@@ -29,7 +34,7 @@ class _MainScreenState extends State<MainScreen> {
           title: Text(
             Constants.appName,
             style: TextStyle(
-     //         fontFamily: 'Vivaldii',
+              //         fontFamily: 'Vivaldii',
               fontSize: 32,
               letterSpacing: 1.3,
             ),

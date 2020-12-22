@@ -1,4 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 //import 'package:menuapp/screens/categories_screen.dart';
@@ -26,7 +25,41 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin<Home> {
     return result;
   }
 
+  // Future<String> _getId() async {
+  //   SharedPreferences prefs = await SharedPreferences.getInstance();
+
+  //   var deviceInfo = DeviceInfoPlugin();
+  //   if (Platform.isIOS) {
+  //     // import 'dart:io'
+  //     var iosDeviceInfo = await deviceInfo.iosInfo;
+  //     prefs.setString('deviceinfo', iosDeviceInfo.toString());
+  //     return iosDeviceInfo.identifierForVendor; // unique ID on iOS
+  //   } else {
+  //     var androidDeviceInfo = await deviceInfo.androidInfo;
+  //     prefs.setString('deviceinfo', androidDeviceInfo.toString());
+  //     return androidDeviceInfo.androidId; // unique ID on Android
+  //   }
+  // }
+
+  // void checkFirstUser() async {
+  //   //  await _getId();
+  //   SharedPreferences prefs = await SharedPreferences.getInstance();
+  //   var token = prefs.getString('deviceinfo');
+  //   if (token != null) {
+  //     return null;
+  //   } else {
+  //     await _getId();
+  //   }
+  // }
+
   int _current = 0;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+   // checkFirstUser();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {

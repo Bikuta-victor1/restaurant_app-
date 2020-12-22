@@ -1,8 +1,12 @@
 import 'dart:async';
+import 'dart:io';
+import 'package:device_info/device_info.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:menuapp/screens/main_screen.dart';
 import 'package:menuapp/screens/walkthrough.dart';
 import 'package:menuapp/util/const.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class SplashScreen extends StatefulWidget {
   @override
@@ -11,7 +15,49 @@ class SplashScreen extends StatefulWidget {
 
 class _SplashScreenState extends State<SplashScreen> {
   startTimeout() {
-    return Timer(Duration(seconds: 6), changeScreen);
+    return Timer(Duration(seconds: 6), checkUser);
+  }
+
+  Future<String> _getId() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+
+    var deviceInfo = DeviceInfoPlugin();
+    if (Platform.isIOS) {
+      // import 'dart:io'
+      var iosDeviceInfo = await deviceInfo.iosInfo;
+      prefs.setString('deviceinfo', iosDeviceInfo.toString());
+      return iosDeviceInfo.identifierForVendor; // unique ID on iOS
+    } else {
+      var androidDeviceInfo = await deviceInfo.androidInfo;
+      prefs.setString('deviceinfo', androidDeviceInfo.toString());
+      return androidDeviceInfo.androidId; // unique ID on Android
+    }
+  }
+
+  void checkUser() async {
+    // String name = '';
+    //await _getId();
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    var token = prefs.getString('deviceinfo');
+
+    if (token != null) {
+       Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (BuildContext context) {
+          return MainScreen();
+        },
+      ),
+    );
+    }else {  
+      await _getId();
+       Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (BuildContext context) {
+          return Walkthrough();
+        },
+      ),
+    );
+    }
   }
 
   changeScreen() async {

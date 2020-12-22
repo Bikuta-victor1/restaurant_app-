@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class Food {
   String name;
@@ -6,17 +7,17 @@ class Food {
   int rating;
   bool isFav;
   bool inCart;
-  String tableId;
+  //String tableId;
   // String table;
-  Food(
-      {this.name,
-      this.photourl,
-      this.rating,
-      this.isFav,
-      this.inCart,
-      this.tableId
-      // this.table
-      });
+  Food({
+    this.name,
+    this.photourl,
+    this.rating,
+    this.isFav,
+    this.inCart,
+    //  this.tableId
+    // this.table
+  });
 
   Food.fromMap(Map<String, dynamic> data) {
     name = data['name'];
@@ -24,7 +25,7 @@ class Food {
     rating = data['totalrating'];
     isFav = data['isFav'];
     inCart = data['inCart'];
-    tableId = data['tableId'];
+    // tableId = data['tableId'];
     // table = data['table'];
   }
 }
@@ -37,10 +38,14 @@ List<Food> nativelist = [];
 List<Food> souplist = [];
 List<Food> chipslist = [];
 List<Food> frieslist = [];
+bool addedtocart = false;
+bool grills = false;
 
-Future<List> getgrilllist() async {
+
+Future<List> getgrilllist( String token ) async {
   grilllist = [];
-
+  grills = true;
+  var doc = '3svndxfWUbJirgsaJJEV';
   QuerySnapshot grdocumentReference = await FirebaseFirestore.instance
       // .doc("grill-list")
       .collection("grill-list")
@@ -60,46 +65,57 @@ Future<List> getgrilllist() async {
   return grilllist;
 }
 
-// Future<DocumentSnapshot> fetchdata() async {
-//   DocumentReference documentReference1 =
-//       Firestore.instance.document("designers/${uid}");
-//   await documentReference1.get().then((datasnapshot) async {
-//     await getaccountdetailslist(uid);
-//     // await getwithdrawdetailslist(uid);
-//     if (datasnapshot.exists) {
-//       if (status == "tailor") {
-//         totalSales = datasnapshot.data["totalSales"];
-//         lastloggedIn = datasnapshot.data["lastloggedIn"];
-//         availableCash = datasnapshot.data["availableCash"];
-//         monthlyEarned = datasnapshot.data["monthlyEarned"];
-//         TotalAmount = datasnapshot.data["TotalAmount"];
-//         weeklyEarned = datasnapshot.data["weeklyEarned"];
-//         totalUploads = datasnapshot.data["totalUploads"];
-//         totalwithdrawal = datasnapshot.data["totalwithdrawal"];
-//         timeloggedin = datasnapshot.data["timeloggedin"];
-//         Map<String, String> data = <String, String>{
-//           "lastloggedIn":
-//               "${DateTime.now().day}|${DateTime.now().month}|${DateTime.now().year}",
-//           "timeloggedin":
-//               "${DateTime.now().hour}:${DateTime.now().minute}:${DateTime.now().second}",
-//         };
-//         documentReference1.updateData(data).whenComplete(() {
-//           print('document added');
-//         }).catchError((e) {
-//           print(e);
-//           warning = e.message;
-//         });
-//         await getaccountdetailslist(uid);
-//         await getwithdrawdetailslist(uid);
-//         //await
-//       }
+// Future<List> getairfriedlist( String token ) async {
+//     airfriedlist = [];
+//     QuerySnapshot grdocumentReference = await FirebaseFirestore.instance
+//         // .doc("grill-list")
+//         .collection("air-fried-list")
+//         .orderBy('timeupload', descending: true)
+//         .get();
+//     await grdocumentReference.docs.forEach((document) {
+//       Food airfriedlists = Food.fromMap(document.data());
+//       airfriedlist.add(airfriedlists);
+//       print(airfriedlist);
+//     });
 
-//       // await getaccountdetailslist();
-//     }
-//   });
-//   if (status == "customer") {
-//     await getsearchlist();
+//     await airfriedlist.forEach((element) async {
+//       if (element.inCart == true) {
+//         cartlist.add(element);
+//       }
+//     });
+//     return airfriedlist;
 //   }
-//   print(newdesignlist.length);
-//   return snapshot;
-// }
+
+Future<String> gettoken() async {
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  var mytoken = prefs.getString('deviceinfo');
+  return mytoken;
+}
+
+String warning;
+
+Future<void> addUserWithToken() async {
+  // bool isSignedIn = await googleSignIn.isSignedIn();
+  String token = await gettoken();
+  if (token != null) {
+    // if so, return the current user
+    print(token);
+    DocumentReference documentReference =
+        FirebaseFirestore.instance.doc("Users/${token}");
+    await documentReference.get().then((datasnapshot) async {
+      if (datasnapshot.exists) {
+        // warning = "User already exist";
+      } else {
+        Map<String, String> data = <String, String>{
+          "mytoken": token,
+        };
+        await documentReference.set(data).whenComplete(() {
+          print('document added');
+        }).catchError((e) {
+          print(e);
+          warning = e.message;
+        });
+      }
+    });
+  }
+}

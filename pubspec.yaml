@@ -21,13 +21,14 @@ dependencies:
     sdk: flutter
   cupertino_icons: ^0.1.2
   introduction_screen: ^1.0.8
-  shared_preferences: ^0.5.4+5
   font_awesome_flutter: ^8.5.0
   carousel_slider: ^1.4.1
   firebase_core: ^0.5.3
   cloud_firestore: ^0.14.4
   provider: ^4.0.1
   intl: ^0.16.1
+  device_info: ^1.0.0
+  shared_preferences: ^0.5.12+4
 
 
 dev_dependencies:
