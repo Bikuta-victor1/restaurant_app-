@@ -10,9 +10,11 @@ import 'package:shared_preferences/shared_preferences.dart';
 class CatProduct extends StatelessWidget {
   final String name;
   final String img;
-  bool inCart;
+  final int id;
+  final int price;
+  // bool inCart;
   //  bool isFav;
-  int rating;
+  // int rating;
   final String description;
   // final String table;
 
@@ -20,12 +22,16 @@ class CatProduct extends StatelessWidget {
     Key key,
     @required this.name,
     @required this.img,
-    @required this.inCart,
+    @required this.id,
+    @required this.price,
+    //  @required this.inCart,
     //  @required this.isFav,
-    @required this.rating,
+    //  @required this.rating,
     @required this.description,
     //  @required this.table,
   }) : super(key: key);
+
+  bool isFav = false;
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -71,7 +77,9 @@ class CatProduct extends StatelessWidget {
                       child: Padding(
                         padding: EdgeInsets.all(5),
                         child: Icon(
-                          addedtocart ? Icons.favorite : Icons.favorite_border,
+                          addedtocart
+                              ? Icons.shopping_cart
+                              : Icons.shopping_cart_outlined,
                           color: Colors.red,
                           size: 17,
                         ),
@@ -96,16 +104,28 @@ class CatProduct extends StatelessWidget {
               Padding(
                 padding: EdgeInsets.only(bottom: 5.0, top: 2.0),
                 child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
-                    SmoothStarRating(
-                      starCount: 5,
-                      color: Constants.ratingBG,
-                      allowHalfRating: true,
-                      rating: rating.toDouble(),
-                      size: 13.0,
+                    Row(
+                      children: [
+                        SmoothStarRating(
+                          starCount: 5,
+                          color: Constants.ratingBG,
+                          allowHalfRating: true,
+                          rating: 4.0,
+                          size: 13.0,
+                        ),
+                        Text(
+                          "4.0",
+                          style: TextStyle(
+                            fontSize: 11.0,
+                          ),
+                        ),
+                      ],
                     ),
+                    SizedBox(width: 3.0),
                     Text(
-                      "$rating.0",
+                      "\u{20A6} ${price}",
                       style: TextStyle(
                         fontSize: 11.0,
                       ),
@@ -115,7 +135,14 @@ class CatProduct extends StatelessWidget {
               ),
             ],
           ),
-          onTap: () async {}),
+          onTap: () async {
+            return ProductDetails(
+              description: description,
+              name: name,
+              img: img,
+              //rating : rating;
+            );
+          }),
     );
   }
 }

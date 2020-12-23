@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:menuapp/models/foodmodel.dart';
 import 'package:menuapp/screens/notifications.dart';
 import 'package:menuapp/util/comments.dart';
 import 'package:menuapp/util/const.dart';
@@ -11,8 +12,8 @@ class ProductDetails extends StatelessWidget {
   final String img;
   //final bool inCart;
   final String description;
-   bool inCart;
-  final int rating;
+  // bool inCart;
+  //final int rating;
   // final String table;
 
   ProductDetails({
@@ -21,14 +22,12 @@ class ProductDetails extends StatelessWidget {
     @required this.img,
     // @required this.inCart,
     @required this.description,
-    @required this.inCart,
-    @required this.rating,
+    //@required this.inCart,
+    // @required this.rating,
     //  @required this.table,
   }) : super(key: key);
 
-  void toggleFav() {
-   
-  }
+  void toggleFav() {}
 
   @override
   Widget build(BuildContext context) {
@@ -93,10 +92,10 @@ class ProductDetails extends StatelessWidget {
                     child: Padding(
                       padding: EdgeInsets.all(5),
                       child: Icon(
-                        inCart
+                        addedtocart
                             ? Icons.shopping_cart
                             : Icons.shopping_cart_outlined,
-                        color: inCart ? Colors.grey : Colors.blue,
+                        color: addedtocart ? Colors.grey : Colors.blue,
                         size: 17,
                       ),
                     ),
@@ -121,12 +120,12 @@ class ProductDetails extends StatelessWidget {
                     starCount: 5,
                     color: Constants.ratingBG,
                     allowHalfRating: true,
-                    rating: 5.0,
+                    rating: 4.0,
                     size: 10.0,
                   ),
                   SizedBox(width: 10.0),
                   Text(
-                    "$rating.0 (23 Reviews)",
+                    "4.0 (23 Reviews)",
                     style: TextStyle(
                       fontSize: 11.0,
                     ),
@@ -237,7 +236,7 @@ class ProductDetails extends StatelessWidget {
       ),
       bottomNavigationBar: Container(
           height: 50.0,
-          child: inCart
+          child: addedtocart
               ? RaisedButton(
                   child: Text(
                     "ADD TO CART",
@@ -247,7 +246,7 @@ class ProductDetails extends StatelessWidget {
                   ),
                   color: Theme.of(context).accentColor,
                   onPressed: () {
-                    inCart = !inCart;
+                    addedtocart = !addedtocart;
                   },
                 )
               : RaisedButton(
@@ -259,7 +258,7 @@ class ProductDetails extends StatelessWidget {
                   ),
                   color: Colors.blue,
                   onPressed: () {
-                     inCart = !inCart;
+                    addedtocart = !addedtocart;
                   },
                 )),
     );

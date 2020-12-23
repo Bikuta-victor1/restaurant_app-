@@ -26,9 +26,9 @@ class _DrinkScreenState extends State<DrinkScreen> {
         title: Text(
           "Drinks",
           style: TextStyle(
-            //  fontFamily: 'Vivaldii', 
+              //  fontFamily: 'Vivaldii',
               letterSpacing: 1.4,
-               fontSize: 26),
+              fontSize: 26),
         ),
         elevation: 0.0,
         actions: <Widget>[
@@ -79,9 +79,9 @@ class _DrinkScreenState extends State<DrinkScreen> {
                 return CatProduct(
                   img: food['img'],
                   name: food['name'],
-                  inCart: food['inCart'],
-               //   isFav: false,
-                  rating: 3,
+                  // inCart: food['inCart'],
+                  //   isFav: false,
+                  //rating: 3,
                 );
               },
             ),
@@ -90,7 +90,7 @@ class _DrinkScreenState extends State<DrinkScreen> {
               "Champagne",
               style: TextStyle(
                 fontSize: 20,
-              //  fontFamily: 'Vivaldii',
+                //  fontFamily: 'Vivaldii',
                 letterSpacing: 1.4,
                 fontWeight: FontWeight.w800,
               ),
@@ -110,11 +110,12 @@ class _DrinkScreenState extends State<DrinkScreen> {
               itemBuilder: (BuildContext context, int index) {
                 Map food = foods[index];
                 return CatProduct(
-                    img: food['img'],
-                    name: food['name'],
-                    inCart: food['inCart'],
-                   // isFav: false,
-                    rating: 3);
+                  img: food['img'],
+                  name: food['name'],
+                  // inCart: food['inCart'],
+                  // isFav: false,
+                  //rating: 3
+                );
               },
             ),
             SizedBox(height: 20.0),
@@ -122,7 +123,7 @@ class _DrinkScreenState extends State<DrinkScreen> {
               "Gins",
               style: TextStyle(
                 fontSize: 20,
-               // fontFamily: 'Vivaldii',
+                // fontFamily: 'Vivaldii',
                 letterSpacing: 1.4,
                 fontWeight: FontWeight.w800,
               ),
@@ -142,18 +143,19 @@ class _DrinkScreenState extends State<DrinkScreen> {
               itemBuilder: (BuildContext context, int index) {
                 Map food = foods[index];
                 return CatProduct(
-                    img: food['img'],
-                    name: food['name'],
-                    inCart: food['inCart'],
-                   // isFav: false,
-                    rating: 3);
+                  img: food['img'],
+                  name: food['name'],
+                  //inCart: food['inCart'],
+                  // isFav: false,
+                  // rating: 3
+                );
               },
             ),
             Text(
               "Liquer",
               style: TextStyle(
                 fontSize: 20,
-               // fontFamily: 'Vivaldii',
+                // fontFamily: 'Vivaldii',
                 letterSpacing: 1.4,
                 fontWeight: FontWeight.w800,
               ),
@@ -173,18 +175,19 @@ class _DrinkScreenState extends State<DrinkScreen> {
               itemBuilder: (BuildContext context, int index) {
                 Map food = foods[index];
                 return CatProduct(
-                    img: food['img'],
-                    name: food['name'],
-                    inCart: food['inCart'],
-                //    isFav: false,
-                    rating: 3);
+                  img: food['img'],
+                  name: food['name'],
+                  //inCart: food['inCart'],
+                  //    isFav: false,
+                  //rating: 3
+                );
               },
             ),
             Text(
               "Vodka",
               style: TextStyle(
                 fontSize: 20,
-              //  fontFamily: 'Vivaldii',
+                //  fontFamily: 'Vivaldii',
                 letterSpacing: 1.4,
                 fontWeight: FontWeight.w800,
               ),
@@ -204,18 +207,19 @@ class _DrinkScreenState extends State<DrinkScreen> {
               itemBuilder: (BuildContext context, int index) {
                 Map food = foods[index];
                 return CatProduct(
-                    img: food['img'],
-                    name: food['name'],
-                    inCart: food['inCart'],
-                 //   isFav: false,
-                    rating: 3);
+                  img: food['img'],
+                  name: food['name'],
+                  //inCart: food['inCart'],
+                  //   isFav: false,
+                  //rating: 3
+                );
               },
             ),
             Text(
               "Cognac",
               style: TextStyle(
                 fontSize: 20,
-              //  fontFamily: 'Vivaldii',
+                //  fontFamily: 'Vivaldii',
                 letterSpacing: 1.4,
                 fontWeight: FontWeight.w800,
               ),
@@ -235,18 +239,19 @@ class _DrinkScreenState extends State<DrinkScreen> {
               itemBuilder: (BuildContext context, int index) {
                 Map food = foods[index];
                 return CatProduct(
-                    img: food['img'],
-                    name: food['name'],
-                    inCart: food['inCart'],
-              //      isFav: false,
-                    rating: 3);
+                  img: food['img'],
+                  name: food['name'],
+                  //inCart: food['inCart'],
+                  //      isFav: false,
+                  //rating: 3
+                );
               },
             ),
             Text(
               "Whisky",
               style: TextStyle(
                 fontSize: 20,
-              //  fontFamily: 'Vivaldii',
+                //  fontFamily: 'Vivaldii',
                 letterSpacing: 1.4,
                 fontWeight: FontWeight.w800,
               ),
@@ -266,18 +271,19 @@ class _DrinkScreenState extends State<DrinkScreen> {
               itemBuilder: (BuildContext context, int index) {
                 Map food = foods[index];
                 return CatProduct(
-                    img: food['img'],
-                    name: food['name'],
-                    inCart: food['inCart'],
-                    //isFav: false,
-                    rating: 3);
+                  img: food['img'],
+                  name: food['name'],
+                  //inCart: food['inCart'],
+                  //isFav: false,
+                  //rating: 3
+                );
               },
             ),
             Text(
               "Water",
               style: TextStyle(
                 fontSize: 20,
-               // fontFamily: 'Vivaldii',
+                // fontFamily: 'Vivaldii',
                 letterSpacing: 1.4,
                 fontWeight: FontWeight.w800,
               ),
@@ -297,11 +303,12 @@ class _DrinkScreenState extends State<DrinkScreen> {
               itemBuilder: (BuildContext context, int index) {
                 Map food = foods[index];
                 return CatProduct(
-                    img: food['img'],
-                    name: food['name'],
-                    inCart: food['inCart'],
+                  img: food['img'],
+                  name: food['name'],
+                  //inCart: food['inCart'],
                   //  isFav: false,
-                    rating: 3);
+                  //rating: 3
+                );
               },
             ),
           ],

@@ -83,7 +83,7 @@ class _MealScreenState extends State<MealScreen> {
                   if (snapshot.hasError) {
                     return Text("Something went wrong");
                   }
-               
+
                   final documents = snapshot.data.docs;
                   return GridView.builder(
                     shrinkWrap: true,
@@ -100,9 +100,8 @@ class _MealScreenState extends State<MealScreen> {
                       return CatProduct(
                         img: documents[index].data()['photourl'],
                         name: documents[index].data()['name'],
-                        inCart: false,
-                        //isFav: documents[index].data()['inFav'],
-                        rating: documents[index].data()['totalrating'],
+                        id: documents[index].data()['id'],
+                        price: documents[index].data()['price'],
                         description: documents[index].data()['description'],
                       );
                     },
@@ -135,11 +134,12 @@ class _MealScreenState extends State<MealScreen> {
               itemBuilder: (BuildContext context, int index) {
                 Map food = foods[index];
                 return CatProduct(
-                    img: food['img'],
-                    name: food['name'],
-                    inCart: food['inCart'],
-                    // isFav: false,
-                    rating: 3);
+                  img: food['img'],
+                  name: food['name'],
+                  //  inCart: food['inCart'],
+                  // isFav: false,
+                  //rating: 3
+                );
               },
             ),
             SizedBox(height: 20.0),
@@ -167,11 +167,12 @@ class _MealScreenState extends State<MealScreen> {
               itemBuilder: (BuildContext context, int index) {
                 Map food = foods[index];
                 return CatProduct(
-                    img: food['img'],
-                    name: food['name'],
-                    inCart: food['inCart'],
-                    //  isFav: false,
-                    rating: 3);
+                  img: food['img'],
+                  name: food['name'],
+                  //   inCart: food['inCart'],
+                  //  isFav: false,
+                  //rating: 3
+                );
               },
             ),
             Text(
@@ -198,11 +199,12 @@ class _MealScreenState extends State<MealScreen> {
               itemBuilder: (BuildContext context, int index) {
                 Map food = foods[index];
                 return CatProduct(
-                    img: food['img'],
-                    name: food['name'],
-                    inCart: food['inCart'],
-                    //  isFav: false,
-                    rating: 3);
+                  img: food['img'],
+                  name: food['name'],
+                  //inCart: food['inCart'],
+                  //  isFav: false,
+                  //rating: 3
+                );
               },
             ),
             Text(
@@ -229,11 +231,12 @@ class _MealScreenState extends State<MealScreen> {
               itemBuilder: (BuildContext context, int index) {
                 Map food = foods[index];
                 return CatProduct(
-                    img: food['img'],
-                    name: food['name'],
-                    inCart: food['inCart'],
-                    // isFav: false,
-                    rating: 3);
+                  img: food['img'],
+                  name: food['name'],
+                  //inCart: food['inCart'],
+                  // isFav: false,
+                  //rating: 3
+                );
               },
             ),
             Text(
@@ -260,11 +263,12 @@ class _MealScreenState extends State<MealScreen> {
               itemBuilder: (BuildContext context, int index) {
                 Map food = foods[index];
                 return CatProduct(
-                    img: food['img'],
-                    name: food['name'],
-                    inCart: food['inCart'],
-                    //  isFav: false,
-                    rating: 3);
+                  img: food['img'],
+                  name: food['name'],
+                  //inCart: food['inCart'],
+                  //  isFav: false,
+                  //rating: 3
+                );
               },
             ),
             Text(
@@ -291,11 +295,12 @@ class _MealScreenState extends State<MealScreen> {
               itemBuilder: (BuildContext context, int index) {
                 Map food = foods[index];
                 return CatProduct(
-                    img: food['img'],
-                    name: food['name'],
-                    inCart: food['inCart'],
-                    // isFav: false,
-                    rating: 3);
+                  img: food['img'],
+                  name: food['name'],
+                  // inCart: food['inCart'],
+                  // isFav: false,
+                  //rating: 3
+                );
               },
             ),
           ],
