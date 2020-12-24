@@ -26,10 +26,12 @@ class _SplashScreenState extends State<SplashScreen> {
       // import 'dart:io'
       var iosDeviceInfo = await deviceInfo.iosInfo;
       prefs.setString('deviceinfo', iosDeviceInfo.toString());
+      print('${iosDeviceInfo}');
       return iosDeviceInfo.identifierForVendor; // unique ID on iOS
     } else {
       var androidDeviceInfo = await deviceInfo.androidInfo;
       prefs.setString('deviceinfo', androidDeviceInfo.toString());
+      print('${androidDeviceInfo}');
       return androidDeviceInfo.androidId; // unique ID on Android
     }
   }
@@ -41,22 +43,22 @@ class _SplashScreenState extends State<SplashScreen> {
     var token = prefs.getString('deviceinfo');
 
     if (token != null) {
-       Navigator.of(context).push(
-      MaterialPageRoute(
-        builder: (BuildContext context) {
-          return MainScreen();
-        },
-      ),
-    );
-    }else {  
+      Navigator.of(context).push(
+        MaterialPageRoute(
+          builder: (BuildContext context) {
+            return MainScreen();
+          },
+        ),
+      );
+    } else {
       await _getId();
-       Navigator.of(context).push(
-      MaterialPageRoute(
-        builder: (BuildContext context) {
-          return Walkthrough();
-        },
-      ),
-    );
+      Navigator.of(context).push(
+        MaterialPageRoute(
+          builder: (BuildContext context) {
+            return Walkthrough();
+          },
+        ),
+      );
     }
   }
 

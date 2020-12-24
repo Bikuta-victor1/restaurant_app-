@@ -1,4 +1,6 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:menuapp/models/foodmodel.dart';
 import 'package:menuapp/screens/checkout.dart';
 import 'package:menuapp/util/foods.dart';
 import 'package:menuapp/widgets/cart_item.dart';
@@ -10,6 +12,39 @@ class CartScreen extends StatefulWidget {
 
 class _CartScreenState extends State<CartScreen>
     with AutomaticKeepAliveClientMixin<CartScreen> {
+  List<bool> inputs = List<bool>();
+  bool isChecked = false;
+  FirebaseFirestore firestore = FirebaseFirestore.instance;
+  final scaffoldKey = GlobalKey<ScaffoldState>();
+  Future _data;
+  List cartItems = [];
+
+  getTotoalCount() {
+    for (int i = 0; i < 1000; i++) {
+      //  total = price * quantity;
+    }
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+
+    super.initState();
+  }
+
+  @override
+  void didChangeDependencies() async {
+    // TODO: implement didChangeDependencies
+    userID = await gettoken();
+    _data = getUserCart(userID);
+    for (int i = 0; i < 10000; i++) {
+      inputs.add(true);
+      cartItems.add(i);
+      getTotoalCount();
+    }
+    super.didChangeDependencies();
+  }
+
   @override
   Widget build(BuildContext context) {
     super.build(context);

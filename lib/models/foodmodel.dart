@@ -40,7 +40,12 @@ List<Food> souplist = [];
 List<Food> chipslist = [];
 List<Food> frieslist = [];
 bool addedtocart = false;
-bool grills = false;
+bool isGrills = false;
+bool isAirFried = false;
+bool isPeppered = false;
+bool isNative = false;
+bool isSoup = false;
+bool isChips = false;
 String userID;
 String created;
 String productTitle;
@@ -176,6 +181,20 @@ Future deleteFromCart(String docID) async {
 //         .where("caseNumber", arrayContains: query)
 //         .getDocuments())
 //     .documents;
+
+@override
+Future getUserCart(String userid) async {
+  // final FirebaseUser user = await auth.currentUser();
+  String token = await gettoken();
+  final uid = token;
+
+  //userId = userID;
+  if (token != null) {
+    CollectionReference col = firestore.collection('cart');
+    Query nameQuery = col.where("userID", isEqualTo: uid);
+    return nameQuery.getDocuments();
+  }
+}
 
 @override
 getCartCount() async {

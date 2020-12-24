@@ -83,7 +83,14 @@ class _MealScreenState extends State<MealScreen> {
                   if (snapshot.hasError) {
                     return Text("Something went wrong");
                   }
-
+                  setState(() {
+                    isGrills = true;
+                    isAirFried = false;
+                    isPeppered = false;
+                    isNative = false;
+                    isSoup = false;
+                    isChips = false;
+                  });
                   final documents = snapshot.data.docs;
                   return GridView.builder(
                     shrinkWrap: true,
