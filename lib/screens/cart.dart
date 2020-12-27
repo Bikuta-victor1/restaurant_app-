@@ -2,8 +2,10 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:menuapp/models/foodmodel.dart';
 import 'package:menuapp/screens/checkout.dart';
+import 'package:menuapp/util/const.dart';
 import 'package:menuapp/util/foods.dart';
 import 'package:menuapp/widgets/cart_item.dart';
+import 'package:menuapp/widgets/smooth_star_rating.dart';
 
 class CartScreen extends StatefulWidget {
   @override
@@ -14,6 +16,10 @@ class _CartScreenState extends State<CartScreen>
     with AutomaticKeepAliveClientMixin<CartScreen> {
   List<bool> inputs = List<bool>();
   bool isChecked = false;
+  int n;
+  double price = 0;
+  double quantity = 0;
+  double total = 0;
   FirebaseFirestore firestore = FirebaseFirestore.instance;
   final scaffoldKey = GlobalKey<ScaffoldState>();
   Future _data;
@@ -21,7 +27,7 @@ class _CartScreenState extends State<CartScreen>
 
   getTotoalCount() {
     for (int i = 0; i < 1000; i++) {
-      //  total = price * quantity;
+      total = price * quantity;
     }
   }
 
@@ -45,39 +51,202 @@ class _CartScreenState extends State<CartScreen>
     super.didChangeDependencies();
   }
 
+  deleteCart(BuildContext context, document, int index) async {
+    deleteFromCart(document.documentID).whenComplete(() {
+      // setState(() {
+      // store.removeAt(index) ;
+      // });
+    }).whenComplete(() {
+      print("success");
+    });
+  }
+
+  Widget stackBehindDismiss() {
+    return Container(
+      alignment: Alignment.centerRight,
+      padding: EdgeInsets.only(right: 20.0),
+      color: Colors.red[600],
+      child: Icon(
+        Icons.delete,
+        color: Colors.white,
+      ),
+    );
+  }
+
+  Widget noDataFound() {
+    return Center(
+      child: Container(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            Icon(Icons.find_in_page, color: Colors.black38, size: 80.0),
+            Text("No Food Item available yet",
+                style: TextStyle(color: Colors.black45, fontSize: 20.0)),
+            Text("Please check your internet connection",
+                style: TextStyle(color: Colors.red, fontSize: 15.0))
+          ],
+        ),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     super.build(context);
     return Scaffold(
+      extendBody: true,
       body: Padding(
-        padding: EdgeInsets.fromLTRB(10.0, 0, 10.0, 0),
-        child: ListView.builder(
-          itemCount: foods == null ? 0 : foods.length,
-          itemBuilder: (BuildContext context, int index) {
-//                Food food = Food.fromJson(foods[index]);
-            Map food = foods[index];
-//                print(foods);
-//                print(foods.length);
-            return CartItem(
-              img: food['img'],
-              isFav: false,
-              name: food['name'],
-              rating: 5.0,
-              raters: 23,
-            );
-          },
-        ),
-      ),
+          padding: EdgeInsets.fromLTRB(10.0, 0, 10.0, 0),
+          child: FutureBuilder(
+              future: _data,
+              builder: (context, snapshot) {
+                if (!snapshot.hasData) {
+                  //getTotoalCount();
+                  return noDataFound();
+                }
+
+                final int dataCount = snapshot.data.documents.length;
+                if (dataCount == 0) {
+                  return noDataFound();
+                }
+
+                return ListView.builder(
+                  itemCount: dataCount,
+                  itemBuilder: (context, index) {
+                    n = dataCount;
+                    price = double.parse(
+                        snapshot.data.documents[index][productPrice]);
+                    quantity = double.parse(
+                        snapshot.data.documents[index][itemQuantity]);
+                    String productImage =
+                        snapshot.data.documents[index][photoUrl] as String;
+                    final DocumentSnapshot document =
+                        snapshot.data.documents[index];
+                    //Map food = foods[index];
+                    return Dismissible(
+                      background: stackBehindDismiss(),
+                      key: ObjectKey(document),
+                      onDismissed: (direction) {
+                        //firestore.collection(favorites).document().delete();
+                        deleteCart(context, document, index);
+                      },
+                      child: Padding(
+                        padding: EdgeInsets.fromLTRB(0, 4, 0, 4),
+                        child: InkWell(
+                          onTap: () {
+                            // Navigator.of(context).push(
+                            //   MaterialPageRoute(
+                            //     builder: (BuildContext context) {
+                            //       return ProductDetails(
+                            //         id: snapshot.data.documents[index][userID],
+                            //         description: description,
+                            //         name: name,
+                            //         img: snapshot.data.documents[index]
+                            //             [photoUrl],
+                            //         price: price,
+                            //       );
+                            //     },
+                            //   ),
+                            // );
+                          },
+                          child: Row(
+                            children: <Widget>[
+                              Padding(
+                                padding:
+                                    EdgeInsets.only(left: 0.0, right: 10.0),
+                                child: Container(
+                                  height:
+                                      MediaQuery.of(context).size.width / 3.5,
+                                  width: MediaQuery.of(context).size.width / 3,
+                                  child: ClipRRect(
+                                    borderRadius: BorderRadius.circular(8.0),
+                                    child: Image.network(
+                                      document[photoUrl],
+                                      fit: BoxFit.cover,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                mainAxisSize: MainAxisSize.min,
+                                children: <Widget>[
+                                  Text(
+                                    "${document[productTitle]}",
+                                    style: TextStyle(
+//                    fontSize: 15,
+                                      fontWeight: FontWeight.w900,
+                                    ),
+                                  ),
+                                  SizedBox(height: 10.0),
+                                  Row(
+                                    children: <Widget>[
+                                      SmoothStarRating(
+                                        starCount: 1,
+                                        color: Constants.ratingBG,
+                                        allowHalfRating: true,
+                                        rating: 5.0,
+                                        size: 12.0,
+                                      ),
+                                      SizedBox(width: 6.0),
+                                      Text(
+                                        "4.5 ",
+                                        style: TextStyle(
+                                          fontSize: 12,
+                                          fontWeight: FontWeight.w300,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  SizedBox(height: 10.0),
+                                  Row(
+                                    children: <Widget>[
+                                      Text(
+                                        "${int.parse(document[itemQuantity])} Pieces",
+                                        style: TextStyle(
+                                          fontSize: 11.0,
+                                          fontWeight: FontWeight.w300,
+                                        ),
+                                      ),
+                                      SizedBox(width: 10.0),
+                                      Text(
+                                        "N${double.parse(document[productPrice])}",
+                                        style: TextStyle(
+                                          fontSize: 14.0,
+                                          fontWeight: FontWeight.w900,
+                                          color: Theme.of(context).accentColor,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  SizedBox(height: 10.0),
+                                  Text(
+                                    "Quantity: ${int.parse(document[itemQuantity])}",
+                                    style: TextStyle(
+                                      fontSize: 11.0,
+                                      fontWeight: FontWeight.w300,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    );
+                  },
+                );
+              })),
       floatingActionButton: FloatingActionButton(
         tooltip: "Checkout",
         onPressed: () {
-          Navigator.of(context).push(
-            MaterialPageRoute(
-              builder: (BuildContext context) {
-                return Checkout();
-              },
-            ),
-          );
+          // Navigator.of(context).push(
+          //   MaterialPageRoute(
+          //     builder: (BuildContext context) {
+          //       return Checkout();
+          //     },
+          //   ),
+          // );
         },
         child: Icon(
           Icons.arrow_forward,

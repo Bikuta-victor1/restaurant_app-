@@ -40,17 +40,18 @@ List<Food> souplist = [];
 List<Food> chipslist = [];
 List<Food> frieslist = [];
 bool addedtocart = false;
-bool isGrills = false;
-bool isAirFried = false;
-bool isPeppered = false;
-bool isNative = false;
-bool isSoup = false;
-bool isChips = false;
+// bool isGrills = false;
+// bool isAirFried = false;
+// bool isPeppered = false;
+// bool isNative = false;
+// bool isSoup = false;
+// bool isChips = false;
 String userID;
 String created;
 String productTitle;
 String productPrice;
 String itemQuantity;
+String photoUrl;
 String successful = 'Successful';
 
 FirebaseFirestore firestore = FirebaseFirestore.instance;
@@ -125,7 +126,8 @@ Future<String> addtoCart(
     //  String prodtVariation,
     String prodtPrice,
     String itemQty,
-    String date}) async {
+    String date,
+    String photUrl}) async {
   //FirebaseUser user;
   String token = await gettoken();
   try {
@@ -136,11 +138,12 @@ Future<String> addtoCart(
 
     if (userid != null) {
       await firestore.collection('cart').doc(token).set({
-        userID: token,
+        userID: userid,
         productTitle: prodtTitle,
         //  productVariation: prodtVariation,
         productPrice: prodtPrice,
         itemQuantity: itemQty,
+        photoUrl: photUrl,
         created: date,
       });
       print(userid);
@@ -228,19 +231,6 @@ Future getCart() async {
   }
   return qn.docs;
 }
-//  Future deleteProduct(String docID) async {
-//     //bool msg;
-//     Future result = await firestore
-//         .collection(appProducts)
-//         .document(docID)
-//         .delete()
-//         .then((msg) {})
-//         .catchError((e) {
-//       print(e);
-//     });
-
-//     return result;
-//   }
 
 //  Future<String> userCart({String userid,String prodtTitle,String prodtVariation,String prodtPrice,String itemQty, List prodtImages});
 //    Future getCurrentUser(String userid);

@@ -31,7 +31,7 @@ class CatProduct extends StatelessWidget {
     //  @required this.table,
   }) : super(key: key);
 
-  bool isFav = false;
+  bool alreadysaved;
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -54,38 +54,38 @@ class CatProduct extends StatelessWidget {
                       ),
                     ),
                   ),
-                  Positioned(
-                    right: -10.0,
-                    bottom: 3.0,
-                    child: RawMaterialButton(
-                      onPressed: () async {
-                        // SharedPreferences prefs =
-                        //     await SharedPreferences.getInstance();
-                        // var token = prefs.getString('deviceinfo');
-                        // var timenow = DateTime.now().toString();
-                        // if (addedtocart = true) {
-                        //   DocumentReference documentReference = await Firestore
-                        //       .instance
-                        //       .document("tables/$token")
-                        //       .collection("orders")
-                        //       .doc("${grills?timenow:null}");
-                        // }
-                      },
-                      fillColor: Colors.white,
-                      shape: CircleBorder(),
-                      elevation: 4.0,
-                      child: Padding(
-                        padding: EdgeInsets.all(5),
-                        child: Icon(
-                          addedtocart
-                              ? Icons.shopping_cart
-                              : Icons.shopping_cart_outlined,
-                          color: Colors.red,
-                          size: 17,
-                        ),
-                      ),
-                    ),
-                  ),
+                  // Positioned(
+                  //   right: -10.0,
+                  //   bottom: 3.0,
+                  //   child: RawMaterialButton(
+                  //     onPressed: () async {
+                  //       SharedPreferences prefs =
+                  //           await SharedPreferences.getInstance();
+                  //       var token = prefs.getString('deviceinfo');
+                  //       var timenow = DateTime.now().toString();
+                  //       if (addedtocart = true) {
+                  //         DocumentReference documentReference = await Firestore
+                  //             .instance
+                  //             .document("tables/$token")
+                  //             .collection("orders")
+                  //             .doc("${grills?timenow:null}");
+                  //       }
+                  //     },
+                  //     fillColor: Colors.white,
+                  //     shape: CircleBorder(),
+                  //     elevation: 4.0,
+                  //     child: Padding(
+                  //       padding: EdgeInsets.all(5),
+                  //       child: Icon(
+                  //         addedtocart
+                  //             ? Icons.shopping_cart
+                  //             : Icons.shopping_cart_outlined,
+                  //         color: Colors.red,
+                  //         size: 17,
+                  //       ),
+                  //     ),
+                  //   ),
+                  // ),
                 ],
               ),
               Padding(
@@ -125,7 +125,7 @@ class CatProduct extends StatelessWidget {
                     ),
                     SizedBox(width: 3.0),
                     Text(
-                      "\u{20A6} ${price}",
+                      "\u{20A6} $price",
                       style: TextStyle(
                         fontSize: 11.0,
                       ),
@@ -137,9 +137,11 @@ class CatProduct extends StatelessWidget {
           ),
           onTap: () async {
             return ProductDetails(
+              id: id.toString(),
               description: description,
               name: name,
               img: img,
+              price: price,
               //rating : rating;
             );
           }),
