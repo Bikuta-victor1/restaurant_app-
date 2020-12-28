@@ -1,11 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:menuapp/models/foodmodel.dart';
 import 'package:menuapp/util/const.dart';
 import 'package:menuapp/widgets/smooth_star_rating.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:menuapp/screens/details.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class CatProduct extends StatelessWidget {
   final String name;

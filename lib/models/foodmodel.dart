@@ -195,7 +195,7 @@ Future getUserCart(String userid) async {
   if (token != null) {
     CollectionReference col = firestore.collection('cart');
     Query nameQuery = col.where("userID", isEqualTo: uid);
-    return nameQuery.getDocuments();
+    return nameQuery.get();
   }
 }
 
@@ -206,11 +206,11 @@ getCartCount() async {
   List<DocumentSnapshot> _myDocCount = [];
   if (token != null && _myDocCount != null) {
     //final uid = user.uid;
-    QuerySnapshot _myDoc = await Firestore.instance
+    QuerySnapshot _myDoc = await FirebaseFirestore.instance
         .collection('cart')
         .where("userID", isEqualTo: token)
         .get();
-    _myDocCount = _myDoc.documents;
+    _myDocCount = _myDoc.docs;
     print(_myDocCount.length);
   }
   return _myDocCount.length;
@@ -226,6 +226,22 @@ Future getCart() async {
     userid = token;
 
     qn = await firestore.collection("cart").get();
+  } on PlatformException catch (e) {
+    print(e.message);
+  }
+  return qn.docs;
+}
+
+Future getDishes() async {
+  // FirebaseUser user;
+  String userid;
+  QuerySnapshot qn;
+  String token = await gettoken();
+  //user = await auth.currentUser();
+  try {
+    userid = token;
+
+    qn = await firestore.collection("grill-list").get();
   } on PlatformException catch (e) {
     print(e.message);
   }

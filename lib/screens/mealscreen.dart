@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:menuapp/models/foodmodel.dart';
 //import 'package:restaurant_app/screens/notifications.dart';
 import 'package:menuapp/util/foods.dart';
 //import 'package:restaurant_app/widgets/badge.dart';

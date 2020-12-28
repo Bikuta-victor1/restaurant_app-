@@ -1,5 +1,7 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:menuapp/models/foodmodel.dart';
 //import 'package:menuapp/screens/categories_screen.dart';
 import 'package:menuapp/screens/dishes.dart';
 import 'package:menuapp/screens/drinkscreen.dart';
@@ -53,12 +55,61 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin<Home> {
   // }
 
   int _current = 0;
-
+  //Future _dishdata;
   @override
   void initState() {
     // TODO: implement initState
-   // checkFirstUser();
+    // checkFirstUser();
     super.initState();
+  }
+
+  @override
+  void didChangeDependencies() {
+    // TODO: implement didChangeDependencies
+    //userID = await gettoken();
+    // _dishdata = getDishes();
+    super.didChangeDependencies();
+  }
+
+  Future getCarouselWidget() async {
+    var firestore = FirebaseFirestore.instance;
+    QuerySnapshot qn = await firestore.collection('grill-list').get();
+    return qn.docs;
+  }
+
+  Widget noDataFound() {
+    return Center(
+      child: Container(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            Icon(Icons.find_in_page, color: Colors.black38, size: 80.0),
+            Text("No Food Item available yet",
+                style: TextStyle(color: Colors.black45, fontSize: 20.0)),
+            Text("Please check your internet connection",
+                style: TextStyle(color: Colors.red, fontSize: 15.0))
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget noDataFoundYet() {
+    return Center(
+      child: Container(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            CircularProgressIndicator(),
+            SizedBox(height: 5),
+            Text("No Food Item available yet",
+                style: TextStyle(color: Colors.black45, fontSize: 20.0)),
+            Text("Please hold on...",
+                style: TextStyle(color: Colors.red, fontSize: 15.0))
+          ],
+        ),
+      ),
+    );
   }
 
   @override
@@ -75,7 +126,6 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin<Home> {
                 Text(
                   "Dishes",
                   style: TextStyle(
-                    //            fontFamily: 'Vivaldii',
                     letterSpacing: 1.4,
                     fontSize: 23,
                     fontWeight: FontWeight.w800,
@@ -85,10 +135,7 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin<Home> {
                   child: Text(
                     "View More",
                     style: TextStyle(
-                      //     fontFamily: 'Vivaldii',
                       letterSpacing: 1.4,
-//                      fontSize: 22,
-//                      fontWeight: FontWeight.w800,
                       color: Theme.of(context).accentColor,
                     ),
                   ),
@@ -96,7 +143,7 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin<Home> {
                     Navigator.of(context).push(
                       MaterialPageRoute(
                         builder: (BuildContext context) {
-                          return DishesScreen();
+                          return MealScreen();
                         },
                       ),
                     );
@@ -106,41 +153,59 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin<Home> {
             ),
 
             SizedBox(height: 10.0),
-
-            //Slider Here
-
-            CarouselSlider(
-              height: MediaQuery.of(context).size.height / 2.4,
-              items: map<Widget>(
-                foods,
-                (index, i) {
-                  Map food = foods[index];
-                  return SliderItem(
-                    img: food['img'],
-                    isFav: false,
-                    name: food['name'],
-                    rating: 5.0,
-                    raters: 23,
+            FutureBuilder(
+                future: getCarouselWidget(),
+                builder: (context, AsyncSnapshot snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return noDataFoundYet();
+                  }
+                  final int dataCount = snapshot.data.length;
+                  if (dataCount == 0) {
+                    return noDataFound();
+                  }
+                  //final documents = snapshot.data;
+                  return CarouselSlider.builder(
+                    autoPlay: true,
+                    onPageChanged: (index) {
+                      setState(() {
+                        _current = index;
+                      });
+                    },
+                    viewportFraction: 1.0,
+                    itemCount: dataCount,
+                    height: MediaQuery.of(context).size.height / 2.4,
+                    itemBuilder: (BuildContext context, int index) {
+                      // Map food = foods[index];
+                      return SliderItem(
+                        img: snapshot.data[index].data()['photourl'],
+                        name: snapshot.data[index].data()['name'],
+                        id: snapshot.data[index].data()['id'],
+                        price: snapshot.data[index].data()['price'],
+                        description: snapshot.data[index].data()['description'],
+                      );
+                    },
                   );
-                },
-              ).toList(),
-              autoPlay: true,
-//                enlargeCenterPage: true,
-              viewportFraction: 1.0,
+                  // items:
+                  //     //map<Widget>(
+                  //     documents
+                  //         .map((doc) => SliderItem(
+                  //               img: doc['photourl'],
+                  //               name: doc['name'],
+                  //               id: doc['id'],
+                  //               price: doc['price'],
+                  //               description: doc['description'],
+                  //             ))
+                  //         .toList());
+//                enlargeCenterPage: true
 //              aspectRatio: 2.0,
-              onPageChanged: (index) {
-                setState(() {
-                  _current = index;
-                });
-              },
-            ),
+                }),
+            //Slider Here
             SizedBox(height: 20.0),
 
             Text(
               "Food Categories",
               style: TextStyle(
                 fontSize: 23,
-                //  fontFamily: 'Vivaldii',
                 letterSpacing: 1.4,
                 fontWeight: FontWeight.w800,
               ),
@@ -364,28 +429,41 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin<Home> {
               ],
             ),
             SizedBox(height: 10.0),
-            GridView.builder(
-              shrinkWrap: true,
-              primary: false,
-              physics: NeverScrollableScrollPhysics(),
-              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 2,
-                childAspectRatio: MediaQuery.of(context).size.width /
-                    (MediaQuery.of(context).size.height / 1.25),
-              ),
-              itemCount: foods == null ? 0 : foods.length,
-              itemBuilder: (BuildContext context, int index) {
-//                Food food = Food.fromJson(foods[index]);
-                Map food = foods[index];
-//                print(foods);
-//                print(foods.length);
-                return GridProduct(
-                  img: food['img'],
-                  name: food['name'],
-                  route: food['route'],
-                );
-              },
-            ),
+            FutureBuilder(
+                future: getCarouselWidget(),
+                builder: (context, AsyncSnapshot snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return noDataFoundYet();
+                  }
+
+                  final int dataCount = snapshot.data.length;
+                  if (dataCount == 0) {
+                    return noDataFound();
+                  }
+
+                  return GridView.builder(
+                    shrinkWrap: true,
+                    primary: false,
+                    physics: NeverScrollableScrollPhysics(),
+                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 2,
+                      childAspectRatio: MediaQuery.of(context).size.width /
+                          (MediaQuery.of(context).size.height / 1.25),
+                    ),
+                    itemCount: dataCount,
+                    itemBuilder: (BuildContext context, int index) {
+                      //Food food = Food.fromJson(foods[index]);
+                      // Map food = foods[index];
+                      return GridProduct(
+                        img: snapshot.data[index].data()['photourl'],
+                        name: snapshot.data[index].data()['name'],
+                        id: snapshot.data[index].data()['id'],
+                        price: snapshot.data[index].data()['price'],
+                        description: snapshot.data[index].data()['description'],
+                      );
+                    },
+                  );
+                }),
 
             SizedBox(height: 30),
           ],

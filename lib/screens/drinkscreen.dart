@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 //import 'package:menuapp/screens/notifications.dart';
 import 'package:menuapp/util/foods.dart';
-import 'package:menuapp/widgets/badge.dart';
 import 'package:menuapp/widgets/cat_product.dart';
-import 'package:menuapp/widgets/grid_product.dart';
 
 class DrinkScreen extends StatefulWidget {
   @override
