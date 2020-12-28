@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:menuapp/util/foods.dart';
-import 'package:menuapp/widgets/grid_product.dart';
 
 class FavoriteScreen extends StatefulWidget {
   @override
@@ -26,25 +24,25 @@ class _FavoriteScreenState extends State<FavoriteScreen>
               ),
             ),
             SizedBox(height: 10.0),
-            GridView.builder(
-              shrinkWrap: true,
-              primary: false,
-              physics: NeverScrollableScrollPhysics(),
-              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 2,
-                childAspectRatio: MediaQuery.of(context).size.width /
-                    (MediaQuery.of(context).size.height / 1.25),
-              ),
-              itemCount: foods == null ? 0 : foods.length,
-              itemBuilder: (BuildContext context, int index) {
-//                Food food = Food.fromJson(foods[index]);
-                Map food = foods[index];
-//                print(foods);
-//                print(foods.length);
-                return GridProduct(
-                    img: food['img'], name: food['name'], route: food['route']);
-              },
-            ),
+//             GridView.builder(
+//               shrinkWrap: true,
+//               primary: false,
+//               physics: NeverScrollableScrollPhysics(),
+//               gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+//                 crossAxisCount: 2,
+//                 childAspectRatio: MediaQuery.of(context).size.width /
+//                     (MediaQuery.of(context).size.height / 1.25),
+//               ),
+//               itemCount: foods == null ? 0 : foods.length,
+//               itemBuilder: (BuildContext context, int index) {
+// //                Food food = Food.fromJson(foods[index]);
+//                 Map food = foods[index];
+// //                print(foods);
+// //                print(foods.length);
+//                 return GridProduct(
+//                     img: food['img'], name: food['name'], route: food['route']);
+//               },
+//             ),
             SizedBox(height: 30),
           ],
         ),

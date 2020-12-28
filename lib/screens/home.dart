@@ -156,13 +156,13 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin<Home> {
             FutureBuilder(
                 future: getCarouselWidget(),
                 builder: (context, AsyncSnapshot snapshot) {
-                  if (snapshot.connectionState == ConnectionState.waiting) {
+                  if (snapshot.connectionState == ConnectionState.none) {
                     return noDataFoundYet();
                   }
-                  final int dataCount = snapshot.data.length;
-                  if (dataCount == 0) {
+
+                  if (!snapshot.hasData || snapshot.data == null)
                     return noDataFound();
-                  }
+                  if (snapshot.data.isEmpty) return noDataFound();
                   //final documents = snapshot.data;
                   return CarouselSlider.builder(
                     autoPlay: true,
@@ -172,7 +172,9 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin<Home> {
                       });
                     },
                     viewportFraction: 1.0,
-                    itemCount: dataCount,
+                    itemCount:
+                        //snapshot.data.length == null ? 0 :
+                        snapshot.data.length,
                     height: MediaQuery.of(context).size.height / 2.4,
                     itemBuilder: (BuildContext context, int index) {
                       // Map food = foods[index];
@@ -185,6 +187,7 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin<Home> {
                       );
                     },
                   );
+
                   // items:
                   //     //map<Widget>(
                   //     documents
@@ -432,15 +435,15 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin<Home> {
             FutureBuilder(
                 future: getCarouselWidget(),
                 builder: (context, AsyncSnapshot snapshot) {
-                  if (snapshot.connectionState == ConnectionState.waiting) {
+                  if (snapshot.connectionState == ConnectionState.none) {
                     return noDataFoundYet();
                   }
 
-                  final int dataCount = snapshot.data.length;
-                  if (dataCount == 0) {
+                  // final int dataCount =
+                  //      snapshot.data.length;
+                  if (!snapshot.hasData || snapshot.data == null)
                     return noDataFound();
-                  }
-
+                  if (snapshot.data.isEmpty) return noDataFound();
                   return GridView.builder(
                     shrinkWrap: true,
                     primary: false,
@@ -450,7 +453,8 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin<Home> {
                       childAspectRatio: MediaQuery.of(context).size.width /
                           (MediaQuery.of(context).size.height / 1.25),
                     ),
-                    itemCount: dataCount,
+                    itemCount:
+                        snapshot.data.length == null ? 0 : snapshot.data.length,
                     itemBuilder: (BuildContext context, int index) {
                       //Food food = Food.fromJson(foods[index]);
                       // Map food = foods[index];

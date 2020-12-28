@@ -57,22 +57,22 @@ class _DishesScreenState extends State<DishesScreen> {
               maxLines: 2,
             ),
             Divider(),
-            GridView.builder(
-              shrinkWrap: true,
-              primary: false,
-              physics: NeverScrollableScrollPhysics(),
-              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 2,
-                childAspectRatio: MediaQuery.of(context).size.width /
-                    (MediaQuery.of(context).size.height / 1.25),
-              ),
-              itemCount: 4,
-              itemBuilder: (BuildContext context, int index) {
-                Map food = foods[index];
-                return GridProduct(
-                    img: food['img'], name: food['name'], route: food['route']);
-              },
-            ),
+            // GridView.builder(
+            //   shrinkWrap: true,
+            //   primary: false,
+            //   physics: NeverScrollableScrollPhysics(),
+            //   gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+            //     crossAxisCount: 2,
+            //     childAspectRatio: MediaQuery.of(context).size.width /
+            //         (MediaQuery.of(context).size.height / 1.25),
+            //   ),
+            //   itemCount: 4,
+            //   itemBuilder: (BuildContext context, int index) {
+            //     Map food = foods[index];
+            //     return GridProduct(
+            //         img: food['img'], name: food['name'], route: food['route']);
+            //   },
+            // ),
             SizedBox(height: 20.0),
             Text(
               "Italian",
@@ -83,28 +83,28 @@ class _DishesScreenState extends State<DishesScreen> {
               maxLines: 2,
             ),
             Divider(),
-            GridView.builder(
-              shrinkWrap: true,
-              primary: false,
-              physics: NeverScrollableScrollPhysics(),
-              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 2,
-                childAspectRatio: MediaQuery.of(context).size.width /
-                    (MediaQuery.of(context).size.height / 1.25),
-              ),
-              itemCount: 4,
-              itemBuilder: (BuildContext context, int index) {
-                Map food = foods[index];
-                return GridProduct(
-                  img: food['img'],
-                  //isFav: false,
-                  name: food['name'],
-                  // rating: 5.0,
-                  // raters: 23,
-                  route: food['route'],
-                );
-              },
-            ),
+            // GridView.builder(
+            //   shrinkWrap: true,
+            //   primary: false,
+            //   physics: NeverScrollableScrollPhysics(),
+            //   gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+            //     crossAxisCount: 2,
+            //     childAspectRatio: MediaQuery.of(context).size.width /
+            //         (MediaQuery.of(context).size.height / 1.25),
+            //   ),
+            //   itemCount: 4,
+            //   itemBuilder: (BuildContext context, int index) {
+            //     Map food = foods[index];
+            //     return GridProduct(
+            //       img: food['img'],
+            //       //isFav: false,
+            //       name: food['name'],
+            //       // rating: 5.0,
+            //       // raters: 23,
+            //       route: food['route'],
+            //     );
+            //   },
+            // ),
             SizedBox(height: 20.0),
             Text(
               "African",
@@ -115,28 +115,28 @@ class _DishesScreenState extends State<DishesScreen> {
               maxLines: 2,
             ),
             Divider(),
-            GridView.builder(
-              shrinkWrap: true,
-              primary: false,
-              physics: NeverScrollableScrollPhysics(),
-              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 2,
-                childAspectRatio: MediaQuery.of(context).size.width /
-                    (MediaQuery.of(context).size.height / 1.25),
-              ),
-              itemCount: 4,
-              itemBuilder: (BuildContext context, int index) {
-                Map food = foods[index];
-                return GridProduct(
-                  img: food['img'],
-                  //isFav: false,
-                  name: food['name'],
-                  // rating: 5.0,
-                  // raters: 23,
-                  route: food['route'],
-                );
-              },
-            ),
+            // GridView.builder(
+            //   shrinkWrap: true,
+            //   primary: false,
+            //   physics: NeverScrollableScrollPhysics(),
+            //   gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+            //     crossAxisCount: 2,
+            //     childAspectRatio: MediaQuery.of(context).size.width /
+            //         (MediaQuery.of(context).size.height / 1.25),
+            //   ),
+            //   itemCount: 4,
+            //   itemBuilder: (BuildContext context, int index) {
+            //     Map food = foods[index];
+            //     return GridProduct(
+            //       img: food['img'],
+            //       //isFav: false,
+            //       name: food['name'],
+            //       // rating: 5.0,
+            //       // raters: 23,
+            //       route: food['route'],
+            //     );
+            //   },
+            // ),
           ],
         ),
       ),

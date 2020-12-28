@@ -2,18 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:menuapp/screens/details.dart';
 import 'package:menuapp/util/const.dart';
 import 'package:menuapp/widgets/smooth_star_rating.dart';
-// import 'package:menuapp/screens/details.dart';
-// import 'package:menuapp/util/const.dart';
-// import 'package:menuapp/widgets/smooth_star_rating.dart';
 
 class GridProduct extends StatelessWidget {
   final String name;
   final String img;
   final int id;
   final int price;
-  // bool inCart;
-  //  bool isFav;
-  // int rating;
   final String description;
   // final String table;
 
@@ -47,7 +41,7 @@ class GridProduct extends StatelessWidget {
                     width: MediaQuery.of(context).size.width / 2.2,
                     child: ClipRRect(
                       borderRadius: BorderRadius.circular(8.0),
-                      child: Image.asset(
+                      child: Image.network(
                         "$img",
                         fit: BoxFit.cover,
                       ),

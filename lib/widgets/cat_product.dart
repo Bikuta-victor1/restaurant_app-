@@ -132,14 +132,20 @@ class CatProduct extends StatelessWidget {
               ),
             ],
           ),
-          onTap: () async {
-            return ProductDetails(
-              id: id.toString(),
-              description: description,
-              name: name,
-              img: img,
-              price: price,
-              //rating : rating;
+          onTap: () {
+            Navigator.of(context).push(
+              MaterialPageRoute(
+                builder: (BuildContext context) {
+                  return ProductDetails(
+                    id: id.toString(),
+                    description: description,
+                    name: name,
+                    img: img,
+                    price: price,
+                    //rating : rating;
+                  );
+                },
+              ),
             );
           }),
     );

@@ -275,7 +275,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                   ),
                   color: Colors.blue,
                   onPressed: () {
-                    //  addedtocart = !addedtocart;
+                    alreadySaved = !alreadySaved;
                     addToCart();
                   },
                 )
@@ -288,6 +288,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                   ),
                   color: Colors.blue,
                   onPressed: () {
+                    alreadySaved = !alreadySaved;
                     //  addedtocart = !addedtocart;
                     addToCart();
                   },
