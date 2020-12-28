@@ -16,6 +16,7 @@ class _CartScreenState extends State<CartScreen>
     with AutomaticKeepAliveClientMixin<CartScreen> {
   List<bool> inputs = List<bool>();
   bool isChecked = false;
+  int carttCount;
   int n;
   double price = 0;
   double quantity = 0;
@@ -34,7 +35,11 @@ class _CartScreenState extends State<CartScreen>
   @override
   void initState() {
     // TODO: implement initState
-
+    getCartCount().then((result) {
+      setState(() {
+        carttCount = result;
+      });
+    });
     super.initState();
   }
 
@@ -43,15 +48,17 @@ class _CartScreenState extends State<CartScreen>
     // TODO: implement didChangeDependencies
     userID = await gettoken();
     _data = getUserCart(userID);
+
     for (int i = 0; i < 10000; i++) {
       inputs.add(true);
       cartItems.add(i);
       getTotoalCount();
     }
+
     super.didChangeDependencies();
   }
 
-  deleteCart(BuildContext context, document, int index) async {
+  deleteCart(BuildContext context, DocumentSnapshot document, int index) async {
     deleteFromCart(document.documentID).whenComplete(() {
       // setState(() {
       // store.removeAt(index) ;
@@ -82,7 +89,7 @@ class _CartScreenState extends State<CartScreen>
             Icon(Icons.find_in_page, color: Colors.black38, size: 80.0),
             Text("No Food Item available yet",
                 style: TextStyle(color: Colors.black45, fontSize: 20.0)),
-            Text("Please check your internet connection",
+            Text("Please add to your cart",
                 style: TextStyle(color: Colors.red, fontSize: 15.0))
           ],
         ),
@@ -127,8 +134,8 @@ class _CartScreenState extends State<CartScreen>
                       background: stackBehindDismiss(),
                       key: ObjectKey(document),
                       onDismissed: (direction) {
-                        //firestore.collection(favorites).document().delete();
-                        deleteCart(context, document, index);
+                        firestore.collection('cart').document().delete();
+                        //deleteCart(context, index);
                       },
                       child: Padding(
                         padding: EdgeInsets.fromLTRB(0, 4, 0, 4),

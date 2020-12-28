@@ -161,8 +161,8 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin<Home> {
                   }
 
                   if (!snapshot.hasData || snapshot.data == null)
-                    return noDataFound();
-                  if (snapshot.data.isEmpty) return noDataFound();
+                    return noDataFoundYet();
+                  if (snapshot.data.isEmpty) return noDataFoundYet();
                   //final documents = snapshot.data;
                   return CarouselSlider.builder(
                     autoPlay: true,
@@ -442,8 +442,8 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin<Home> {
                   // final int dataCount =
                   //      snapshot.data.length;
                   if (!snapshot.hasData || snapshot.data == null)
-                    return noDataFound();
-                  if (snapshot.data.isEmpty) return noDataFound();
+                    return noDataFoundYet();
+                  if (snapshot.data.isEmpty) return noDataFoundYet();
                   return GridView.builder(
                     shrinkWrap: true,
                     primary: false,

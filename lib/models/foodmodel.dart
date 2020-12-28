@@ -132,12 +132,12 @@ Future<String> addtoCart(
   String token = await gettoken();
   try {
     //user = await auth.currentUser();
-    userid = token;
+    //userid = token;
     var date = DateTime.now().toString();
     // print(userid);
 
     if (userid != null) {
-      await firestore.collection('cart').doc(token).set({
+      await firestore.collection('cart').add({
         userID: userid,
         productTitle: prodtTitle,
         //  productVariation: prodtVariation,

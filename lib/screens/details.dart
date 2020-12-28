@@ -31,30 +31,45 @@ class ProductDetails extends StatefulWidget {
 }
 
 class _ProductDetailsState extends State<ProductDetails> {
-  int quantity;
+  int iquantity = 1;
   bool alreadySaved;
   int counter;
-  addToCart() async {
+
+  addToCart(String id, String name, int price, int quantity, String img) async {
     String response = await addtoCart(
-      userid: widget.id,
-      prodtTitle: widget.name,
-      // prodtVariation: document[productVariation],
-      prodtPrice: widget.price.toString(),
+      userid: id,
+      prodtTitle: name,
+      prodtPrice: price.toString(),
       itemQty: quantity.toString(),
-      photUrl: widget.img,
+      photUrl: img,
       // prodtImages: img,
     );
     if (response == successful) {
       print(response);
-      alreadySaved = _cartsaved.contains(widget.name);
+      print('$quantity');
+      alreadySaved = _cartsaved.contains(name);
+      print(alreadySaved);
       setState(() {
         if (alreadySaved) {
           _cartsaved.remove(widget.name);
         } else {
           _cartsaved.add(widget.name);
+          print(_cartsaved);
         }
       });
     }
+  }
+
+  void _incrementCounter() {
+    setState(() {
+      iquantity++;
+    });
+  }
+
+  void _decrementCounter() {
+    setState(() {
+      iquantity--;
+    });
   }
 
   @override
@@ -75,21 +90,21 @@ class _ProductDetailsState extends State<ProductDetails> {
         ),
         elevation: 0.0,
         actions: <Widget>[
-          IconButton(
-            icon: IconBadge(
-              icon: Icons.notifications,
-              size: 22.0,
-            ),
-            onPressed: () {
-              // Navigator.of(context).push(
-              //   MaterialPageRoute(
-              //     builder: (BuildContext context) {
-              //       return Notifications();
-              //     },
-              //   ),
-              // );
-            },
-          ),
+          // IconButton(
+          //   icon: IconBadge(
+          //     icon: Icons.notifications,
+          //     size: 22.0,
+          //   ),
+          //   onPressed: () {
+          //     Navigator.of(context).push(
+          //       MaterialPageRoute(
+          //         builder: (BuildContext context) {
+          //           return Notifications();
+          //         },
+          //       ),
+          //     );
+          //   },
+          // ),
         ],
       ),
       body: Padding(
@@ -167,7 +182,7 @@ class _ProductDetailsState extends State<ProductDetails> {
               child: Row(
                 children: <Widget>[
                   Text(
-                    "20 Pieces",
+                    "$iquantity Pieces",
                     style: TextStyle(
                       fontSize: 11.0,
                       fontWeight: FontWeight.w300,
@@ -273,10 +288,11 @@ class _ProductDetailsState extends State<ProductDetails> {
                       color: Colors.white,
                     ),
                   ),
-                  color: Colors.blue,
+                  color: Colors.purple,
                   onPressed: () {
-                    alreadySaved = !alreadySaved;
-                    addToCart();
+                    //alreadySaved = !alreadySaved;
+                    addToCart(widget.id, widget.name, widget.price, iquantity,
+                        widget.img);
                   },
                 )
               : RaisedButton(
@@ -288,9 +304,10 @@ class _ProductDetailsState extends State<ProductDetails> {
                   ),
                   color: Colors.blue,
                   onPressed: () {
-                    alreadySaved = !alreadySaved;
+                    // alreadySaved = !alreadySaved;
                     //  addedtocart = !addedtocart;
-                    addToCart();
+                    addToCart(widget.id, widget.name, widget.price, iquantity,
+                        widget.img);
                   },
                 )),
     );
