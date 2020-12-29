@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/services.dart';
+import 'dart:convert' as con;
 import 'package:shared_preferences/shared_preferences.dart';
 
 class Food {
@@ -31,7 +32,54 @@ class Food {
   }
 }
 
-List<Food> cartlist = [];
+class Cart {
+  String userID;
+  String created;
+  String productTitle;
+  String productPrice;
+  String itemQuantity;
+  String photoUrl;
+  //String tableId;
+  // String table;
+  Cart({
+    this.created,
+    this.itemQuantity,
+    this.photoUrl,
+    this.productPrice,
+    this.productTitle,
+    this.userID,
+    // this.table
+  });
+  Map<String, dynamic> toJson() => {
+        'userID': userID,
+        'photoUrl': photoUrl,
+        'productPrice': productPrice,
+        'itemQuantity': itemQuantity,
+        'productTitle': productTitle,
+        'created': created,
+      };
+  Cart.fromJson(Map<String, dynamic> data) {
+    userID = data['userID'];
+    photoUrl = data['photoUrl'];
+    productPrice = data['productPrice'];
+    created = data['created'];
+    itemQuantity = data['itemQuantity'];
+    productTitle = data['productTitle'];
+    // table = data['table'];
+  }
+
+  Cart.fromMap(Map<String, dynamic> data) {
+    userID = data['userID'];
+    photoUrl = data['photoUrl'];
+    productPrice = data['productPrice'];
+    created = data['created'];
+    itemQuantity = data['itemQuantity'];
+    productTitle = data['productTitle'];
+    // table = data['table'];
+  }
+}
+
+List<Cart> cartlist = [];
 List<Food> grilllist = [];
 List<Food> airfriedlist = [];
 List<Food> pepperedlist = [];
@@ -149,6 +197,61 @@ Future<String> addtoCart(
       print(userid);
       print('document added');
     }
+  } on Exception catch (e) {
+    return errorMSG(e.toString());
+  }
+  return userid == null ? errorMSG("Error") : successfulMSG();
+}
+
+@override
+Future<String> addtoCartpref(
+    {String userid,
+    String prodtTitle,
+    //  String prodtVariation,
+    String prodtPrice,
+    String itemQty,
+    String date,
+    String photUrl}) async {
+  print("$itemQty");
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+
+  //FirebaseUser user;
+  String token = await gettoken();
+  try {
+    //user = await auth.currentUser();
+    //userid = token;
+    var date = DateTime.now().toString();
+    // print(userid);
+    var item = {
+      "userID": userid,
+      "photoUrl": photUrl,
+      "productPrice": prodtPrice,
+      "created": date,
+      "itemQuantity": itemQty,
+      "productTitle": prodtTitle
+    };
+    Cart carted = Cart.fromMap(item);
+    cartlist.add(carted);
+    //print(cartlist.length);
+    prefs.setString('cartlist', con.json.encode(cartlist));
+    cartlist = (await con.json.decode(prefs.getString('cartlist')))
+        .map<Cart>((json) => Cart.fromJson(json))
+        .toList();
+    print(cartlist.length);
+
+    // if (userid != null) {
+    //   await firestore.collection('cart').add({
+    //     userID: userid,
+    //     productTitle: prodtTitle,
+    //     //  productVariation: prodtVariation,
+    //     productPrice: prodtPrice,
+    //     itemQuantity: itemQty,
+    //     photoUrl: photUrl,
+    //     created: date,
+    //   });
+    //   print(userid);
+    //   print('document added');
+    // }
   } on Exception catch (e) {
     return errorMSG(e.toString());
   }

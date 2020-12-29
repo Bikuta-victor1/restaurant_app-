@@ -12,9 +12,15 @@ class AppProvider extends ChangeNotifier {
   ThemeData theme = Constants.lightTheme;
   Key key = UniqueKey();
   GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
+  int cartlength = 0;
 
   void setKey(value) {
     key = value;
+    notifyListeners();
+  }
+
+  void setcartlength(value) {
+    cartlength = value;
     notifyListeners();
   }
 

@@ -25,13 +25,14 @@ class _SplashScreenState extends State<SplashScreen> {
     if (Platform.isIOS) {
       // import 'dart:io'
       var iosDeviceInfo = await deviceInfo.iosInfo;
-      prefs.setString('deviceinfo', iosDeviceInfo.toString());
-      print('${iosDeviceInfo}');
+      prefs.setString(
+          'deviceinfo', iosDeviceInfo.identifierForVendor.toString());
+      print('${iosDeviceInfo.identifierForVendor}');
       return iosDeviceInfo.identifierForVendor; // unique ID on iOS
     } else {
       var androidDeviceInfo = await deviceInfo.androidInfo;
-      prefs.setString('deviceinfo', androidDeviceInfo.toString());
-      print('${androidDeviceInfo}');
+      prefs.setString('deviceinfo', androidDeviceInfo.androidId.toString());
+      print('${androidDeviceInfo.androidId}');
       return androidDeviceInfo.androidId; // unique ID on Android
     }
   }
@@ -43,6 +44,7 @@ class _SplashScreenState extends State<SplashScreen> {
     var token = prefs.getString('deviceinfo');
 
     if (token != null) {
+      print('${token}');
       Navigator.of(context).push(
         MaterialPageRoute(
           builder: (BuildContext context) {

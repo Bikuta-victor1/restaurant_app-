@@ -4,8 +4,16 @@ import 'package:menuapp/models/foodmodel.dart';
 import 'package:menuapp/screens/checkout.dart';
 import 'package:menuapp/util/const.dart';
 import 'package:menuapp/util/foods.dart';
+import 'dart:convert' as con;
 import 'package:menuapp/widgets/cart_item.dart';
 import 'package:menuapp/widgets/smooth_star_rating.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
+import '../models/foodmodel.dart';
+import '../models/foodmodel.dart';
+import '../models/foodmodel.dart';
+import '../models/foodmodel.dart';
+import '../providers/app_provider.dart';
 
 class CartScreen extends StatefulWidget {
   @override
@@ -103,147 +111,160 @@ class _CartScreenState extends State<CartScreen>
     return Scaffold(
       extendBody: true,
       body: Padding(
-          padding: EdgeInsets.fromLTRB(10.0, 0, 10.0, 0),
-          child: FutureBuilder(
-              future: _data,
-              builder: (context, snapshot) {
-                if (!snapshot.hasData) {
-                  //getTotoalCount();
-                  return noDataFound();
-                }
-
-                final int dataCount = snapshot.data.documents.length;
-                if (dataCount == 0) {
-                  return noDataFound();
-                }
-
-                return ListView.builder(
-                  itemCount: dataCount,
-                  itemBuilder: (context, index) {
-                    n = dataCount;
-                    price = double.parse(
-                        snapshot.data.documents[index][productPrice]);
-                    quantity = double.parse(
-                        snapshot.data.documents[index][itemQuantity]);
-                    String productImage =
-                        snapshot.data.documents[index][photoUrl] as String;
-                    final DocumentSnapshot document =
-                        snapshot.data.documents[index];
-                    //Map food = foods[index];
-                    return Dismissible(
-                      background: stackBehindDismiss(),
-                      key: ObjectKey(document),
-                      onDismissed: (direction) {
-                        firestore.collection('cart').document().delete();
-                        //deleteCart(context, index);
-                      },
-                      child: Padding(
-                        padding: EdgeInsets.fromLTRB(0, 4, 0, 4),
-                        child: InkWell(
-                          onTap: () {
-                            // Navigator.of(context).push(
-                            //   MaterialPageRoute(
-                            //     builder: (BuildContext context) {
-                            //       return ProductDetails(
-                            //         id: snapshot.data.documents[index][userID],
-                            //         description: description,
-                            //         name: name,
-                            //         img: snapshot.data.documents[index]
-                            //             [photoUrl],
-                            //         price: price,
-                            //       );
-                            //     },
-                            //   ),
-                            // );
-                          },
-                          child: Row(
-                            children: <Widget>[
-                              Padding(
-                                padding:
-                                    EdgeInsets.only(left: 0.0, right: 10.0),
-                                child: Container(
-                                  height:
-                                      MediaQuery.of(context).size.width / 3.5,
-                                  width: MediaQuery.of(context).size.width / 3,
-                                  child: ClipRRect(
-                                    borderRadius: BorderRadius.circular(8.0),
-                                    child: Image.network(
-                                      document[photoUrl],
-                                      fit: BoxFit.cover,
-                                    ),
+        padding: EdgeInsets.fromLTRB(10.0, 0, 10.0, 0),
+        child: cartlist.length != 0
+            ? ListView.builder(
+                itemCount: cartlist.length,
+                itemBuilder: (context, index) {
+                  // n = dataCount;
+                  // price = double.parse(
+                  //     snapshot.data.documents[index][productPrice]);
+                  // quantity = double.parse(
+                  //     snapshot.data.documents[index][itemQuantity]);
+                  // String productImage =
+                  //     snapshot.data.documents[index][photoUrl] as String;
+                  // final DocumentSnapshot document =
+                  //     snapshot.data.documents[index];
+                  //Map food = foods[index];
+                  return Dismissible(
+                    background: stackBehindDismiss(),
+                    key: ObjectKey(cartlist[index].created),
+                    onDismissed: (direction) async {
+                      SharedPreferences prefs =
+                          await SharedPreferences.getInstance();
+                      // firestore.collection('cart').document().delete();
+                      //deleteCart(context, index);
+                      cartlist.removeWhere((element) =>
+                          element.created == cartlist[index].created);
+                      prefs.setString('cartlist', con.json.encode(cartlist));
+                      cartlist =
+                          (await con.json.decode(prefs.getString('cartlist')))
+                              .map<Cart>((json) => Cart.fromJson(json))
+                              .toList();
+                      print(cartlist.length);
+                      AppProvider().setcartlength(cartlist.length);
+                      setState(() {});
+                    },
+                    child: Padding(
+                      padding: EdgeInsets.fromLTRB(0, 4, 0, 4),
+                      child: InkWell(
+                        onTap: () {
+                          // Navigator.of(context).push(
+                          //   MaterialPageRoute(
+                          //     builder: (BuildContext context) {
+                          //       return ProductDetails(
+                          //         id: snapshot.data.documents[index][userID],
+                          //         description: description,
+                          //         name: name,
+                          //         img: snapshot.data.documents[index]
+                          //             [photoUrl],
+                          //         price: price,
+                          //       );
+                          //     },
+                          //   ),
+                          // );
+                        },
+                        child: Row(
+                          children: <Widget>[
+                            Padding(
+                              padding: EdgeInsets.only(left: 0.0, right: 10.0),
+                              child: Container(
+                                height: MediaQuery.of(context).size.width / 3.5,
+                                width: MediaQuery.of(context).size.width / 3,
+                                child: ClipRRect(
+                                  borderRadius: BorderRadius.circular(8.0),
+                                  child: Image.network(
+                                    cartlist[index].photoUrl,
+                                    fit: BoxFit.cover,
                                   ),
                                 ),
                               ),
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                mainAxisSize: MainAxisSize.min,
-                                children: <Widget>[
-                                  Text(
-                                    "${document[productTitle]}",
-                                    style: TextStyle(
-//                    fontSize: 15,
-                                      fontWeight: FontWeight.w900,
+                            ),
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              mainAxisSize: MainAxisSize.min,
+                              children: <Widget>[
+                                Text(
+                                  "${cartlist[index].productTitle}",
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.w900,
+                                  ),
+                                ),
+                                SizedBox(height: 10.0),
+                                Row(
+                                  children: <Widget>[
+                                    SmoothStarRating(
+                                      starCount: 1,
+                                      color: Constants.ratingBG,
+                                      allowHalfRating: true,
+                                      rating: 5.0,
+                                      size: 12.0,
                                     ),
-                                  ),
-                                  SizedBox(height: 10.0),
-                                  Row(
-                                    children: <Widget>[
-                                      SmoothStarRating(
-                                        starCount: 1,
-                                        color: Constants.ratingBG,
-                                        allowHalfRating: true,
-                                        rating: 5.0,
-                                        size: 12.0,
+                                    SizedBox(width: 6.0),
+                                    Text(
+                                      "4.5 ",
+                                      style: TextStyle(
+                                        fontSize: 12,
+                                        fontWeight: FontWeight.w300,
                                       ),
-                                      SizedBox(width: 6.0),
-                                      Text(
-                                        "4.5 ",
-                                        style: TextStyle(
-                                          fontSize: 12,
-                                          fontWeight: FontWeight.w300,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                  SizedBox(height: 10.0),
-                                  Row(
-                                    children: <Widget>[
-                                      Text(
-                                        "${int.parse(document[itemQuantity])} Pieces",
-                                        style: TextStyle(
-                                          fontSize: 11.0,
-                                          fontWeight: FontWeight.w300,
-                                        ),
-                                      ),
-                                      SizedBox(width: 10.0),
-                                      Text(
-                                        "N${double.parse(document[productPrice])}",
-                                        style: TextStyle(
-                                          fontSize: 14.0,
-                                          fontWeight: FontWeight.w900,
-                                          color: Theme.of(context).accentColor,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                  SizedBox(height: 10.0),
-                                  Text(
-                                    "Quantity: ${int.parse(document[itemQuantity])}",
-                                    style: TextStyle(
-                                      fontSize: 11.0,
-                                      fontWeight: FontWeight.w300,
                                     ),
+                                  ],
+                                ),
+                                SizedBox(height: 10.0),
+                                Row(
+                                  children: <Widget>[
+                                    Text(
+                                      "${int.parse(cartlist[index].itemQuantity)} Pieces",
+                                      style: TextStyle(
+                                        fontSize: 11.0,
+                                        fontWeight: FontWeight.w300,
+                                      ),
+                                    ),
+                                    SizedBox(width: 10.0),
+                                    Text(
+                                      "N${double.parse(cartlist[index].productPrice)}",
+                                      style: TextStyle(
+                                        fontSize: 14.0,
+                                        fontWeight: FontWeight.w900,
+                                        color: Theme.of(context).accentColor,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                SizedBox(height: 10.0),
+                                Text(
+                                  "Quantity: ${int.parse(cartlist[index].itemQuantity)}",
+                                  style: TextStyle(
+                                    fontSize: 11.0,
+                                    fontWeight: FontWeight.w300,
                                   ),
-                                ],
-                              ),
-                            ],
-                          ),
+                                ),
+                              ],
+                            ),
+                          ],
                         ),
                       ),
-                    );
-                  },
-                );
-              })),
+                    ),
+                  );
+                },
+              )
+            : noDataFound(),
+        // FutureBuilder(
+        //     future: _data,
+        //     builder: (context, snapshot) {
+        //       if (!snapshot.hasData) {
+        //         //getTotoalCount();
+        //         return noDataFound();
+        //       }
+
+        //       final int dataCount = snapshot.data.documents.length;
+        //       if (dataCount == 0) {
+        //         return noDataFound();
+        //       }
+
+        //       return
+        //     })
+      ),
       floatingActionButton: FloatingActionButton(
         tooltip: "Checkout",
         onPressed: () {

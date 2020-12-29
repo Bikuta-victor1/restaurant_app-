@@ -5,6 +5,9 @@ import 'package:menuapp/util/const.dart';
 import 'package:menuapp/widgets/badge.dart';
 import 'package:menuapp/widgets/smooth_star_rating.dart';
 
+import '../models/foodmodel.dart';
+import '../models/foodmodel.dart';
+
 final Set<dynamic> _cartsaved = Set<dynamic>();
 
 class ProductDetails extends StatefulWidget {
@@ -36,7 +39,7 @@ class _ProductDetailsState extends State<ProductDetails> {
   int counter;
 
   addToCart(String id, String name, int price, int quantity, String img) async {
-    String response = await addtoCart(
+    String response = await addtoCartpref(
       userid: id,
       prodtTitle: name,
       prodtPrice: price.toString(),
@@ -44,20 +47,21 @@ class _ProductDetailsState extends State<ProductDetails> {
       photUrl: img,
       // prodtImages: img,
     );
-    if (response == successful) {
-      print(response);
-      print('$quantity');
-      alreadySaved = _cartsaved.contains(name);
-      print(alreadySaved);
-      setState(() {
-        if (alreadySaved) {
-          _cartsaved.remove(widget.name);
-        } else {
-          _cartsaved.add(widget.name);
-          print(_cartsaved);
-        }
-      });
-    }
+    // if (response == successful) {
+    //   print(response);
+    //   print('$quantity');
+    //   alreadySaved = cartlist
+    //       .contains(cartlist.where((element) => element.productTitle == name));
+    //   print(alreadySaved);
+    //   setState(() {
+    //     if (alreadySaved) {
+    //       cartlist.remove(widget.name);
+    //     } else {
+    //       _cartsaved.add(widget.name);
+    //       print(_cartsaved);
+    //     }
+    //   });
+    // }
   }
 
   void _incrementCounter() {
