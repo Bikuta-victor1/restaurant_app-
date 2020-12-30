@@ -1,4 +1,6 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:menuapp/models/foodmodel.dart';
 import 'package:menuapp/util/const.dart';
 import 'package:menuapp/util/foods.dart';
 import 'package:menuapp/widgets/smooth_star_rating.dart';
@@ -8,9 +10,62 @@ class SearchScreen extends StatefulWidget {
   _SearchScreenState createState() => _SearchScreenState();
 }
 
+// void getData() {
+//   Firestore.instance
+//       .collection("Tier-1")
+//       .where("searchKeywords", arrayContains: name)
+//       .snapshots()
+//       .then((querySnapshot) {
+//     querySnapshot.documents.forEach((result) {
+//       if (result.exists) {
+//         re(result.data);
+//       } else {
+//         Firestore.instance
+//             .collectionGroup("Tier-2")
+//             .where("name", isEqualTo: "peter")
+//             .getDocuments()
+//             .then((querySnapshot) {
+//           querySnapshot.documents.forEach((result) {
+//             if (result.exists) {
+//               print(result.data);
+//             } else {
+//               Firestore.instance
+//                   .collectionGroup("Tier-3")
+//                   .where("name", isEqualTo: "peter")
+//                   .getDocuments()
+//                   .then((querySnapshot) {
+//                 querySnapshot.documents.forEach((result) {
+//                   if (result.exists) {
+//                     print(result.data);
+//                   } else {}
+//                 });
+//               });
+//             }
+//           });
+//         });
+//       }
+//     });
+//   });
+// }
+
 class _SearchScreenState extends State<SearchScreen>
     with AutomaticKeepAliveClientMixin<SearchScreen> {
   final TextEditingController _searchControl = new TextEditingController();
+  //String name = '';
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+  }
+
+  @override
+  void didChangeDependencies() async {
+    // TODO: implement didChangeDependencies
+    mydishes = await getalldishes();
+    print(mydishes);
+    super.didChangeDependencies();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -59,6 +114,16 @@ class _SearchScreenState extends State<SearchScreen>
                   ),
                 ),
                 maxLines: 1,
+                onTap: () {
+                  FocusManager.instance.primaryFocus.unfocus();
+                  showSearch(
+                      context: context, delegate: _SearchAppBarDelegate());
+                },
+                // onChanged: (val) {
+                //   setState(() {
+                //     name = val;
+                //   });
+                // },
                 controller: _searchControl,
               ),
             ),
@@ -74,16 +139,140 @@ class _SearchScreenState extends State<SearchScreen>
               ),
             ),
           ),
-          ListView.builder(
+          // StreamBuilder<QuerySnapshot>(
+          //     stream: (name != "" && name != null)
+          //         ? Firestore.instance
+          //             .collection('grill-list')
+          //             .where("searchKeywords", arrayContains: name)
+          //             .snapshots()
+          //         : Firestore.instance
+          //             .collection('grill-list')
+          //             .where("searchKeywords", arrayContains: name))
+//           ListView.builder(
+//             shrinkWrap: true,
+//             primary: false,
+//             physics: NeverScrollableScrollPhysics(),
+//             itemCount: foods == null ? 0 : foods.length,
+//             itemBuilder: (BuildContext context, int index) {
+//               Map food = foods[index];
+//               return ListTile(
+//                 title: Text(
+//                   "${food['name']}",
+//                   style: TextStyle(
+// //                    fontSize: 15,
+//                     fontWeight: FontWeight.w900,
+//                   ),
+//                 ),
+//                 leading: CircleAvatar(
+//                   radius: 25.0,
+//                   backgroundImage: AssetImage(
+//                     "${food['img']}",
+//                   ),
+//                 ),
+//                 trailing: Text(r"$10"),
+//                 subtitle: Row(
+//                   children: <Widget>[
+//                     SmoothStarRating(
+//                       starCount: 1,
+//                       color: Constants.ratingBG,
+//                       allowHalfRating: true,
+//                       rating: 5.0,
+//                       size: 12.0,
+//                     ),
+//                     SizedBox(width: 6.0),
+//                     Text(
+//                       "5.0 (23 Reviews)",
+//                       style: TextStyle(
+//                         fontSize: 12,
+//                         fontWeight: FontWeight.w300,
+//                       ),
+//                     ),
+//                   ],
+//                 ),
+//                 onTap: () {},
+//               );
+//             },
+//           ),
+//           SizedBox(height: 30),
+        ],
+      ),
+    );
+  }
+
+  @override
+  bool get wantKeepAlive => true;
+}
+
+class _SearchAppBarDelegate extends SearchDelegate<String> {
+  @override
+  List<Widget> buildActions(BuildContext context) {
+    return [
+      IconButton(
+        icon: Icon(Icons.close),
+        onPressed: () {
+          close(context, null);
+        },
+      ),
+    ];
+  }
+
+  @override
+  Widget buildLeading(BuildContext context) {
+    return IconButton(
+      icon: Icon(Icons.arrow_back_ios),
+      onPressed: () {
+        close(context, null);
+      },
+    );
+  }
+
+  @override
+  Widget buildResults(BuildContext context) {
+    // return Center(
+    //     query,
+    //     style: TextStyle(
+    //         color: Colors.blue, fontWeight: FontWeight.w900, fontSize: 30),
+    //   ),
+    // );
+  }
+
+  @override
+  Widget buildSuggestions(BuildContext context) {
+    int getlength(final suggestions) {
+      if (suggestions.length >= 5 && suggestions == searchlist) {
+        return 5;
+      } else {
+        return suggestions.length;
+      }
+    }
+
+    suggestionList = query.isEmpty
+        ? alldishes
+        : alldishes
+            .where((element) =>
+                element.name.toUpperCase().startsWith(query.toUpperCase()))
+            .toList();
+    return query.isNotEmpty && suggestionList.isEmpty
+        ? Padding(
+            padding: const EdgeInsets.all(12.0),
+            child: Text(
+              "No Result Found",
+              style: TextStyle(
+                fontSize: 15.0,
+                color: Colors.black,
+              ),
+            ),
+          )
+        : ListView.builder(
             shrinkWrap: true,
             primary: false,
             physics: NeverScrollableScrollPhysics(),
-            itemCount: foods == null ? 0 : foods.length,
+            itemCount: getlength(suggestionList),
             itemBuilder: (BuildContext context, int index) {
-              Map food = foods[index];
+              //Map food = foods[index];
               return ListTile(
                 title: Text(
-                  "${food['name']}",
+                  "${suggestionList[index].name}",
                   style: TextStyle(
 //                    fontSize: 15,
                     fontWeight: FontWeight.w900,
@@ -91,11 +280,11 @@ class _SearchScreenState extends State<SearchScreen>
                 ),
                 leading: CircleAvatar(
                   radius: 25.0,
-                  backgroundImage: AssetImage(
-                    "${food['img']}",
+                  backgroundImage: NetworkImage(
+                    suggestionList[index].photourl,
                   ),
                 ),
-                trailing: Text(r"$10"),
+                trailing: Text("${suggestionList[index].price}"),
                 subtitle: Row(
                   children: <Widget>[
                     SmoothStarRating(
@@ -107,7 +296,7 @@ class _SearchScreenState extends State<SearchScreen>
                     ),
                     SizedBox(width: 6.0),
                     Text(
-                      "5.0 (23 Reviews)",
+                      "${suggestionList[index].totalrating} (23 Likes)",
                       style: TextStyle(
                         fontSize: 12,
                         fontWeight: FontWeight.w300,
@@ -118,13 +307,32 @@ class _SearchScreenState extends State<SearchScreen>
                 onTap: () {},
               );
             },
-          ),
-          SizedBox(height: 30),
-        ],
-      ),
-    );
+          );
+    // ListView.builder(
+    //     itemBuilder: (context, index) {
+    //       return ListTile(
+    //         title: Text(suggestionList[index].title),
+    //         onTap: () {
+    //           showResults(context);
+    //         },
+    //       );
+    //     },
+    //     itemCount: suggestionList.length,
+    //   );
   }
-
-  @override
-  bool get wantKeepAlive => true;
 }
+
+// class Item {
+//   final String title;
+
+//   Item({@required this.title});
+// }
+
+// List<Item> items = [
+//   Item(title: 'apple'),
+//   Item(title: 'mango'),
+//   Item(title: 'banana'),
+//   Item(title: 'pineapple'),
+//   Item(title: 'orange'),hi
+//   Item(title: 'oranges'),
+// ];

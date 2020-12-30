@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:menuapp/util/foods.dart';
+import 'package:menuapp/widgets/cat1_product.dart';
 import 'package:menuapp/widgets/cat_product.dart';
 
 class SideScreen extends StatefulWidget {
@@ -74,12 +75,12 @@ class _SideScreenState extends State<SideScreen> {
               itemCount: 4,
               itemBuilder: (BuildContext context, int index) {
                 Map food = foods[index];
-                return CatProduct(
+                return CatProduct1(
                   img: food['img'],
                   name: food['name'],
-                  // inCart: food['inCart'],
-                  //   isFav: false,
-                  //rating: 3,
+                  id: food['id'],
+                  price: food['price'],
+                  description: food['description'],
                 );
               },
             ),
@@ -107,12 +108,12 @@ class _SideScreenState extends State<SideScreen> {
               itemCount: 4,
               itemBuilder: (BuildContext context, int index) {
                 Map food = foods[index];
-                return CatProduct(
+                return CatProduct1(
                   img: food['img'],
                   name: food['name'],
-                  // inCart: food['inCart'],
-                  // isFav: false,
-                  //rating: 3
+                  id: food['id'],
+                  price: food['price'],
+                  description: food['description'],
                 );
               },
             ),

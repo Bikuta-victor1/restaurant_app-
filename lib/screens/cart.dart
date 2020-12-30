@@ -1,17 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:menuapp/models/foodmodel.dart';
-import 'package:menuapp/screens/checkout.dart';
 import 'package:menuapp/util/const.dart';
-import 'package:menuapp/util/foods.dart';
 import 'dart:convert' as con;
-import 'package:menuapp/widgets/cart_item.dart';
 import 'package:menuapp/widgets/smooth_star_rating.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import '../models/foodmodel.dart';
-import '../models/foodmodel.dart';
-import '../models/foodmodel.dart';
 import '../models/foodmodel.dart';
 import '../providers/app_provider.dart';
 
@@ -25,6 +19,7 @@ class _CartScreenState extends State<CartScreen>
   List<bool> inputs = List<bool>();
   bool isChecked = false;
   int carttCount;
+  int index;
   int n;
   double price = 0;
   double quantity = 0;
@@ -57,11 +52,11 @@ class _CartScreenState extends State<CartScreen>
     userID = await gettoken();
     _data = getUserCart(userID);
 
-    for (int i = 0; i < 10000; i++) {
-      inputs.add(true);
-      cartItems.add(i);
-      getTotoalCount();
-    }
+    // for (int i = 0; i < 10000; i++) {
+    //   inputs.add(true);
+    //   cartItems.add(i);
+    //   getTotoalCount();
+    // }
 
     super.didChangeDependencies();
   }
@@ -116,16 +111,6 @@ class _CartScreenState extends State<CartScreen>
             ? ListView.builder(
                 itemCount: cartlist.length,
                 itemBuilder: (context, index) {
-                  // n = dataCount;
-                  // price = double.parse(
-                  //     snapshot.data.documents[index][productPrice]);
-                  // quantity = double.parse(
-                  //     snapshot.data.documents[index][itemQuantity]);
-                  // String productImage =
-                  //     snapshot.data.documents[index][photoUrl] as String;
-                  // final DocumentSnapshot document =
-                  //     snapshot.data.documents[index];
-                  //Map food = foods[index];
                   return Dismissible(
                     background: stackBehindDismiss(),
                     key: ObjectKey(cartlist[index].created),
@@ -249,21 +234,6 @@ class _CartScreenState extends State<CartScreen>
                 },
               )
             : noDataFound(),
-        // FutureBuilder(
-        //     future: _data,
-        //     builder: (context, snapshot) {
-        //       if (!snapshot.hasData) {
-        //         //getTotoalCount();
-        //         return noDataFound();
-        //       }
-
-        //       final int dataCount = snapshot.data.documents.length;
-        //       if (dataCount == 0) {
-        //         return noDataFound();
-        //       }
-
-        //       return
-        //     })
       ),
       floatingActionButton: FloatingActionButton(
         tooltip: "Checkout",
@@ -271,7 +241,13 @@ class _CartScreenState extends State<CartScreen>
           // Navigator.of(context).push(
           //   MaterialPageRoute(
           //     builder: (BuildContext context) {
-          //       return Checkout();
+          //       return ProductDetails(
+          //         id: id.toString(),
+          //         description: description,
+          //         name: cartlist[index].productTitle,
+          //         img: img,
+          //         price: price,
+          //       );
           //     },
           //   ),
           // );

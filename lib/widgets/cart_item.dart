@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:menuapp/screens/details.dart';
 import 'package:menuapp/util/const.dart';
 import 'package:menuapp/widgets/smooth_star_rating.dart';
 
@@ -24,13 +23,20 @@ class CartItem extends StatelessWidget {
       padding: EdgeInsets.fromLTRB(0, 4, 0, 4),
       child: InkWell(
         onTap: () {
-          Navigator.of(context).push(
-            MaterialPageRoute(
-              builder: (BuildContext context) {
-                return ProductDetails();
-              },
-            ),
-          );
+          // Navigator.of(context).push(
+          //   MaterialPageRoute(
+          //     builder: (BuildContext context) {
+          //       return ProductDetails(
+          //           id: id.toString(),
+          //           description: description,
+          //           name: name,
+          //           img: img,
+          //           price: price,
+          //           rating : rating;
+          //           );
+          //     },
+          //   ),
+          // );
         },
         child: Row(
           children: <Widget>[

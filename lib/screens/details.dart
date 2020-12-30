@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:menuapp/models/foodmodel.dart';
-import 'package:menuapp/screens/notifications.dart';
+import 'package:menuapp/screens/cart.dart';
 import 'package:menuapp/util/const.dart';
 import 'package:menuapp/widgets/badge.dart';
+import 'dart:convert' as con;
 import 'package:menuapp/widgets/smooth_star_rating.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
-import '../models/foodmodel.dart';
 import '../models/foodmodel.dart';
 
 final Set<dynamic> _cartsaved = Set<dynamic>();
@@ -14,12 +15,8 @@ class ProductDetails extends StatefulWidget {
   final String id;
   final String name;
   final String img;
-  //final bool inCart;
   final String description;
   final int price;
-  // bool inCart;
-  //final int rating;
-  // final String table;
 
   ProductDetails({
     Key key,
@@ -37,6 +34,8 @@ class _ProductDetailsState extends State<ProductDetails> {
   int iquantity = 1;
   bool alreadySaved;
   int counter;
+  String button = 'ADD TO CART';
+  Color _color = Colors.blue;
 
   addToCart(String id, String name, int price, int quantity, String img) async {
     String response = await addtoCartpref(
@@ -63,6 +62,33 @@ class _ProductDetailsState extends State<ProductDetails> {
     //   });
     // }
   }
+
+  // removeFromCart(
+  //     String id, String name, int price, int quantity, String img) async {
+  //   String response = await removefromCartpref(
+  //     userid: id,
+  //     prodtTitle: name,
+  //     prodtPrice: price.toString(),
+  //     itemQty: quantity.toString(),
+  //     photUrl: img,
+  //     // prodtImages: img,
+  //   );
+  //   // if (response == successful) {
+  //   //   print(response);
+  //   //   print('$quantity');
+  //   //   alreadySaved = cartlist
+  //   //       .contains(cartlist.where((element) => element.productTitle == name));
+  //   //   print(alreadySaved);
+  //   //   setState(() {
+  //   //     if (alreadySaved) {
+  //   //       cartlist.remove(widget.name);
+  //   //     } else {
+  //   //       _cartsaved.add(widget.name);
+  //   //       print(_cartsaved);
+  //   //     }
+  //   //   });
+  //   // }
+  // }
 
   void _incrementCounter() {
     setState(() {
@@ -94,21 +120,21 @@ class _ProductDetailsState extends State<ProductDetails> {
         ),
         elevation: 0.0,
         actions: <Widget>[
-          // IconButton(
-          //   icon: IconBadge(
-          //     icon: Icons.notifications,
-          //     size: 22.0,
-          //   ),
-          //   onPressed: () {
-          //     Navigator.of(context).push(
-          //       MaterialPageRoute(
-          //         builder: (BuildContext context) {
-          //           return Notifications();
-          //         },
-          //       ),
-          //     );
-          //   },
-          // ),
+          IconButton(
+            icon: IconBadge(
+              icon: Icons.shopping_cart_outlined,
+              size: 22.0,
+            ),
+            onPressed: () {
+              Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (BuildContext context) {
+                    return CartScreen();
+                  },
+                ),
+              );
+            },
+          ),
         ],
       ),
       body: Padding(
@@ -224,6 +250,38 @@ class _ProductDetailsState extends State<ProductDetails> {
               ),
             ),
             SizedBox(height: 20.0),
+            Text('Quantity',
+                style: TextStyle(
+                  fontSize: 16.0,
+                  fontWeight: FontWeight.w700,
+                )),
+            SizedBox(
+              height: 10.0,
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: <Widget>[
+                new CircleAvatar(
+                  child: IconButton(
+                    icon: Icon(Icons.remove),
+                    onPressed: () => _decrementCounter(),
+                  ),
+                ),
+                Text(
+                  '$iquantity',
+                  style: TextStyle(
+                    fontSize: 16.0,
+                    fontWeight: FontWeight.w400,
+                  ),
+                ),
+                CircleAvatar(
+                  child: IconButton(
+                    icon: Icon(Icons.add),
+                    onPressed: () => _incrementCounter(),
+                  ),
+                ),
+              ],
+            ),
             // Text(
             //   "Reviews",
             //   style: TextStyle(
@@ -284,36 +342,41 @@ class _ProductDetailsState extends State<ProductDetails> {
       ),
       bottomNavigationBar: Container(
           height: 50.0,
-          child: alreadySaved
-              ? RaisedButton(
-                  child: Text(
-                    "ADDED TO CART",
-                    style: TextStyle(
-                      color: Colors.white,
-                    ),
-                  ),
-                  color: Colors.purple,
-                  onPressed: () {
-                    //alreadySaved = !alreadySaved;
-                    addToCart(widget.id, widget.name, widget.price, iquantity,
-                        widget.img);
-                  },
-                )
-              : RaisedButton(
-                  child: Text(
-                    "ADD TO CART",
-                    style: TextStyle(
-                      color: Colors.white,
-                    ),
-                  ),
-                  color: Colors.blue,
-                  onPressed: () {
-                    // alreadySaved = !alreadySaved;
-                    //  addedtocart = !addedtocart;
-                    addToCart(widget.id, widget.name, widget.price, iquantity,
-                        widget.img);
-                  },
-                )),
+          child: RaisedButton(
+            child: Text(
+              button,
+              style: TextStyle(
+                color: Colors.white,
+              ),
+            ),
+            color: _color,
+            onPressed: () async {
+              if (button == 'ADD TO CART') {
+                setState(() {
+                  button = 'ADDED TO CART';
+                  _color = Colors.red;
+                });
+                addToCart(widget.id, widget.name, widget.price, iquantity,
+                    widget.img);
+              } else {
+                SharedPreferences prefs = await SharedPreferences.getInstance();
+                cartlist.removeWhere(
+                    (element) => element.productTitle == widget.name);
+                prefs.setString('cartlist', con.json.encode(cartlist));
+                cartlist = (await con.json.decode(prefs.getString('cartlist')))
+                    .map<Cart>((json) => Cart.fromJson(json))
+                    .toList();
+                print(cartlist.length);
+
+                // removeFromCart(widget.id, widget.name, widget.price, iquantity,
+                //     widget.img);
+                setState(() {
+                  button = 'ADD TO CART';
+                  _color = Colors.blue;
+                });
+              }
+            },
+          )),
     );
   }
 }

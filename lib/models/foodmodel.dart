@@ -6,29 +6,30 @@ import 'package:shared_preferences/shared_preferences.dart';
 class Food {
   String name;
   String photourl;
-  int rating;
-  bool isFav;
-  bool inCart;
+  int totalrating;
+  String description;
+  int price;
+  int id;
   //String tableId;
   // String table;
-  Food({
-    this.name,
-    this.photourl,
-    this.rating,
-    this.isFav,
-    this.inCart,
-    //  this.tableId
-    // this.table
-  });
+  Food(
+      {this.name,
+      this.photourl,
+      this.totalrating,
+      this.description,
+      this.price,
+      this.id
+      //  this.tableId
+      // this.table
+      });
 
   Food.fromMap(Map<String, dynamic> data) {
     name = data['name'];
     photourl = data['photourl'];
-    rating = data['totalrating'];
-    isFav = data['isFav'];
-    inCart = data['inCart'];
-    // tableId = data['tableId'];
-    // table = data['table'];
+    totalrating = data['totalrating'];
+    description = data['description'];
+    price = data['price'];
+    id = data['id'];
   }
 }
 
@@ -80,13 +81,16 @@ class Cart {
 }
 
 List<Cart> cartlist = [];
-List<Food> grilllist = [];
-List<Food> airfriedlist = [];
-List<Food> pepperedlist = [];
-List<Food> nativelist = [];
-List<Food> souplist = [];
-List<Food> chipslist = [];
-List<Food> frieslist = [];
+List<Food> alldishes = [];
+List<Food> suggestionList = [];
+List<Food> searchlist = [];
+List<Food> mydishes = [];
+// List<Food> airfriedlist = [];
+// List<Food> pepperedlist = [];
+// List<Food> nativelist = [];
+// List<Food> souplist = [];
+// List<Food> chipslist = [];
+// List<Food> frieslist = [];
 bool addedtocart = false;
 // bool isGrills = false;
 // bool isAirFried = false;
@@ -104,26 +108,20 @@ String successful = 'Successful';
 
 FirebaseFirestore firestore = FirebaseFirestore.instance;
 
-// Future<List> getairfriedlist( String token ) async {
-//     airfriedlist = [];
-//     QuerySnapshot grdocumentReference = await FirebaseFirestore.instance
-//         // .doc("grill-list")
-//         .collection("air-fried-list")
-//         .orderBy('timeupload', descending: true)
-//         .get();
-//     await grdocumentReference.docs.forEach((document) {
-//       Food airfriedlists = Food.fromMap(document.data());
-//       airfriedlist.add(airfriedlists);
-//       print(airfriedlist);
-//     });
-
-//     await airfriedlist.forEach((element) async {
-//       if (element.inCart == true) {
-//         cartlist.add(element);
-//       }
-//     });
-//     return airfriedlist;
-//   }
+Future<List> getalldishes() async {
+  alldishes = [];
+  QuerySnapshot documentReference = await FirebaseFirestore.instance
+      // .doc("grill-list")
+      .collection("grill-list")
+      // .orderBy('timeupload', descending: true)
+      .get();
+  await documentReference.docs.forEach((document) {
+    Food airfriedlists = Food.fromMap(document.data());
+    alldishes.add(airfriedlists);
+    print(alldishes);
+  });
+  return alldishes;
+}
 
 Future<String> gettoken() async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -258,6 +256,60 @@ Future<String> addtoCartpref(
   return userid == null ? errorMSG("Error") : successfulMSG();
 }
 
+Future<String> removefromCartpref(
+    {String userid,
+    String prodtTitle,
+    //  String prodtVariation,
+    String prodtPrice,
+    String itemQty,
+    String date,
+    String photUrl}) async {
+  //print("$itemQty");
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+
+  //FirebaseUser user;
+  String token = await gettoken();
+  try {
+    //user = await auth.currentUser();
+    //userid = token;
+    var date = DateTime.now().toString();
+    // print(userid);
+    var item = {
+      "userID": userid,
+      "photoUrl": photUrl,
+      "productPrice": prodtPrice,
+      "created": date,
+      "itemQuantity": itemQty,
+      "productTitle": prodtTitle
+    };
+    Cart carted = Cart.fromMap(item);
+    cartlist.remove(carted);
+    //print(cartlist.length);
+    prefs.setString('cartlist', con.json.encode(cartlist));
+    cartlist = (await con.json.decode(prefs.getString('cartlist')))
+        .map<Cart>((json) => Cart.fromJson(json))
+        .toList();
+    print(cartlist.length);
+
+    // if (userid != null) {
+    //   await firestore.collection('cart').add({
+    //     userID: userid,
+    //     productTitle: prodtTitle,
+    //     //  productVariation: prodtVariation,
+    //     productPrice: prodtPrice,
+    //     itemQuantity: itemQty,
+    //     photoUrl: photUrl,
+    //     created: date,
+    //   });
+    //   print(userid);
+    //   print('document added');
+    // }
+  } on Exception catch (e) {
+    return errorMSG(e.toString());
+  }
+  return userid == null ? errorMSG("Error") : successfulMSG();
+}
+
 @override
 Future deleteFromCart(String docID) async {
   Future result = await firestore
@@ -343,7 +395,6 @@ Future getDishes() async {
   //user = await auth.currentUser();
   try {
     userid = token;
-
     qn = await firestore.collection("grill-list").get();
   } on PlatformException catch (e) {
     print(e.message);
