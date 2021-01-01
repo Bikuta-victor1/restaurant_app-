@@ -5,7 +5,7 @@ import 'package:menuapp/util/const.dart';
 import 'dart:convert' as con;
 import 'package:menuapp/widgets/smooth_star_rating.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
+import 'package:fluttertoast/fluttertoast.dart';
 import '../models/foodmodel.dart';
 import '../providers/app_provider.dart';
 
@@ -20,6 +20,7 @@ class _CartScreenState extends State<CartScreen>
   bool isChecked = false;
   int carttCount;
   int index;
+  int count;
   int n;
   double price = 0;
   double quantity = 0;
@@ -59,6 +60,39 @@ class _CartScreenState extends State<CartScreen>
     // }
 
     super.didChangeDependencies();
+  }
+
+  checkout(List<Cart> cart, int index) async {
+    // bool isSignedIn = await googleSignIn.isSignedIn();
+    String token = await gettoken();
+    var date = DateTime.now().toString();
+    if (token != null) {
+      // if so, return the current user
+      print(token);
+      DocumentReference documentReference =
+          FirebaseFirestore.instance.doc("Orders/${date}");
+      await documentReference.get().then((datasnapshot) async {
+        if (datasnapshot.exists) {
+          // warning = "User already exist";
+        } else {
+          Map<String, String> data = <String, String>{
+            "mytoken": token,
+            "id": cart[index].userID,
+            "ordermade": date,
+            "created": cart[index].created,
+            "productPrice": cart[index].productPrice,
+            "itemQuantity": cart[index].itemQuantity,
+            "photoUrl": cart[index].photoUrl,
+          };
+          await documentReference.set(data).whenComplete(() {
+            print('document added');
+          }).catchError((e) {
+            print(e);
+            warning = e.message;
+          });
+        }
+      });
+    }
   }
 
   deleteCart(BuildContext context, DocumentSnapshot document, int index) async {
@@ -237,20 +271,23 @@ class _CartScreenState extends State<CartScreen>
       ),
       floatingActionButton: FloatingActionButton(
         tooltip: "Checkout",
-        onPressed: () {
-          // Navigator.of(context).push(
-          //   MaterialPageRoute(
-          //     builder: (BuildContext context) {
-          //       return ProductDetails(
-          //         id: id.toString(),
-          //         description: description,
-          //         name: cartlist[index].productTitle,
-          //         img: img,
-          //         price: price,
-          //       );
-          //     },
-          //   ),
-          // );
+        onPressed: () async {
+          print(cartlist.length);
+          if (cartlist.length != 0) {
+            await checkout(cartlist, index);
+            // setState(() {
+            //   cartlist = [];
+            // });
+          } else {
+            Fluttertoast.showToast(
+                msg: "Please Add to Cart ",
+                toastLength: Toast.LENGTH_SHORT,
+                gravity: ToastGravity.BOTTOM,
+                timeInSecForIosWeb: 1,
+                backgroundColor: Constants.darkAccent,
+                textColor: Colors.white,
+                fontSize: 15.0);
+          }
         },
         child: Icon(
           Icons.arrow_forward,

@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:menuapp/models/foodmodel.dart';
+import 'package:menuapp/screens/details.dart';
 import 'package:menuapp/util/const.dart';
 import 'package:menuapp/util/foods.dart';
 import 'package:menuapp/widgets/smooth_star_rating.dart';
@@ -304,7 +305,22 @@ class _SearchAppBarDelegate extends SearchDelegate<String> {
                     ),
                   ],
                 ),
-                onTap: () {},
+                onTap: () {
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (BuildContext context) {
+                        return ProductDetails(
+                          id: suggestionList[index].id.toString(),
+                          description: suggestionList[index].description,
+                          name: suggestionList[index].name,
+                          img: suggestionList[index].photourl,
+                          price: suggestionList[index].price,
+                          //rating : rating;
+                        );
+                      },
+                    ),
+                  );
+                },
               );
             },
           );

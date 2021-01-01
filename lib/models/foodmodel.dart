@@ -256,60 +256,6 @@ Future<String> addtoCartpref(
   return userid == null ? errorMSG("Error") : successfulMSG();
 }
 
-Future<String> removefromCartpref(
-    {String userid,
-    String prodtTitle,
-    //  String prodtVariation,
-    String prodtPrice,
-    String itemQty,
-    String date,
-    String photUrl}) async {
-  //print("$itemQty");
-  SharedPreferences prefs = await SharedPreferences.getInstance();
-
-  //FirebaseUser user;
-  String token = await gettoken();
-  try {
-    //user = await auth.currentUser();
-    //userid = token;
-    var date = DateTime.now().toString();
-    // print(userid);
-    var item = {
-      "userID": userid,
-      "photoUrl": photUrl,
-      "productPrice": prodtPrice,
-      "created": date,
-      "itemQuantity": itemQty,
-      "productTitle": prodtTitle
-    };
-    Cart carted = Cart.fromMap(item);
-    cartlist.remove(carted);
-    //print(cartlist.length);
-    prefs.setString('cartlist', con.json.encode(cartlist));
-    cartlist = (await con.json.decode(prefs.getString('cartlist')))
-        .map<Cart>((json) => Cart.fromJson(json))
-        .toList();
-    print(cartlist.length);
-
-    // if (userid != null) {
-    //   await firestore.collection('cart').add({
-    //     userID: userid,
-    //     productTitle: prodtTitle,
-    //     //  productVariation: prodtVariation,
-    //     productPrice: prodtPrice,
-    //     itemQuantity: itemQty,
-    //     photoUrl: photUrl,
-    //     created: date,
-    //   });
-    //   print(userid);
-    //   print('document added');
-    // }
-  } on Exception catch (e) {
-    return errorMSG(e.toString());
-  }
-  return userid == null ? errorMSG("Error") : successfulMSG();
-}
-
 @override
 Future deleteFromCart(String docID) async {
   Future result = await firestore
@@ -342,7 +288,6 @@ Future deleteFromCart(String docID) async {
 
 @override
 Future getUserCart(String userid) async {
-  // final FirebaseUser user = await auth.currentUser();
   String token = await gettoken();
   final uid = token;
 

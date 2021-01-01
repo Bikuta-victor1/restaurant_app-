@@ -120,21 +120,21 @@ class _ProductDetailsState extends State<ProductDetails> {
         ),
         elevation: 0.0,
         actions: <Widget>[
-          IconButton(
-            icon: IconBadge(
-              icon: Icons.shopping_cart_outlined,
-              size: 22.0,
-            ),
-            onPressed: () {
-              Navigator.of(context).push(
-                MaterialPageRoute(
-                  builder: (BuildContext context) {
-                    return CartScreen();
-                  },
-                ),
-              );
-            },
-          ),
+          // IconButton(
+          //   icon: IconBadge(
+          //     icon: Icons.shopping_cart_outlined,
+          //     size: 22.0,
+          //   ),
+          //   onPressed: () {
+          //     Navigator.of(context).push(
+          //       MaterialPageRoute(
+          //         builder: (BuildContext context) {
+          //           return CartScreen();
+          //         },
+          //       ),
+          //     );
+          //   },
+          // ),
         ],
       ),
       body: Padding(
@@ -166,10 +166,11 @@ class _ProductDetailsState extends State<ProductDetails> {
                     child: Padding(
                       padding: EdgeInsets.all(5),
                       child: Icon(
-                        alreadySaved
-                            ? Icons.shopping_cart
-                            : Icons.shopping_cart_outlined,
-                        color: alreadySaved ? Colors.grey : Colors.blue,
+                        button == 'ADD TO CART'
+                            ? Icons.shopping_cart_outlined
+                            : Icons.shopping_cart,
+                        color:
+                            button == 'ADD TO CART' ? Colors.grey : Colors.blue,
                         size: 17,
                       ),
                     ),
