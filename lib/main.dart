@@ -9,7 +9,7 @@ import 'util/const.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp();
+  await Firebase.initializeApp().catchError((e) => print(e));
   runApp(
     MultiProvider(
       providers: [
@@ -26,17 +26,17 @@ class MyApp extends StatelessWidget {
     return Consumer<AppProvider>(
       builder: (BuildContext context, AppProvider appProvider, Widget child) {
         return MaterialApp(
-            key: appProvider.key,
-            debugShowCheckedModeBanner: false,
-            navigatorKey: appProvider.navigatorKey,
-            title: Constants.appName,
-            theme: appProvider.theme,
-            darkTheme: Constants.darkTheme,
-            home: SplashScreen(),
-            // routes: <String, WidgetBuilder>{
-            //   '/splash': (BuildContext context) => SplashScreen(),
-            // }
-            );
+          key: appProvider.key,
+          debugShowCheckedModeBanner: false,
+          navigatorKey: appProvider.navigatorKey,
+          title: Constants.appName,
+          theme: appProvider.theme,
+          darkTheme: Constants.darkTheme,
+          home: SplashScreen(),
+          // routes: <String, WidgetBuilder>{
+          //   '/splash': (BuildContext context) => SplashScreen(),
+          // }
+        );
       },
     );
   }

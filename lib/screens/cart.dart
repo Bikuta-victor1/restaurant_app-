@@ -69,6 +69,7 @@ class _CartScreenState extends State<CartScreen>
     if (token != null) {
       // if so, return the current user
       print(token);
+      print(cart.length);
       DocumentReference documentReference =
           FirebaseFirestore.instance.doc("Orders/${date}");
       await documentReference.get().then((datasnapshot) async {
