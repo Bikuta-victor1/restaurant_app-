@@ -22,6 +22,7 @@ class _CartScreenState extends State<CartScreen>
   int index;
   int count;
   int n;
+  bool showCart;
   double price = 0;
   double quantity = 0;
   double total = 0;
@@ -62,7 +63,7 @@ class _CartScreenState extends State<CartScreen>
     super.didChangeDependencies();
   }
 
-  checkout(List<Cart> cart, int index) async {
+  Future<void> checkout(List<Cart> cart, int index) async {
     // bool isSignedIn = await googleSignIn.isSignedIn();
     String token = await gettoken();
     var date = DateTime.now().toString();
@@ -142,7 +143,7 @@ class _CartScreenState extends State<CartScreen>
       extendBody: true,
       body: Padding(
         padding: EdgeInsets.fromLTRB(10.0, 0, 10.0, 0),
-        child: cartlist.length != 0
+        child: cartlist.length != 0 && showCart
             ? ListView.builder(
                 itemCount: cartlist.length,
                 itemBuilder: (context, index) {
@@ -274,11 +275,15 @@ class _CartScreenState extends State<CartScreen>
         tooltip: "Checkout",
         onPressed: () async {
           print(cartlist.length);
+          int index1 = cartlist.length;
           if (cartlist.length != 0) {
-            await checkout(cartlist, index);
-            // setState(() {
-            //   cartlist = [];
-            // });
+            for (int i = 0; i <= index1; i++) {
+              await checkout(cartlist, i);
+            }
+
+            setState(() {
+              showCart = false;
+            });
           } else {
             Fluttertoast.showToast(
                 msg: "Please Add to Cart ",
