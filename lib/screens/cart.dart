@@ -277,7 +277,7 @@ class _CartScreenState extends State<CartScreen>
           print(cartlist.length);
           int index1 = cartlist.length;
           if (cartlist.length != 0) {
-            for (int i = 0; i <= index1; i++) {
+            for (int i = 0; i < index1; i++) {
               await checkout(cartlist, i);
             }
 

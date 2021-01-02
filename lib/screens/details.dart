@@ -36,6 +36,7 @@ class _ProductDetailsState extends State<ProductDetails> {
   int counter;
   String button = 'ADD TO CART';
   Color _color = Colors.blue;
+  var date = DateTime.now().toString();
 
   addToCart(String id, String name, int price, int quantity, String img) async {
     String response = await addtoCartpref(
@@ -44,6 +45,7 @@ class _ProductDetailsState extends State<ProductDetails> {
       prodtPrice: price.toString(),
       itemQty: quantity.toString(),
       photUrl: img,
+      date: date,
       // prodtImages: img,
     );
     // if (response == successful) {
@@ -361,8 +363,9 @@ class _ProductDetailsState extends State<ProductDetails> {
                     widget.img);
               } else {
                 SharedPreferences prefs = await SharedPreferences.getInstance();
-                cartlist.removeWhere(
-                    (element) => element.productTitle == widget.name);
+                cartlist.removeWhere((element) =>
+                    (element.productTitle == widget.name) &&
+                    (element.created == date));
                 prefs.setString('cartlist', con.json.encode(cartlist));
                 cartlist = (await con.json.decode(prefs.getString('cartlist')))
                     .map<Cart>((json) => Cart.fromJson(json))
