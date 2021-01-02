@@ -22,7 +22,7 @@ class _CartScreenState extends State<CartScreen>
   int index;
   int count;
   int n;
-  bool showCart;
+  bool showCart = true;
   double price = 0;
   double quantity = 0;
   double total = 0;
@@ -283,6 +283,7 @@ class _CartScreenState extends State<CartScreen>
 
             setState(() {
               showCart = false;
+              cartlist = [];
             });
           } else {
             Fluttertoast.showToast(
