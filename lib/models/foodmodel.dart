@@ -10,6 +10,7 @@ class Food {
   String description;
   int price;
   int id;
+  String timedate;
   //String tableId;
   // String table;
   Food(
@@ -18,6 +19,7 @@ class Food {
       this.totalrating,
       this.description,
       this.price,
+      this.timedate,
       this.id
       //  this.tableId
       // this.table
@@ -29,6 +31,7 @@ class Food {
     totalrating = data['totalrating'];
     description = data['description'];
     price = data['price'];
+    timedate = data['timedate'];
     id = data['id'];
   }
 }
@@ -40,12 +43,14 @@ class Cart {
   String productPrice;
   String itemQuantity;
   String photoUrl;
+  String timedate;
   //String tableId;
   // String table;
   Cart({
     this.created,
     this.itemQuantity,
     this.photoUrl,
+    this.timedate,
     this.productPrice,
     this.productTitle,
     this.userID,
@@ -58,6 +63,7 @@ class Cart {
         'itemQuantity': itemQuantity,
         'productTitle': productTitle,
         'created': created,
+        'timedate': timedate,
       };
   Cart.fromJson(Map<String, dynamic> data) {
     userID = data['userID'];
@@ -66,6 +72,7 @@ class Cart {
     created = data['created'];
     itemQuantity = data['itemQuantity'];
     productTitle = data['productTitle'];
+    timedate = data['timedate'];
     // table = data['table'];
   }
 
@@ -76,6 +83,7 @@ class Cart {
     created = data['created'];
     itemQuantity = data['itemQuantity'];
     productTitle = data['productTitle'];
+    timedate = data['timedate'];
     // table = data['table'];
   }
 }
@@ -218,7 +226,6 @@ Future<String> addtoCartpref(
   try {
     //user = await auth.currentUser();
     //userid = token;
-    var date = DateTime.now().toString();
     // print(userid);
     var item = {
       "userID": userid,
