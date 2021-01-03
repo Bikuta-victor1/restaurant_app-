@@ -163,7 +163,8 @@ class _CartScreenState extends State<CartScreen>
                               .map<Cart>((json) => Cart.fromJson(json))
                               .toList();
                       print(cartlist.length);
-                      AppProvider().setcartlength(cartlist.length);
+                      prefs.setInt('cartlistlength', cartlist.length);
+                      //AppProvider().setcartlength(cartlist.length);
                       setState(() {});
                     },
                     child: Padding(

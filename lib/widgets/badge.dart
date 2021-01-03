@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../providers/app_provider.dart';
 
 import '../models/foodmodel.dart';
@@ -12,6 +13,12 @@ class IconBadge extends StatefulWidget {
 
   @override
   _IconBadgeState createState() => _IconBadgeState();
+}
+
+Future<int> getlength() async {
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  prefs.reload();
+  return prefs.getInt('cartlistlength');
 }
 
 class _IconBadgeState extends State<IconBadge> {
@@ -38,7 +45,7 @@ class _IconBadgeState extends State<IconBadge> {
             child: Padding(
               padding: EdgeInsets.only(top: 1),
               child: Text(
-                "${AppProvider().cartlength}",
+                "${getlength()}",
                 style: TextStyle(
                   color: Colors.white,
                   fontSize: 8,
