@@ -104,7 +104,7 @@ class _SearchScreenState extends State<SearchScreen>
           ListView.builder(
             shrinkWrap: true,
             primary: false,
-            //physics: NeverScrollableScrollPhysics(),
+            physics: NeverScrollableScrollPhysics(),
             itemCount: alldishes.length,
             itemBuilder: (BuildContext context, int index) {
               // Map food = foods[index];
