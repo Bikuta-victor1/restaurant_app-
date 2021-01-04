@@ -1,5 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
+import 'package:menuapp/providers/app_provider.dart';
+import 'package:menuapp/widgets/badge.dart';
+import 'package:provider/provider.dart';
 import 'dart:convert' as con;
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -88,6 +92,7 @@ class Cart {
   }
 }
 
+int mycartlength;
 List<Cart> cartlist = [];
 List<Food> alldishes = [];
 List<Food> suggestionList = [];
@@ -220,8 +225,7 @@ Future<String> addtoCartpref(
     String photUrl}) async {
   print("$itemQty");
   SharedPreferences prefs = await SharedPreferences.getInstance();
-
-  //FirebaseUser user;
+  WidgetsFlutterBinding.ensureInitialized();
   String token = await gettoken();
   try {
     //user = await auth.currentUser();
@@ -237,26 +241,18 @@ Future<String> addtoCartpref(
     };
     Cart carted = Cart.fromMap(item);
     cartlist.add(carted);
+
     //print(cartlist.length);
     prefs.setString('cartlist', con.json.encode(cartlist));
     cartlist = (await con.json.decode(prefs.getString('cartlist')))
         .map<Cart>((json) => Cart.fromJson(json))
         .toList();
     print(cartlist.length);
-
-    // if (userid != null) {
-    //   await firestore.collection('cart').add({
-    //     userID: userid,
-    //     productTitle: prodtTitle,
-    //     //  productVariation: prodtVariation,
-    //     productPrice: prodtPrice,
-    //     itemQuantity: itemQty,
-    //     photoUrl: photUrl,
-    //     created: date,
-    //   });
-    //   print(userid);
-    //   print('document added');
-    // }
+    // mycartlength = cartlist.length;
+    // prefs.setInt('cartlistlength', cartlist.length);
+    // prefs.reload();
+    // prefs.getInt('cartlistlength');
+    //Provider.of<AppProvider>(context, listen: false).changeNumbertoSmall();
   } on Exception catch (e) {
     return errorMSG(e.toString());
   }

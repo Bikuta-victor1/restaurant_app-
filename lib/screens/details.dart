@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:menuapp/models/foodmodel.dart';
+import 'package:menuapp/providers/app_provider.dart';
 import 'package:menuapp/screens/cart.dart';
 import 'package:menuapp/util/const.dart';
 import 'package:menuapp/widgets/badge.dart';
 import 'dart:convert' as con;
 import 'package:menuapp/widgets/smooth_star_rating.dart';
+import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../models/foodmodel.dart';
@@ -39,7 +41,7 @@ class _ProductDetailsState extends State<ProductDetails> {
   var date = DateTime.now().toString();
 
   addToCart(String id, String name, int price, int quantity, String img) async {
-    String response = await addtoCartpref(
+    await addtoCartpref(
       userid: id,
       prodtTitle: name,
       prodtPrice: price.toString(),
@@ -359,19 +361,61 @@ class _ProductDetailsState extends State<ProductDetails> {
                   button = 'ADDED TO CART';
                   _color = Colors.red;
                 });
-                addToCart(widget.id, widget.name, widget.price, iquantity,
-                    widget.img);
+                print("$iquantity");
+                SharedPreferences prefs = await SharedPreferences.getInstance();
+                WidgetsFlutterBinding.ensureInitialized();
+                String token = await gettoken();
+                try {
+                  //user = await auth.currentUser();
+                  //userid = token;
+                  // print(userid);
+                  var item = {
+                    "userID": widget.id,
+                    "photoUrl": widget.img,
+                    "productPrice": widget.price.toString(),
+                    "created": date,
+                    "itemQuantity": iquantity.toString(),
+                    "productTitle": widget.name
+                  };
+                  Cart carted = Cart.fromMap(item);
+                  cartlist.add(carted);
+
+                  //print(cartlist.length);
+                  prefs.setString('cartlist', con.json.encode(cartlist));
+                  cartlist =
+                      (await con.json.decode(prefs.getString('cartlist')))
+                          .map<Cart>((json) => Cart.fromJson(json))
+                          .toList();
+                  print(cartlist.length);
+                  // mycartlength = cartlist.length;
+                  // prefs.setInt('cartlistlength', cartlist.length);
+                  // prefs.reload();
+                  // prefs.getInt('cartlistlength');
+                  Provider.of<AppProvider>(context, listen: false)
+                      .changeNumbertoSmall();
+                } on Exception catch (e) {
+                  return errorMSG(e.toString());
+                }
+                return widget.id == null ? errorMSG("Error") : successfulMSG();
+                // addToCart(widget.id, widget.name, widget.price, iquantity,
+                //     widget.img);
               } else {
                 SharedPreferences prefs = await SharedPreferences.getInstance();
                 cartlist.removeWhere((element) =>
                     (element.productTitle == widget.name) &&
                     (element.created == date));
+                //mycartlength == null ? mycartlength = 0 : mycartlength--;
                 prefs.setString('cartlist', con.json.encode(cartlist));
                 cartlist = (await con.json.decode(prefs.getString('cartlist')))
                     .map<Cart>((json) => Cart.fromJson(json))
                     .toList();
                 print(cartlist.length);
-
+                Provider.of<AppProvider>(context, listen: false)
+                    .changeNumbertoSmall();
+                // mycartlength = cartlist.length;
+                // prefs.setInt('cartlistlength', cartlist.length);
+                // prefs.reload();
+                // prefs.getInt('cartlistlength');
                 // removeFromCart(widget.id, widget.name, widget.price, iquantity,
                 //     widget.img);
                 setState(() {

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:menuapp/models/foodmodel.dart';
+import 'package:menuapp/providers/app_provider.dart';
+import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import '../providers/app_provider.dart';
-
-import '../models/foodmodel.dart';
 
 class IconBadge extends StatefulWidget {
   final IconData icon;
@@ -15,13 +15,30 @@ class IconBadge extends StatefulWidget {
   _IconBadgeState createState() => _IconBadgeState();
 }
 
-Future<int> getlength() async {
-  SharedPreferences prefs = await SharedPreferences.getInstance();
-  prefs.reload();
-  return prefs.getInt('cartlistlength');
-}
+// Future<int> getlength() async {
+
+//   return prefs.getInt('cartlistlength');
+// }
+int mynewCartlength;
 
 class _IconBadgeState extends State<IconBadge> {
+  @override
+  void didChangeDependencies() async {
+    // TODO: implement didChangeDependencies
+    // SharedPreferences prefs = await SharedPreferences.getInstance();
+    // prefs.reload();
+    // prefs.getInt('cartlistlength') == null
+    //     ? cartlength = 0
+    //     : cartlength = prefs.getInt('cartlistlength');
+    // print('cartlength');
+    // print(cartlength);
+    mynewCartlength =
+        Provider.of<AppProvider>(context, listen: true).cartlength;
+    super.didChangeDependencies();
+  }
+
+  // SharedPreferences prefs = await SharedPreferences.getInstance();
+
   @override
   Widget build(BuildContext context) {
     return Stack(
@@ -45,7 +62,7 @@ class _IconBadgeState extends State<IconBadge> {
             child: Padding(
               padding: EdgeInsets.only(top: 1),
               child: Text(
-                "${getlength()}",
+                mynewCartlength == null ? "0" : "${mynewCartlength}",
                 style: TextStyle(
                   color: Colors.white,
                   fontSize: 8,

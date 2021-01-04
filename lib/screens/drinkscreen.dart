@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 //import 'package:menuapp/screens/notifications.dart';
-import 'package:menuapp/util/foods.dart';
-import 'package:menuapp/widgets/cat1_product.dart';
 import 'package:menuapp/widgets/cat_product.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class DrinkScreen extends StatefulWidget {
   @override
@@ -53,7 +52,7 @@ class _DrinkScreenState extends State<DrinkScreen> {
         child: ListView(
           children: <Widget>[
             Text(
-              "Wines",
+              "Red Wines",
               style: TextStyle(
                 fontSize: 20,
                 //fontFamily: 'Vivaldii',
@@ -63,27 +62,45 @@ class _DrinkScreenState extends State<DrinkScreen> {
               maxLines: 2,
             ),
             Divider(),
-            GridView.builder(
-              shrinkWrap: true,
-              primary: false,
-              physics: NeverScrollableScrollPhysics(),
-              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 2,
-                childAspectRatio: MediaQuery.of(context).size.width /
-                    (MediaQuery.of(context).size.height / 1.25),
-              ),
-              itemCount: 4,
-              itemBuilder: (BuildContext context, int index) {
-                Map food = foods[index];
-                return CatProduct1(
-                  img: food['img'],
-                  name: food['name'],
-                  id: food['id'],
-                  price: food['price'],
-                  description: food['description'],
-                );
-              },
-            ),
+            StreamBuilder<QuerySnapshot>(
+                stream: FirebaseFirestore.instance
+                    .collection('redwine-list')
+                    .snapshots(),
+                builder:
+                    (BuildContext ctx, AsyncSnapshot<QuerySnapshot> snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return Center(
+                      child: CircularProgressIndicator(),
+                    );
+                  }
+                  if (snapshot.hasError) {
+                    return Text("Something went wrong");
+                  }
+                  final documents = snapshot.data.docs;
+                  return GridView.builder(
+                    shrinkWrap: true,
+                    primary: false,
+                    physics: NeverScrollableScrollPhysics(),
+                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 2,
+                      childAspectRatio: MediaQuery.of(context).size.width /
+                          (MediaQuery.of(context).size.height / 1.25),
+                    ),
+                    itemCount: documents.length,
+                    itemBuilder: (BuildContext context, int index) {
+                      // Map food = foods[index];
+                      return CatProduct(
+                        img: documents[index].data()['photourl'],
+                        name: documents[index].data()['name'],
+                        id: documents[index].data()['id'],
+                        price: documents[index].data()['price'],
+                        description: documents[index].data()['description'],
+                      );
+                    },
+                  );
+                }
+                // return Text("loading");
+                ),
             SizedBox(height: 20.0),
             Text(
               "Champagne",
@@ -96,28 +113,45 @@ class _DrinkScreenState extends State<DrinkScreen> {
               maxLines: 2,
             ),
             Divider(),
-            GridView.builder(
-              shrinkWrap: true,
-              primary: false,
-              physics: NeverScrollableScrollPhysics(),
-              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 2,
-                childAspectRatio: MediaQuery.of(context).size.width /
-                    (MediaQuery.of(context).size.height / 1.25),
-              ),
-              itemCount: 4,
-              itemBuilder: (BuildContext context, int index) {
-                Map food = foods[index];
-                return CatProduct1(
-                  img: food['img'],
-                  name: food['name'],
-                  id: food['id'],
-                  price: food['price'],
-                  description: food['description'],
-                );
-                ;
-              },
-            ),
+            StreamBuilder<QuerySnapshot>(
+                stream: FirebaseFirestore.instance
+                    .collection('champagne-list')
+                    .snapshots(),
+                builder:
+                    (BuildContext ctx, AsyncSnapshot<QuerySnapshot> snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return Center(
+                      child: CircularProgressIndicator(),
+                    );
+                  }
+                  if (snapshot.hasError) {
+                    return Text("Something went wrong");
+                  }
+                  final documents = snapshot.data.docs;
+                  return GridView.builder(
+                    shrinkWrap: true,
+                    primary: false,
+                    physics: NeverScrollableScrollPhysics(),
+                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 2,
+                      childAspectRatio: MediaQuery.of(context).size.width /
+                          (MediaQuery.of(context).size.height / 1.25),
+                    ),
+                    itemCount: documents.length,
+                    itemBuilder: (BuildContext context, int index) {
+                      // Map food = foods[index];
+                      return CatProduct(
+                        img: documents[index].data()['photourl'],
+                        name: documents[index].data()['name'],
+                        id: documents[index].data()['id'],
+                        price: documents[index].data()['price'],
+                        description: documents[index].data()['description'],
+                      );
+                    },
+                  );
+                }
+                // return Text("loading");
+                ),
             SizedBox(height: 20.0),
             Text(
               "Gins",
@@ -130,28 +164,45 @@ class _DrinkScreenState extends State<DrinkScreen> {
               maxLines: 2,
             ),
             Divider(),
-            GridView.builder(
-              shrinkWrap: true,
-              primary: false,
-              physics: NeverScrollableScrollPhysics(),
-              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 2,
-                childAspectRatio: MediaQuery.of(context).size.width /
-                    (MediaQuery.of(context).size.height / 1.25),
-              ),
-              itemCount: 4,
-              itemBuilder: (BuildContext context, int index) {
-                Map food = foods[index];
-                return CatProduct1(
-                  img: food['img'],
-                  name: food['name'],
-                  id: food['id'],
-                  price: food['price'],
-                  description: food['description'],
-                );
-                ;
-              },
-            ),
+            StreamBuilder<QuerySnapshot>(
+                stream: FirebaseFirestore.instance
+                    .collection('gins-list')
+                    .snapshots(),
+                builder:
+                    (BuildContext ctx, AsyncSnapshot<QuerySnapshot> snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return Center(
+                      child: CircularProgressIndicator(),
+                    );
+                  }
+                  if (snapshot.hasError) {
+                    return Text("Something went wrong");
+                  }
+                  final documents = snapshot.data.docs;
+                  return GridView.builder(
+                    shrinkWrap: true,
+                    primary: false,
+                    physics: NeverScrollableScrollPhysics(),
+                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 2,
+                      childAspectRatio: MediaQuery.of(context).size.width /
+                          (MediaQuery.of(context).size.height / 1.25),
+                    ),
+                    itemCount: documents.length,
+                    itemBuilder: (BuildContext context, int index) {
+                      // Map food = foods[index];
+                      return CatProduct(
+                        img: documents[index].data()['photourl'],
+                        name: documents[index].data()['name'],
+                        id: documents[index].data()['id'],
+                        price: documents[index].data()['price'],
+                        description: documents[index].data()['description'],
+                      );
+                    },
+                  );
+                }
+                // return Text("loading");
+                ),
             Text(
               "Liquer",
               style: TextStyle(
@@ -163,27 +214,45 @@ class _DrinkScreenState extends State<DrinkScreen> {
               maxLines: 2,
             ),
             Divider(),
-            GridView.builder(
-              shrinkWrap: true,
-              primary: false,
-              physics: NeverScrollableScrollPhysics(),
-              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 2,
-                childAspectRatio: MediaQuery.of(context).size.width /
-                    (MediaQuery.of(context).size.height / 1.25),
-              ),
-              itemCount: 4,
-              itemBuilder: (BuildContext context, int index) {
-                Map food = foods[index];
-                return CatProduct1(
-                  img: food['img'],
-                  name: food['name'],
-                  id: food['id'],
-                  price: food['price'],
-                  description: food['description'],
-                );
-              },
-            ),
+            StreamBuilder<QuerySnapshot>(
+                stream: FirebaseFirestore.instance
+                    .collection('champagne-list')
+                    .snapshots(),
+                builder:
+                    (BuildContext ctx, AsyncSnapshot<QuerySnapshot> snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return Center(
+                      child: CircularProgressIndicator(),
+                    );
+                  }
+                  if (snapshot.hasError) {
+                    return Text("Something went wrong");
+                  }
+                  final documents = snapshot.data.docs;
+                  return GridView.builder(
+                    shrinkWrap: true,
+                    primary: false,
+                    physics: NeverScrollableScrollPhysics(),
+                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 2,
+                      childAspectRatio: MediaQuery.of(context).size.width /
+                          (MediaQuery.of(context).size.height / 1.25),
+                    ),
+                    itemCount: documents.length,
+                    itemBuilder: (BuildContext context, int index) {
+                      // Map food = foods[index];
+                      return CatProduct(
+                        img: documents[index].data()['photourl'],
+                        name: documents[index].data()['name'],
+                        id: documents[index].data()['id'],
+                        price: documents[index].data()['price'],
+                        description: documents[index].data()['description'],
+                      );
+                    },
+                  );
+                }
+                // return Text("loading");
+                ),
             Text(
               "Vodka",
               style: TextStyle(
@@ -195,27 +264,45 @@ class _DrinkScreenState extends State<DrinkScreen> {
               maxLines: 2,
             ),
             Divider(),
-            GridView.builder(
-              shrinkWrap: true,
-              primary: false,
-              physics: NeverScrollableScrollPhysics(),
-              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 2,
-                childAspectRatio: MediaQuery.of(context).size.width /
-                    (MediaQuery.of(context).size.height / 1.25),
-              ),
-              itemCount: 4,
-              itemBuilder: (BuildContext context, int index) {
-                Map food = foods[index];
-                return CatProduct1(
-                  img: food['img'],
-                  name: food['name'],
-                  id: food['id'],
-                  price: food['price'],
-                  description: food['description'],
-                );
-              },
-            ),
+            StreamBuilder<QuerySnapshot>(
+                stream: FirebaseFirestore.instance
+                    .collection('vodka-list')
+                    .snapshots(),
+                builder:
+                    (BuildContext ctx, AsyncSnapshot<QuerySnapshot> snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return Center(
+                      child: CircularProgressIndicator(),
+                    );
+                  }
+                  if (snapshot.hasError) {
+                    return Text("Something went wrong");
+                  }
+                  final documents = snapshot.data.docs;
+                  return GridView.builder(
+                    shrinkWrap: true,
+                    primary: false,
+                    physics: NeverScrollableScrollPhysics(),
+                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 2,
+                      childAspectRatio: MediaQuery.of(context).size.width /
+                          (MediaQuery.of(context).size.height / 1.25),
+                    ),
+                    itemCount: documents.length,
+                    itemBuilder: (BuildContext context, int index) {
+                      // Map food = foods[index];
+                      return CatProduct(
+                        img: documents[index].data()['photourl'],
+                        name: documents[index].data()['name'],
+                        id: documents[index].data()['id'],
+                        price: documents[index].data()['price'],
+                        description: documents[index].data()['description'],
+                      );
+                    },
+                  );
+                }
+                // return Text("loading");
+                ),
             Text(
               "Cognac",
               style: TextStyle(
@@ -227,27 +314,45 @@ class _DrinkScreenState extends State<DrinkScreen> {
               maxLines: 2,
             ),
             Divider(),
-            GridView.builder(
-              shrinkWrap: true,
-              primary: false,
-              physics: NeverScrollableScrollPhysics(),
-              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 2,
-                childAspectRatio: MediaQuery.of(context).size.width /
-                    (MediaQuery.of(context).size.height / 1.25),
-              ),
-              itemCount: 4,
-              itemBuilder: (BuildContext context, int index) {
-                Map food = foods[index];
-                return CatProduct1(
-                  img: food['img'],
-                  name: food['name'],
-                  id: food['id'],
-                  price: food['price'],
-                  description: food['description'],
-                );
-              },
-            ),
+            StreamBuilder<QuerySnapshot>(
+                stream: FirebaseFirestore.instance
+                    .collection('champagne-list')
+                    .snapshots(),
+                builder:
+                    (BuildContext ctx, AsyncSnapshot<QuerySnapshot> snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return Center(
+                      child: CircularProgressIndicator(),
+                    );
+                  }
+                  if (snapshot.hasError) {
+                    return Text("Something went wrong");
+                  }
+                  final documents = snapshot.data.docs;
+                  return GridView.builder(
+                    shrinkWrap: true,
+                    primary: false,
+                    physics: NeverScrollableScrollPhysics(),
+                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 2,
+                      childAspectRatio: MediaQuery.of(context).size.width /
+                          (MediaQuery.of(context).size.height / 1.25),
+                    ),
+                    itemCount: documents.length,
+                    itemBuilder: (BuildContext context, int index) {
+                      // Map food = foods[index];
+                      return CatProduct(
+                        img: documents[index].data()['photourl'],
+                        name: documents[index].data()['name'],
+                        id: documents[index].data()['id'],
+                        price: documents[index].data()['price'],
+                        description: documents[index].data()['description'],
+                      );
+                    },
+                  );
+                }
+                // return Text("loading");
+                ),
             Text(
               "Whisky",
               style: TextStyle(
@@ -259,27 +364,145 @@ class _DrinkScreenState extends State<DrinkScreen> {
               maxLines: 2,
             ),
             Divider(),
-            GridView.builder(
-              shrinkWrap: true,
-              primary: false,
-              physics: NeverScrollableScrollPhysics(),
-              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 2,
-                childAspectRatio: MediaQuery.of(context).size.width /
-                    (MediaQuery.of(context).size.height / 1.25),
+            StreamBuilder<QuerySnapshot>(
+                stream: FirebaseFirestore.instance
+                    .collection('whiskey-list')
+                    .snapshots(),
+                builder:
+                    (BuildContext ctx, AsyncSnapshot<QuerySnapshot> snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return Center(
+                      child: CircularProgressIndicator(),
+                    );
+                  }
+                  if (snapshot.hasError) {
+                    return Text("Something went wrong");
+                  }
+                  final documents = snapshot.data.docs;
+                  return GridView.builder(
+                    shrinkWrap: true,
+                    primary: false,
+                    physics: NeverScrollableScrollPhysics(),
+                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 2,
+                      childAspectRatio: MediaQuery.of(context).size.width /
+                          (MediaQuery.of(context).size.height / 1.25),
+                    ),
+                    itemCount: documents.length,
+                    itemBuilder: (BuildContext context, int index) {
+                      // Map food = foods[index];
+                      return CatProduct(
+                        img: documents[index].data()['photourl'],
+                        name: documents[index].data()['name'],
+                        id: documents[index].data()['id'],
+                        price: documents[index].data()['price'],
+                        description: documents[index].data()['description'],
+                      );
+                    },
+                  );
+                }
+                // return Text("loading");
+                ),
+            Text(
+              "White Wine",
+              style: TextStyle(
+                fontSize: 20,
+                //  fontFamily: 'Vivaldii',
+                letterSpacing: 1.4,
+                fontWeight: FontWeight.w800,
               ),
-              itemCount: 4,
-              itemBuilder: (BuildContext context, int index) {
-                Map food = foods[index];
-                return CatProduct1(
-                  img: food['img'],
-                  name: food['name'],
-                  id: food['id'],
-                  price: food['price'],
-                  description: food['description'],
-                );
-              },
+              maxLines: 2,
             ),
+            Divider(),
+            StreamBuilder<QuerySnapshot>(
+                stream: FirebaseFirestore.instance
+                    .collection('whitewine-list')
+                    .snapshots(),
+                builder:
+                    (BuildContext ctx, AsyncSnapshot<QuerySnapshot> snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return Center(
+                      child: CircularProgressIndicator(),
+                    );
+                  }
+                  if (snapshot.hasError) {
+                    return Text("Something went wrong");
+                  }
+                  final documents = snapshot.data.docs;
+                  return GridView.builder(
+                    shrinkWrap: true,
+                    primary: false,
+                    physics: NeverScrollableScrollPhysics(),
+                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 2,
+                      childAspectRatio: MediaQuery.of(context).size.width /
+                          (MediaQuery.of(context).size.height / 1.25),
+                    ),
+                    itemCount: documents.length,
+                    itemBuilder: (BuildContext context, int index) {
+                      // Map food = foods[index];
+                      return CatProduct(
+                        img: documents[index].data()['photourl'],
+                        name: documents[index].data()['name'],
+                        id: documents[index].data()['id'],
+                        price: documents[index].data()['price'],
+                        description: documents[index].data()['description'],
+                      );
+                    },
+                  );
+                }
+                // return Text("loading");
+                ),
+            Text(
+              "Rose Wine",
+              style: TextStyle(
+                fontSize: 20,
+                //  fontFamily: 'Vivaldii',
+                letterSpacing: 1.4,
+                fontWeight: FontWeight.w800,
+              ),
+              maxLines: 2,
+            ),
+            Divider(),
+            StreamBuilder<QuerySnapshot>(
+                stream: FirebaseFirestore.instance
+                    .collection('rosewine-list')
+                    .snapshots(),
+                builder:
+                    (BuildContext ctx, AsyncSnapshot<QuerySnapshot> snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return Center(
+                      child: CircularProgressIndicator(),
+                    );
+                  }
+                  if (snapshot.hasError) {
+                    return Text("Something went wrong");
+                  }
+                  final documents = snapshot.data.docs;
+                  return GridView.builder(
+                    shrinkWrap: true,
+                    primary: false,
+                    physics: NeverScrollableScrollPhysics(),
+                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 2,
+                      childAspectRatio: MediaQuery.of(context).size.width /
+                          (MediaQuery.of(context).size.height / 1.25),
+                    ),
+                    itemCount: documents.length,
+                    itemBuilder: (BuildContext context, int index) {
+                      // Map food = foods[index];
+                      return CatProduct(
+                        img: documents[index].data()['photourl'],
+                        name: documents[index].data()['name'],
+                        id: documents[index].data()['id'],
+                        price: documents[index].data()['price'],
+                        description: documents[index].data()['description'],
+                      );
+                    },
+                  );
+                }
+                // return Text("loading");
+                ),
             Text(
               "Water",
               style: TextStyle(
@@ -291,27 +514,45 @@ class _DrinkScreenState extends State<DrinkScreen> {
               maxLines: 2,
             ),
             Divider(),
-            GridView.builder(
-              shrinkWrap: true,
-              primary: false,
-              physics: NeverScrollableScrollPhysics(),
-              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 2,
-                childAspectRatio: MediaQuery.of(context).size.width /
-                    (MediaQuery.of(context).size.height / 1.25),
-              ),
-              itemCount: 4,
-              itemBuilder: (BuildContext context, int index) {
-                Map food = foods[index];
-                return CatProduct1(
-                  img: food['img'],
-                  name: food['name'],
-                  id: food['id'],
-                  price: food['price'],
-                  description: food['description'],
-                );
-              },
-            ),
+            StreamBuilder<QuerySnapshot>(
+                stream: FirebaseFirestore.instance
+                    .collection('whiskey-list')
+                    .snapshots(),
+                builder:
+                    (BuildContext ctx, AsyncSnapshot<QuerySnapshot> snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return Center(
+                      child: CircularProgressIndicator(),
+                    );
+                  }
+                  if (snapshot.hasError) {
+                    return Text("Something went wrong");
+                  }
+                  final documents = snapshot.data.docs;
+                  return GridView.builder(
+                    shrinkWrap: true,
+                    primary: false,
+                    physics: NeverScrollableScrollPhysics(),
+                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 2,
+                      childAspectRatio: MediaQuery.of(context).size.width /
+                          (MediaQuery.of(context).size.height / 1.25),
+                    ),
+                    itemCount: documents.length,
+                    itemBuilder: (BuildContext context, int index) {
+                      // Map food = foods[index];
+                      return CatProduct(
+                        img: documents[index].data()['photourl'],
+                        name: documents[index].data()['name'],
+                        id: documents[index].data()['id'],
+                        price: documents[index].data()['price'],
+                        description: documents[index].data()['description'],
+                      );
+                    },
+                  );
+                }
+                // return Text("loading");
+                ),
           ],
         ),
       ),

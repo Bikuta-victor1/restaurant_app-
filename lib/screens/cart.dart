@@ -4,6 +4,7 @@ import 'package:menuapp/models/foodmodel.dart';
 import 'package:menuapp/util/const.dart';
 import 'dart:convert' as con;
 import 'package:menuapp/widgets/smooth_star_rating.dart';
+import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import '../models/foodmodel.dart';
@@ -143,7 +144,7 @@ class _CartScreenState extends State<CartScreen>
       extendBody: true,
       body: Padding(
         padding: EdgeInsets.fromLTRB(10.0, 0, 10.0, 0),
-        child: cartlist.length != 0 && showCart
+        child: cartlist.length != 0
             ? ListView.builder(
                 itemCount: cartlist.length,
                 itemBuilder: (context, index) {
@@ -157,13 +158,19 @@ class _CartScreenState extends State<CartScreen>
                       //deleteCart(context, index);
                       cartlist.removeWhere((element) =>
                           element.created == cartlist[index].created);
+                      mycartlength == null ? mycartlength = 0 : mycartlength--;
                       prefs.setString('cartlist', con.json.encode(cartlist));
                       cartlist =
                           (await con.json.decode(prefs.getString('cartlist')))
                               .map<Cart>((json) => Cart.fromJson(json))
                               .toList();
                       print(cartlist.length);
+                      Provider.of<AppProvider>(context, listen: false)
+                          .changeNumbertoSmall();
+                      mycartlength = cartlist.length;
                       prefs.setInt('cartlistlength', cartlist.length);
+                      prefs.reload();
+                      prefs.getInt('cartlistlength');
                       //AppProvider().setcartlength(cartlist.length);
                       setState(() {});
                     },
@@ -283,7 +290,9 @@ class _CartScreenState extends State<CartScreen>
             }
 
             setState(() {
-              showCart = false;
+              // showCart = false;
+              Provider.of<AppProvider>(context, listen: false)
+                  .setNumbertozero();
               cartlist = [];
             });
           } else {

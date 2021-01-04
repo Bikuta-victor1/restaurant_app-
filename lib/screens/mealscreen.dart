@@ -120,27 +120,45 @@ class _MealScreenState extends State<MealScreen> {
               maxLines: 2,
             ),
             Divider(),
-            GridView.builder(
-              shrinkWrap: true,
-              primary: false,
-              physics: NeverScrollableScrollPhysics(),
-              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 2,
-                childAspectRatio: MediaQuery.of(context).size.width /
-                    (MediaQuery.of(context).size.height / 1.25),
-              ),
-              itemCount: 4,
-              itemBuilder: (BuildContext context, int index) {
-                Map food = foods[index];
-                return CatProduct1(
-                  img: food['img'],
-                  name: food['name'],
-                  id: food['id'],
-                  price: food['price'],
-                  description: food['description'],
-                );
-              },
-            ),
+            StreamBuilder<QuerySnapshot>(
+                stream: FirebaseFirestore.instance
+                    .collection('grill-list')
+                    .snapshots(),
+                builder:
+                    (BuildContext ctx, AsyncSnapshot<QuerySnapshot> snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return Center(
+                      child: CircularProgressIndicator(),
+                    );
+                  }
+                  if (snapshot.hasError) {
+                    return Text("Something went wrong");
+                  }
+                  final documents = snapshot.data.docs;
+                  return GridView.builder(
+                    shrinkWrap: true,
+                    primary: false,
+                    physics: NeverScrollableScrollPhysics(),
+                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 2,
+                      childAspectRatio: MediaQuery.of(context).size.width /
+                          (MediaQuery.of(context).size.height / 1.25),
+                    ),
+                    itemCount: documents.length,
+                    itemBuilder: (BuildContext context, int index) {
+                      // Map food = foods[index];
+                      return CatProduct(
+                        img: documents[index].data()['photourl'],
+                        name: documents[index].data()['name'],
+                        id: documents[index].data()['id'],
+                        price: documents[index].data()['price'],
+                        description: documents[index].data()['description'],
+                      );
+                    },
+                  );
+                }
+                // return Text("loading");
+                ),
             SizedBox(height: 20.0),
             Text(
               "Peppered",
@@ -153,27 +171,45 @@ class _MealScreenState extends State<MealScreen> {
               maxLines: 2,
             ),
             Divider(),
-            GridView.builder(
-              shrinkWrap: true,
-              primary: false,
-              physics: NeverScrollableScrollPhysics(),
-              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 2,
-                childAspectRatio: MediaQuery.of(context).size.width /
-                    (MediaQuery.of(context).size.height / 1.25),
-              ),
-              itemCount: 4,
-              itemBuilder: (BuildContext context, int index) {
-                Map food = foods[index];
-                return CatProduct1(
-                  img: food['img'],
-                  name: food['name'],
-                  id: food['id'],
-                  price: food['price'],
-                  description: food['description'],
-                );
-              },
-            ),
+            StreamBuilder<QuerySnapshot>(
+                stream: FirebaseFirestore.instance
+                    .collection('grill-list')
+                    .snapshots(),
+                builder:
+                    (BuildContext ctx, AsyncSnapshot<QuerySnapshot> snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return Center(
+                      child: CircularProgressIndicator(),
+                    );
+                  }
+                  if (snapshot.hasError) {
+                    return Text("Something went wrong");
+                  }
+                  final documents = snapshot.data.docs;
+                  return GridView.builder(
+                    shrinkWrap: true,
+                    primary: false,
+                    physics: NeverScrollableScrollPhysics(),
+                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 2,
+                      childAspectRatio: MediaQuery.of(context).size.width /
+                          (MediaQuery.of(context).size.height / 1.25),
+                    ),
+                    itemCount: documents.length,
+                    itemBuilder: (BuildContext context, int index) {
+                      // Map food = foods[index];
+                      return CatProduct(
+                        img: documents[index].data()['photourl'],
+                        name: documents[index].data()['name'],
+                        id: documents[index].data()['id'],
+                        price: documents[index].data()['price'],
+                        description: documents[index].data()['description'],
+                      );
+                    },
+                  );
+                }
+                // return Text("loading");
+                ),
             Text(
               "Native",
               style: TextStyle(
@@ -185,27 +221,45 @@ class _MealScreenState extends State<MealScreen> {
               maxLines: 2,
             ),
             Divider(),
-            GridView.builder(
-              shrinkWrap: true,
-              primary: false,
-              physics: NeverScrollableScrollPhysics(),
-              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 2,
-                childAspectRatio: MediaQuery.of(context).size.width /
-                    (MediaQuery.of(context).size.height / 1.25),
-              ),
-              itemCount: 4,
-              itemBuilder: (BuildContext context, int index) {
-                Map food = foods[index];
-                return CatProduct1(
-                  img: food['img'],
-                  name: food['name'],
-                  id: food['id'],
-                  price: food['price'],
-                  description: food['description'],
-                );
-              },
-            ),
+            StreamBuilder<QuerySnapshot>(
+                stream: FirebaseFirestore.instance
+                    .collection('grill-list')
+                    .snapshots(),
+                builder:
+                    (BuildContext ctx, AsyncSnapshot<QuerySnapshot> snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return Center(
+                      child: CircularProgressIndicator(),
+                    );
+                  }
+                  if (snapshot.hasError) {
+                    return Text("Something went wrong");
+                  }
+                  final documents = snapshot.data.docs;
+                  return GridView.builder(
+                    shrinkWrap: true,
+                    primary: false,
+                    physics: NeverScrollableScrollPhysics(),
+                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 2,
+                      childAspectRatio: MediaQuery.of(context).size.width /
+                          (MediaQuery.of(context).size.height / 1.25),
+                    ),
+                    itemCount: documents.length,
+                    itemBuilder: (BuildContext context, int index) {
+                      // Map food = foods[index];
+                      return CatProduct(
+                        img: documents[index].data()['photourl'],
+                        name: documents[index].data()['name'],
+                        id: documents[index].data()['id'],
+                        price: documents[index].data()['price'],
+                        description: documents[index].data()['description'],
+                      );
+                    },
+                  );
+                }
+                // return Text("loading");
+                ),
             Text(
               "Soup",
               style: TextStyle(
@@ -217,27 +271,45 @@ class _MealScreenState extends State<MealScreen> {
               maxLines: 2,
             ),
             Divider(),
-            GridView.builder(
-              shrinkWrap: true,
-              primary: false,
-              physics: NeverScrollableScrollPhysics(),
-              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 2,
-                childAspectRatio: MediaQuery.of(context).size.width /
-                    (MediaQuery.of(context).size.height / 1.25),
-              ),
-              itemCount: 4,
-              itemBuilder: (BuildContext context, int index) {
-                Map food = foods[index];
-                return CatProduct1(
-                  img: food['img'],
-                  name: food['name'],
-                  id: food['id'],
-                  price: food['price'],
-                  description: food['description'],
-                );
-              },
-            ),
+            StreamBuilder<QuerySnapshot>(
+                stream: FirebaseFirestore.instance
+                    .collection('grill-list')
+                    .snapshots(),
+                builder:
+                    (BuildContext ctx, AsyncSnapshot<QuerySnapshot> snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return Center(
+                      child: CircularProgressIndicator(),
+                    );
+                  }
+                  if (snapshot.hasError) {
+                    return Text("Something went wrong");
+                  }
+                  final documents = snapshot.data.docs;
+                  return GridView.builder(
+                    shrinkWrap: true,
+                    primary: false,
+                    physics: NeverScrollableScrollPhysics(),
+                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 2,
+                      childAspectRatio: MediaQuery.of(context).size.width /
+                          (MediaQuery.of(context).size.height / 1.25),
+                    ),
+                    itemCount: documents.length,
+                    itemBuilder: (BuildContext context, int index) {
+                      // Map food = foods[index];
+                      return CatProduct(
+                        img: documents[index].data()['photourl'],
+                        name: documents[index].data()['name'],
+                        id: documents[index].data()['id'],
+                        price: documents[index].data()['price'],
+                        description: documents[index].data()['description'],
+                      );
+                    },
+                  );
+                }
+                // return Text("loading");
+                ),
             Text(
               "Chips",
               style: TextStyle(
@@ -249,27 +321,45 @@ class _MealScreenState extends State<MealScreen> {
               maxLines: 2,
             ),
             Divider(),
-            GridView.builder(
-              shrinkWrap: true,
-              primary: false,
-              physics: NeverScrollableScrollPhysics(),
-              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 2,
-                childAspectRatio: MediaQuery.of(context).size.width /
-                    (MediaQuery.of(context).size.height / 1.25),
-              ),
-              itemCount: 4,
-              itemBuilder: (BuildContext context, int index) {
-                Map food = foods[index];
-                return CatProduct1(
-                  img: food['img'],
-                  name: food['name'],
-                  id: food['id'],
-                  price: food['price'],
-                  description: food['description'],
-                );
-              },
-            ),
+            StreamBuilder<QuerySnapshot>(
+                stream: FirebaseFirestore.instance
+                    .collection('grill-list')
+                    .snapshots(),
+                builder:
+                    (BuildContext ctx, AsyncSnapshot<QuerySnapshot> snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return Center(
+                      child: CircularProgressIndicator(),
+                    );
+                  }
+                  if (snapshot.hasError) {
+                    return Text("Something went wrong");
+                  }
+                  final documents = snapshot.data.docs;
+                  return GridView.builder(
+                    shrinkWrap: true,
+                    primary: false,
+                    physics: NeverScrollableScrollPhysics(),
+                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 2,
+                      childAspectRatio: MediaQuery.of(context).size.width /
+                          (MediaQuery.of(context).size.height / 1.25),
+                    ),
+                    itemCount: documents.length,
+                    itemBuilder: (BuildContext context, int index) {
+                      // Map food = foods[index];
+                      return CatProduct(
+                        img: documents[index].data()['photourl'],
+                        name: documents[index].data()['name'],
+                        id: documents[index].data()['id'],
+                        price: documents[index].data()['price'],
+                        description: documents[index].data()['description'],
+                      );
+                    },
+                  );
+                }
+                // return Text("loading");
+                ),
             Text(
               "Fries",
               style: TextStyle(
@@ -281,27 +371,45 @@ class _MealScreenState extends State<MealScreen> {
               maxLines: 2,
             ),
             Divider(),
-            GridView.builder(
-              shrinkWrap: true,
-              primary: false,
-              physics: NeverScrollableScrollPhysics(),
-              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 2,
-                childAspectRatio: MediaQuery.of(context).size.width /
-                    (MediaQuery.of(context).size.height / 1.25),
-              ),
-              itemCount: 4,
-              itemBuilder: (BuildContext context, int index) {
-                Map food = foods[index];
-                return CatProduct1(
-                  img: food['img'],
-                  name: food['name'],
-                  id: food['id'],
-                  price: food['price'],
-                  description: food['description'],
-                );
-              },
-            ),
+            StreamBuilder<QuerySnapshot>(
+                stream: FirebaseFirestore.instance
+                    .collection('grill-list')
+                    .snapshots(),
+                builder:
+                    (BuildContext ctx, AsyncSnapshot<QuerySnapshot> snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return Center(
+                      child: CircularProgressIndicator(),
+                    );
+                  }
+                  if (snapshot.hasError) {
+                    return Text("Something went wrong");
+                  }
+                  final documents = snapshot.data.docs;
+                  return GridView.builder(
+                    shrinkWrap: true,
+                    primary: false,
+                    physics: NeverScrollableScrollPhysics(),
+                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 2,
+                      childAspectRatio: MediaQuery.of(context).size.width /
+                          (MediaQuery.of(context).size.height / 1.25),
+                    ),
+                    itemCount: documents.length,
+                    itemBuilder: (BuildContext context, int index) {
+                      // Map food = foods[index];
+                      return CatProduct(
+                        img: documents[index].data()['photourl'],
+                        name: documents[index].data()['name'],
+                        id: documents[index].data()['id'],
+                        price: documents[index].data()['price'],
+                        description: documents[index].data()['description'],
+                      );
+                    },
+                  );
+                }
+                // return Text("loading");
+                ),
           ],
         ),
       ),

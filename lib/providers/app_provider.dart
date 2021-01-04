@@ -14,6 +14,21 @@ class AppProvider extends ChangeNotifier {
   GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
   int cartlength = 0;
 
+  void changeNumbertoBig() {
+    cartlength++;
+    notifyListeners();
+  }
+
+  void changeNumbertoSmall() {
+    cartlength--;
+    notifyListeners();
+  }
+
+  void setNumbertozero() {
+    cartlength = 0;
+    notifyListeners();
+  }
+
   void setKey(value) {
     key = value;
     notifyListeners();
