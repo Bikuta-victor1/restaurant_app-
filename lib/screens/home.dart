@@ -1,15 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:menuapp/models/foodmodel.dart';
-//import 'package:menuapp/screens/categories_screen.dart';
-import 'package:menuapp/screens/dishes.dart';
 import 'package:menuapp/screens/drinkscreen.dart';
 import 'package:menuapp/screens/mealscreen.dart';
 import 'package:menuapp/widgets/grid_product.dart';
 //import 'package:menuapp/widgets/home_category.dart';
 import 'package:menuapp/widgets/slider_item.dart';
-import 'package:menuapp/util/foods.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 
 class Home extends StatefulWidget {
@@ -427,7 +423,15 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin<Home> {
                       color: Theme.of(context).accentColor,
                     ),
                   ),
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (BuildContext context) {
+                          return MealScreen();
+                        },
+                      ),
+                    );
+                  },
                 ),
               ],
             ),
