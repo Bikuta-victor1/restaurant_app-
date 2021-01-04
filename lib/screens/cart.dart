@@ -86,6 +86,7 @@ class _CartScreenState extends State<CartScreen>
             "productPrice": cart[index].productPrice,
             "itemQuantity": cart[index].itemQuantity,
             "photoUrl": cart[index].photoUrl,
+            "itemname": cart[index].productTitle
           };
           await documentReference.set(data).whenComplete(() {
             print('document added');
