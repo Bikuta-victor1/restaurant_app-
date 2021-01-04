@@ -131,7 +131,18 @@ Future<List> getalldishes() async {
   await documentReference.docs.forEach((document) {
     Food airfriedlists = Food.fromMap(document.data());
     alldishes.add(airfriedlists);
-    print(alldishes);
+    // print(alldishes);
+  });
+
+  QuerySnapshot gdocumentReference = await FirebaseFirestore.instance
+      // .doc("grill-list")
+      .collection("redwine-list")
+      // .orderBy('timeupload', descending: true)
+      .get();
+  await gdocumentReference.docs.forEach((document) {
+    Food airfriedlists = Food.fromMap(document.data());
+    alldishes.add(airfriedlists);
+    // print(alldishes);
   });
   return alldishes;
 }

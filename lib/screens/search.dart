@@ -3,51 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:menuapp/models/foodmodel.dart';
 import 'package:menuapp/screens/details.dart';
 import 'package:menuapp/util/const.dart';
-import 'package:menuapp/util/foods.dart';
 import 'package:menuapp/widgets/smooth_star_rating.dart';
 
 class SearchScreen extends StatefulWidget {
   @override
   _SearchScreenState createState() => _SearchScreenState();
 }
-
-// void getData() {
-//   Firestore.instance
-//       .collection("Tier-1")
-//       .where("searchKeywords", arrayContains: name)
-//       .snapshots()
-//       .then((querySnapshot) {
-//     querySnapshot.documents.forEach((result) {
-//       if (result.exists) {
-//         re(result.data);
-//       } else {
-//         Firestore.instance
-//             .collectionGroup("Tier-2")
-//             .where("name", isEqualTo: "peter")
-//             .getDocuments()
-//             .then((querySnapshot) {
-//           querySnapshot.documents.forEach((result) {
-//             if (result.exists) {
-//               print(result.data);
-//             } else {
-//               Firestore.instance
-//                   .collectionGroup("Tier-3")
-//                   .where("name", isEqualTo: "peter")
-//                   .getDocuments()
-//                   .then((querySnapshot) {
-//                 querySnapshot.documents.forEach((result) {
-//                   if (result.exists) {
-//                     print(result.data);
-//                   } else {}
-//                 });
-//               });
-//             }
-//           });
-//         });
-//       }
-//     });
-//   });
-// }
 
 class _SearchScreenState extends State<SearchScreen>
     with AutomaticKeepAliveClientMixin<SearchScreen> {
@@ -140,61 +101,52 @@ class _SearchScreenState extends State<SearchScreen>
               ),
             ),
           ),
-          // StreamBuilder<QuerySnapshot>(
-          //     stream: (name != "" && name != null)
-          //         ? Firestore.instance
-          //             .collection('grill-list')
-          //             .where("searchKeywords", arrayContains: name)
-          //             .snapshots()
-          //         : Firestore.instance
-          //             .collection('grill-list')
-          //             .where("searchKeywords", arrayContains: name))
-//           ListView.builder(
-//             shrinkWrap: true,
-//             primary: false,
-//             physics: NeverScrollableScrollPhysics(),
-//             itemCount: foods == null ? 0 : foods.length,
-//             itemBuilder: (BuildContext context, int index) {
-//               Map food = foods[index];
-//               return ListTile(
-//                 title: Text(
-//                   "${food['name']}",
-//                   style: TextStyle(
-// //                    fontSize: 15,
-//                     fontWeight: FontWeight.w900,
-//                   ),
-//                 ),
-//                 leading: CircleAvatar(
-//                   radius: 25.0,
-//                   backgroundImage: AssetImage(
-//                     "${food['img']}",
-//                   ),
-//                 ),
-//                 trailing: Text(r"$10"),
-//                 subtitle: Row(
-//                   children: <Widget>[
-//                     SmoothStarRating(
-//                       starCount: 1,
-//                       color: Constants.ratingBG,
-//                       allowHalfRating: true,
-//                       rating: 5.0,
-//                       size: 12.0,
-//                     ),
-//                     SizedBox(width: 6.0),
-//                     Text(
-//                       "5.0 (23 Reviews)",
-//                       style: TextStyle(
-//                         fontSize: 12,
-//                         fontWeight: FontWeight.w300,
-//                       ),
-//                     ),
-//                   ],
-//                 ),
-//                 onTap: () {},
-//               );
-//             },
-//           ),
-//           SizedBox(height: 30),
+          ListView.builder(
+            shrinkWrap: true,
+            primary: false,
+            //physics: NeverScrollableScrollPhysics(),
+            itemCount: alldishes.length,
+            itemBuilder: (BuildContext context, int index) {
+              // Map food = foods[index];
+              return ListTile(
+                title: Text(
+                  "${alldishes[index].name}",
+                  style: TextStyle(
+//                    fontSize: 15,
+                    fontWeight: FontWeight.w900,
+                  ),
+                ),
+                leading: CircleAvatar(
+                  radius: 25.0,
+                  backgroundImage: AssetImage(
+                    alldishes[index].photourl,
+                  ),
+                ),
+                trailing: Text("${alldishes[index].price}"),
+                subtitle: Row(
+                  children: <Widget>[
+                    SmoothStarRating(
+                      starCount: 1,
+                      color: Constants.ratingBG,
+                      allowHalfRating: true,
+                      rating: 5.0,
+                      size: 12.0,
+                    ),
+                    SizedBox(width: 6.0),
+                    Text(
+                      "${alldishes[index].totalrating}.0 (23 Reviews)",
+                      style: TextStyle(
+                        fontSize: 12,
+                        fontWeight: FontWeight.w300,
+                      ),
+                    ),
+                  ],
+                ),
+                onTap: () {},
+              );
+            },
+          ),
+          SizedBox(height: 30),
         ],
       ),
     );
@@ -324,31 +276,5 @@ class _SearchAppBarDelegate extends SearchDelegate<String> {
               );
             },
           );
-    // ListView.builder(
-    //     itemBuilder: (context, index) {
-    //       return ListTile(
-    //         title: Text(suggestionList[index].title),
-    //         onTap: () {
-    //           showResults(context);
-    //         },
-    //       );
-    //     },
-    //     itemCount: suggestionList.length,
-    //   );
   }
 }
-
-// class Item {
-//   final String title;
-
-//   Item({@required this.title});
-// }
-
-// List<Item> items = [
-//   Item(title: 'apple'),
-//   Item(title: 'mango'),
-//   Item(title: 'banana'),
-//   Item(title: 'pineapple'),
-//   Item(title: 'orange'),hi
-//   Item(title: 'oranges'),
-// ];
