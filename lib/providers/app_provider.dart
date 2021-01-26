@@ -13,6 +13,7 @@ class AppProvider extends ChangeNotifier {
   Key key = UniqueKey();
   GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
   int cartlength = 0;
+  int totalamount = 0;
 
   void changeNumbertoBig() {
     cartlength++;
@@ -27,6 +28,20 @@ class AppProvider extends ChangeNotifier {
   void setNumbertozero() {
     cartlength = 0;
     notifyListeners();
+  }
+
+  void addtoTotalAmount(int addedamount) {
+    totalamount = totalamount + addedamount;
+    notifyListeners();
+  }
+
+  void subFromTotalAmount(int subbedamount) {
+    totalamount = totalamount + subbedamount;
+    notifyListeners();
+  }
+
+  void setTotalAmounttoZero() {
+    totalamount = 0;
   }
 
   void setKey(value) {

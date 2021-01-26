@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:menuapp/models/foodmodel.dart';
 import 'package:menuapp/providers/app_provider.dart';
-import 'package:menuapp/screens/cart.dart';
 import 'package:menuapp/util/const.dart';
-import 'package:menuapp/widgets/badge.dart';
 import 'dart:convert' as con;
 import 'package:menuapp/widgets/smooth_star_rating.dart';
 import 'package:provider/provider.dart';
@@ -11,7 +9,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import '../models/foodmodel.dart';
 
-final Set<dynamic> _cartsaved = Set<dynamic>();
+//final Set<dynamic> _cartsaved = Set<dynamic>();
 
 class ProductDetails extends StatefulWidget {
   final String id;
@@ -108,7 +106,7 @@ class _ProductDetailsState extends State<ProductDetails> {
 
   @override
   Widget build(BuildContext context) {
-    alreadySaved = _cartsaved.contains(widget.name);
+    //alreadySaved = _cartsaved.contains(widget.name);
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,

@@ -1,8 +1,14 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:menuapp/models/foodmodel.dart';
+import 'package:menuapp/providers/app_provider.dart';
 import 'package:menuapp/util/const.dart';
 import 'package:menuapp/widgets/smooth_star_rating.dart';
 import 'package:menuapp/screens/details.dart';
+import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'dart:convert' as con;
 
 class CatProduct extends StatelessWidget {
   final String name;
@@ -29,6 +35,7 @@ class CatProduct extends StatelessWidget {
   }) : super(key: key);
 
   bool alreadysaved;
+   int iquantity = 1;
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -51,38 +58,74 @@ class CatProduct extends StatelessWidget {
                       ),
                     ),
                   ),
-                  // Positioned(
-                  //   right: -10.0,
-                  //   bottom: 3.0,
-                  //   child: RawMaterialButton(
-                  //     onPressed: () async {
-                  //       SharedPreferences prefs =
-                  //           await SharedPreferences.getInstance();
-                  //       var token = prefs.getString('deviceinfo');
-                  //       var timenow = DateTime.now().toString();
-                  //       if (addedtocart = true) {
-                  //         DocumentReference documentReference = await Firestore
-                  //             .instance
-                  //             .document("tables/$token")
-                  //             .collection("orders")
-                  //             .doc("${grills?timenow:null}");
-                  //       }
-                  //     },
-                  //     fillColor: Colors.white,
-                  //     shape: CircleBorder(),
-                  //     elevation: 4.0,
-                  //     child: Padding(
-                  //       padding: EdgeInsets.all(5),
-                  //       child: Icon(
-                  //         addedtocart
-                  //             ? Icons.shopping_cart
-                  //             : Icons.shopping_cart_outlined,
-                  //         color: Colors.red,
-                  //         size: 17,
-                  //       ),
-                  //     ),
-                  //   ),
-                  // ),
+                  Positioned(
+                    right: -10.0,
+                    bottom: 3.0,
+                    child: RawMaterialButton(
+                      onPressed: () async {
+                         print("$iquantity");
+                      SharedPreferences prefs =
+                          await SharedPreferences.getInstance();
+                      WidgetsFlutterBinding.ensureInitialized();
+                      var date = DateTime.now().toString();
+                      String token = await gettoken();
+                      try {
+                        //user = await auth.currentUser();
+                        //userid = token;
+                        // print(userid);
+                        var item = {
+                          "userID": id.toString(),
+                          "photoUrl": img,
+                          "productPrice": price.toString(),
+                          "created": date,
+                          "itemQuantity": iquantity.toString(),
+                          "productTitle": name
+                        };
+                        Cart carted = Cart.fromMap(item);
+                        cartlist.add(carted);
+
+                        //print(cartlist.length);
+                        prefs.setString('cartlist', con.json.encode(cartlist));
+                        cartlist =
+                            (await con.json.decode(prefs.getString('cartlist')))
+                                .map<Cart>((json) => Cart.fromJson(json))
+                                .toList();
+                        print(cartlist.length);
+                        // mycartlength = cartlist.length;
+                        // prefs.setInt('cartlistlength', cartlist.length);
+                        // prefs.reload();
+                        // prefs.getInt('cartlistlength');
+                        Provider.of<AppProvider>(context, listen: false)
+                            .changeNumbertoBig();
+                        Fluttertoast.showToast(
+                            msg: "$name added to Cart ",
+                            toastLength: Toast.LENGTH_SHORT,
+                            gravity: ToastGravity.BOTTOM,
+                            timeInSecForIosWeb: 1,
+                            backgroundColor: Constants.darkAccent,
+                            textColor: Colors.white,
+                            fontSize: 15.0);
+                      } on Exception catch (e) {
+                        return errorMSG(e.toString());
+                      }
+                      return id == null ? errorMSG("Error") : successfulMSG();
+                      // addToCart(widget.id, widget.name, widget.price, iquantity,
+                      //     widget.img);
+                  
+                      },
+                      fillColor: Colors.white,
+                      shape: CircleBorder(),
+                      elevation: 4.0,
+                      child: Padding(
+                        padding: EdgeInsets.all(5),
+                        child: Icon(
+                          Icons.shopping_cart_outlined,
+                          color: Colors.red,
+                          size: 17,
+                        ),
+                      ),
+                    ),
+                  ),
                 ],
               ),
               Padding(

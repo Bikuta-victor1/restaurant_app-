@@ -98,19 +98,9 @@ List<Food> alldishes = [];
 List<Food> suggestionList = [];
 List<Food> searchlist = [];
 List<Food> mydishes = [];
-// List<Food> airfriedlist = [];
-// List<Food> pepperedlist = [];
-// List<Food> nativelist = [];
-// List<Food> souplist = [];
-// List<Food> chipslist = [];
-// List<Food> frieslist = [];
+
 bool addedtocart = false;
-// bool isGrills = false;
-// bool isAirFried = false;
-// bool isPeppered = false;
-// bool isNative = false;
-// bool isSoup = false;
-// bool isChips = false;
+
 String userID;
 String created;
 String productTitle;

@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:menuapp/models/foodmodel.dart';
 import 'package:menuapp/providers/app_provider.dart';
 import 'package:provider/provider.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class IconBadge extends StatefulWidget {
   final IconData icon;

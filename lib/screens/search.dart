@@ -118,8 +118,8 @@ class _SearchScreenState extends State<SearchScreen>
                 ),
                 leading: CircleAvatar(
                   radius: 25.0,
-                  backgroundImage: AssetImage(
-                    alldishes[index].photourl,
+                  backgroundImage: NetworkImage(
+                     "${alldishes[index].photourl}",
                   ),
                 ),
                 trailing: Text("${alldishes[index].price}"),
