@@ -14,6 +14,7 @@ class AppProvider extends ChangeNotifier {
   GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
   int cartlength = 0;
   int totalamount = 0;
+  String mytable;
 
   void changeNumbertoBig() {
     cartlength++;
@@ -36,12 +37,18 @@ class AppProvider extends ChangeNotifier {
   }
 
   void subFromTotalAmount(int subbedamount) {
-    totalamount = totalamount + subbedamount;
+    totalamount = totalamount - subbedamount;
+    notifyListeners();
+  }
+
+  void setTable(String table) {
+    mytable = table;
     notifyListeners();
   }
 
   void setTotalAmounttoZero() {
     totalamount = 0;
+    notifyListeners();
   }
 
   void setKey(value) {

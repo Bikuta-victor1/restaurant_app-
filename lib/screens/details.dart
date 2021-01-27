@@ -390,7 +390,9 @@ class _ProductDetailsState extends State<ProductDetails> {
                   // prefs.reload();
                   // prefs.getInt('cartlistlength');
                   Provider.of<AppProvider>(context, listen: false)
-                      .changeNumbertoSmall();
+                      .changeNumbertoBig();
+                     Provider.of<AppProvider>(context, listen: false)
+                      .addtoTotalAmount(widget.price * iquantity); 
                 } on Exception catch (e) {
                   return errorMSG(e.toString());
                 }
@@ -399,6 +401,8 @@ class _ProductDetailsState extends State<ProductDetails> {
                 //     widget.img);
               } else {
                 SharedPreferences prefs = await SharedPreferences.getInstance();
+                 Provider.of<AppProvider>(context, listen: false)
+                      .subFromTotalAmount(widget.price * iquantity); 
                 cartlist.removeWhere((element) =>
                     (element.productTitle == widget.name) &&
                     (element.created == date));
@@ -410,12 +414,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                 print(cartlist.length);
                 Provider.of<AppProvider>(context, listen: false)
                     .changeNumbertoSmall();
-                // mycartlength = cartlist.length;
-                // prefs.setInt('cartlistlength', cartlist.length);
-                // prefs.reload();
-                // prefs.getInt('cartlistlength');
-                // removeFromCart(widget.id, widget.name, widget.price, iquantity,
-                //     widget.img);
+        
                 setState(() {
                   button = 'ADD TO CART';
                   _color = Colors.blue;

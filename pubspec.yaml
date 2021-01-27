@@ -30,6 +30,7 @@ dependencies:
   device_info: ^1.0.0
   shared_preferences: ^0.5.12+4
   fluttertoast: ^7.1.6
+  lottie: ^0.7.0+1
 
 
 dev_dependencies:
@@ -72,6 +73,7 @@ flutter:
     - assets/cm3.jpeg
     - assets/cm4.jpeg
     - assets/logo1.png
+    - assets/cooking.json
   # fonts:
   # - family: Vivaldii     
   #   fonts:
