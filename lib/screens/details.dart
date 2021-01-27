@@ -377,6 +377,8 @@ class _ProductDetailsState extends State<ProductDetails> {
                   };
                   Cart carted = Cart.fromMap(item);
                   cartlist.add(carted);
+                   Provider.of<AppProvider>(context, listen: false)
+                      .addtoTotalAmount(widget.price * iquantity); 
 
                   //print(cartlist.length);
                   prefs.setString('cartlist', con.json.encode(cartlist));
@@ -391,8 +393,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                   // prefs.getInt('cartlistlength');
                   Provider.of<AppProvider>(context, listen: false)
                       .changeNumbertoBig();
-                     Provider.of<AppProvider>(context, listen: false)
-                      .addtoTotalAmount(widget.price * iquantity); 
+                    
                 } on Exception catch (e) {
                   return errorMSG(e.toString());
                 }

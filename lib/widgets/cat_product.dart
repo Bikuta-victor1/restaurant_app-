@@ -83,7 +83,8 @@ class CatProduct extends StatelessWidget {
                         };
                         Cart carted = Cart.fromMap(item);
                         cartlist.add(carted);
-
+                                Provider.of<AppProvider>(context, listen: false)
+                            .addtoTotalAmount(price.toInt() * 1 );
                         //print(cartlist.length);
                         prefs.setString('cartlist', con.json.encode(cartlist));
                         cartlist =
@@ -97,6 +98,7 @@ class CatProduct extends StatelessWidget {
                         // prefs.getInt('cartlistlength');
                         Provider.of<AppProvider>(context, listen: false)
                             .changeNumbertoBig();
+                      
                         Fluttertoast.showToast(
                             msg: "$name added to Cart ",
                             toastLength: Toast.LENGTH_SHORT,

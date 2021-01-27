@@ -99,6 +99,8 @@ class _CartScreenState extends State<CartScreen>
   }
 
   _showDialog(BuildContext context) {
+    int mynewtotalamount =
+        Provider.of<AppProvider>(context, listen: true).totalamount;
     return showDialog(
         context: context,
         builder: (BuildContext context) {
@@ -154,7 +156,7 @@ class _CartScreenState extends State<CartScreen>
                       print(cartlist.length);
                       int index1 = cartlist.length;
                       for (int i = 0; i < index1; i++) {
-                        await checkoutTakeOut(cartlist, i);
+                        await checkoutTakeOut(cartlist, i, mynewtotalamount);
                       }
 
                       setState(() {
@@ -198,42 +200,8 @@ class _CartScreenState extends State<CartScreen>
         });
   }
 
-  Future<void> checkoutseatin(List<Cart> cart, int index, String table) async {
-    // bool isSignedIn = await googleSignIn.isSignedIn();
-    String token = await gettoken();
-    var date = DateTime.now().toString();
-    if (token != null) {
-      // if so, return the current user
-      print(token);
-      print(cart.length);
-      DocumentReference documentReference =
-          FirebaseFirestore.instance.doc("Orders/${date}");
-      await documentReference.get().then((datasnapshot) async {
-        if (datasnapshot.exists) {
-          // warning = "User already exist";
-        } else {
-          Map<String, String> data = <String, String>{
-            "mytoken": token,
-            "id": cart[index].userID,
-            "ordermade": date,
-            "created": cart[index].created,
-            "productPrice": cart[index].productPrice,
-            "itemQuantity": cart[index].itemQuantity,
-            "photoUrl": cart[index].photoUrl,
-            "itemname": cart[index].productTitle
-          };
-          await documentReference.set(data).whenComplete(() {
-            print('document added');
-          }).catchError((e) {
-            print(e);
-            warning = e.message;
-          });
-        }
-      });
-    }
-  }
 
-  Future<void> checkoutTakeOut(List<Cart> cart, int index) async {
+  Future<void> checkoutTakeOut(List<Cart> cart, int index, int total) async {
     // bool isSignedIn = await googleSignIn.isSignedIn();
     String token = await gettoken();
     var date = DateTime.now().toString();
@@ -257,7 +225,8 @@ class _CartScreenState extends State<CartScreen>
             "itemQuantity": cart[index].itemQuantity,
             "photoUrl": cart[index].photoUrl,
             "itemname": cart[index].productTitle,
-            "ordertype": type
+            "ordertype": type,
+            "totalamount" : total.toString(),
           };
           await documentReference.set(data).whenComplete(() {
             print('document added');
@@ -545,7 +514,7 @@ class _CartScreenState extends State<CartScreen>
           print(cartlist.length);
           // int index1 = cartlist.length;
           if (cartlist.length != 0) {
-            _showDialog(context);
+            _showDialog(context, );
             // for (int i = 0; i < index1; i++) {
             //   await checkout(cartlist, i);
             // }
@@ -670,7 +639,7 @@ class SeatIn extends StatefulWidget {
   _SeatInState createState() => _SeatInState();
 }
 
-Future<void> checkoutseatin(List<Cart> cart, int index, String table) async {
+Future<void> checkoutseatin(List<Cart> cart, int index, String table, int total) async {
   // bool isSignedIn = await googleSignIn.isSignedIn();
   String token = await gettoken();
   var date = DateTime.now().toString();
@@ -678,7 +647,8 @@ Future<void> checkoutseatin(List<Cart> cart, int index, String table) async {
     // if so, return the current user
     print(token);
     print(cart.length);
-    DocumentReference documentReference =
+    int producttottalamount = int.parse(cart[index].itemQuantity) * int.parse(cart[index].productPrice);
+    DocumentReference documentReference = 
         FirebaseFirestore.instance.doc("Orders/${table}");
     await documentReference.get().then((datasnapshot) async {
       if (datasnapshot.exists) {
@@ -689,12 +659,13 @@ Future<void> checkoutseatin(List<Cart> cart, int index, String table) async {
           "id": cart[index].userID,
           "ordermade": date,
           "created": cart[index].created,
-          "productPrice": cart[index].productPrice,
+          "producttotalPrice": producttottalamount.toString(),
           "itemQuantity": cart[index].itemQuantity,
           "photoUrl": cart[index].photoUrl,
           "table": table,
           "ordertype": "Seat In ",
-          "itemname": cart[index].productTitle
+          "itemname": cart[index].productTitle,
+          "totalamountoforder": total.toString()
         };
         await documentReference.set(data).whenComplete(() {
           print('document added');
@@ -706,6 +677,7 @@ Future<void> checkoutseatin(List<Cart> cart, int index, String table) async {
     });
   }
 }
+
 
 class _SeatInState extends State<SeatIn> {
   @override
@@ -799,13 +771,16 @@ class _SeatInState extends State<SeatIn> {
         ),
         floatingActionButton: FloatingActionButton(
           tooltip: "Checkout",
+          
           onPressed: () async {
+              int mynewtotalamount =
+        Provider.of<AppProvider>(context, listen: true).totalamount;
             _selectedtable = null;
             print(cartlist.length);
             print(cartlist.length);
             int index1 = cartlist.length;
             for (int i = 0; i < index1; i++) {
-              await checkoutseatin(cartlist, i, _selectedtable);
+              await checkoutseatin(cartlist, i, _selectedtable, mynewtotalamount);
             }
 
             setState(() {
