@@ -99,11 +99,12 @@ class _CartScreenState extends State<CartScreen>
   }
 
   _showDialog(BuildContext context) {
-    int mynewtotalamount =
-        Provider.of<AppProvider>(context, listen: true).totalamount;
+
     return showDialog(
-        context: context,
+        context: context,        
         builder: (BuildContext context) {
+              int mynewtotalamount =
+        Provider.of<AppProvider>(context, listen: true).totalamount;
           return new AlertDialog(
             content: new Container(
               width: MediaQuery.of(context).size.width / 1.5,
@@ -514,7 +515,7 @@ class _CartScreenState extends State<CartScreen>
           print(cartlist.length);
           // int index1 = cartlist.length;
           if (cartlist.length != 0) {
-            _showDialog(context, );
+            _showDialog(context);
             // for (int i = 0; i < index1; i++) {
             //   await checkout(cartlist, i);
             // }
@@ -649,7 +650,7 @@ Future<void> checkoutseatin(List<Cart> cart, int index, String table, int total)
     print(cart.length);
     int producttottalamount = int.parse(cart[index].itemQuantity) * int.parse(cart[index].productPrice);
     DocumentReference documentReference = 
-        FirebaseFirestore.instance.doc("Orders/${table}");
+        FirebaseFirestore.instance.doc("Orders/table ${table} ,${date}");
     await documentReference.get().then((datasnapshot) async {
       if (datasnapshot.exists) {
         // warning = "User already exist";
@@ -682,6 +683,8 @@ Future<void> checkoutseatin(List<Cart> cart, int index, String table, int total)
 class _SeatInState extends State<SeatIn> {
   @override
   Widget build(BuildContext context) {
+       int mynewtotalamount =
+        Provider.of<AppProvider>(context, listen: true).totalamount;
     String _selectedtable =
         Provider.of<AppProvider>(context, listen: true).mytable;
     return Scaffold(
@@ -773,9 +776,8 @@ class _SeatInState extends State<SeatIn> {
           tooltip: "Checkout",
           
           onPressed: () async {
-              int mynewtotalamount =
-        Provider.of<AppProvider>(context, listen: true).totalamount;
-            _selectedtable = null;
+           
+            //_selectedtable = null;
             print(cartlist.length);
             print(cartlist.length);
             int index1 = cartlist.length;
@@ -789,6 +791,8 @@ class _SeatInState extends State<SeatIn> {
                   .setNumbertozero();
               Provider.of<AppProvider>(context, listen: false)
                   .setTotalAmounttoZero();
+                  Provider.of<AppProvider>(context, listen: false)
+                  .setTable(null);
               cartlist = [];
             });
             Navigator.of(context).push(
