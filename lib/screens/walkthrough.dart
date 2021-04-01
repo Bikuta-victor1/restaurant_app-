@@ -52,7 +52,7 @@ class _WalkthroughState extends State<Walkthrough> {
               Navigator.of(context).push(
                 MaterialPageRoute(
                   builder: (BuildContext context) {
-                    return MainScreen();
+                    return MainScreen(mypage: 0,);
                   },
                 ),
               );
@@ -61,7 +61,7 @@ class _WalkthroughState extends State<Walkthrough> {
               Navigator.of(context).push(
                 MaterialPageRoute(
                   builder: (BuildContext context) {
-                    return MainScreen();
+                    return MainScreen(mypage: 0,);
                   },
                 ),
               );

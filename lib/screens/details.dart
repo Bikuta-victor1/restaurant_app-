@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:menuapp/models/foodmodel.dart';
 import 'package:menuapp/providers/app_provider.dart';
+import 'package:menuapp/screens/main_screen.dart';
 import 'package:menuapp/util/const.dart';
+import 'package:menuapp/widgets/badge.dart';
 import 'dart:convert' as con;
 import 'package:menuapp/widgets/smooth_star_rating.dart';
 import 'package:provider/provider.dart';
@@ -122,21 +124,28 @@ class _ProductDetailsState extends State<ProductDetails> {
         ),
         elevation: 0.0,
         actions: <Widget>[
-          // IconButton(
-          //   icon: IconBadge(
-          //     icon: Icons.shopping_cart_outlined,
-          //     size: 22.0,
-          //   ),
-          //   onPressed: () {
-          //     Navigator.of(context).push(
-          //       MaterialPageRoute(
-          //         builder: (BuildContext context) {
-          //           return CartScreen();
-          //         },
-          //       ),
-          //     );
-          //   },
-          // ),
+            IconButton(
+            icon:IconBadge(
+                    icon: Icons.shopping_cart,
+                    size: 24.0,
+                  ),
+            onPressed: () {
+             Navigator.of(context).pushReplacement(
+                MaterialPageRoute(
+                  builder: (BuildContext context) {
+                    return MainScreen(mypage: 2,);
+                  },
+                ),
+              );
+              // Navigator.of(context).push(
+              //   MaterialPageRoute(
+              //     builder: (BuildContext context) {
+              //       return Notifications();
+              //     },
+              //   ),
+              // );
+            },
+          ),
         ],
       ),
       body: Padding(

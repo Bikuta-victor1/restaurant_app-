@@ -62,7 +62,7 @@ class _IconBadgeState extends State<IconBadge> {
                     padding: EdgeInsets.only(top: 1),
                     child: Text(
                       //mynewCartlength == null ? "0" :
-                      "${mynewCartlength}",
+                      "$mynewCartlength",
                       style: TextStyle(
                         color: Colors.white,
                         fontSize: 8,
@@ -72,7 +72,7 @@ class _IconBadgeState extends State<IconBadge> {
                   ),
                 ),
               )
-            : Container(),
+            : Text(''),
       ],
     );
   }

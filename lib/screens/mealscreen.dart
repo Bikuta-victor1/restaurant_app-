@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:menuapp/providers/app_provider.dart';
+import 'package:menuapp/screens/main_screen.dart';
+import 'package:menuapp/widgets/badge.dart';
 //import 'package:restaurant_app/screens/notifications.dart';
 //import 'package:restaurant_app/widgets/badge.dart';
 import 'package:menuapp/widgets/cat_product.dart';
 //import 'package:restaurant_app/widgets/grid_product.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:provider/provider.dart';
 
 class MealScreen extends StatefulWidget {
   // final String documentId;
@@ -16,6 +20,7 @@ class MealScreen extends StatefulWidget {
 class _MealScreenState extends State<MealScreen> {
   @override
   Widget build(BuildContext context) {
+     var provider = Provider.of<AppProvider>(context);
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
@@ -35,21 +40,28 @@ class _MealScreenState extends State<MealScreen> {
         ),
         elevation: 0.0,
         actions: <Widget>[
-          // IconButton(
-          //   icon: IconBadge(
-          //     icon: Icons.notifications,
-          //     size: 22.0,
-          //   ),
-          //   onPressed: () {
-          //     Navigator.of(context).push(
-          //       MaterialPageRoute(
-          //         builder: (BuildContext context) {
-          //           return Notifications();
-          //         },
-          //       ),
-          //     );
-          //   },
-          // ),
+          IconButton(
+            icon:IconBadge(
+                    icon: Icons.shopping_cart,
+                    size: 24.0,
+                  ),
+            onPressed: () {
+             Navigator.of(context).pushReplacement(
+                MaterialPageRoute(
+                  builder: (BuildContext context) {
+                    return MainScreen(mypage: 2,);
+                  },
+                ),
+              );
+              // Navigator.of(context).push(
+              //   MaterialPageRoute(
+              //     builder: (BuildContext context) {
+              //       return Notifications();
+              //     },
+              //   ),
+              // );
+            },
+          ),
         ],
       ),
       body: Padding(

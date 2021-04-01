@@ -272,6 +272,8 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin<Home> {
                       ),
                     ),
                   ),
+
+                    SizedBox(width: 15),
                   InkWell(
                     onTap: () {
                       Navigator.of(context).push(
@@ -328,62 +330,7 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin<Home> {
                       ),
                     ),
                   ),
-                  InkWell(
-                    onTap: () {
-                      Navigator.of(context).push(
-                        MaterialPageRoute(
-                          builder: (BuildContext context) {
-                            return DrinkScreen();
-                          },
-                        ),
-                      );
-                    },
-                    child: Card(
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10.0)),
-                      elevation: 4.0,
-                      child: Padding(
-                        padding: EdgeInsets.fromLTRB(10.0, 0.0, 10.0, 0.0),
-                        child: Row(
-                          children: <Widget>[
-                            Padding(
-                              padding: EdgeInsets.only(left: 0.0, right: 10.0),
-                              child: Icon(
-                                FontAwesomeIcons.birthdayCake,
-                                color: Theme.of(context).accentColor,
-                              ),
-                            ),
-                            SizedBox(width: 5),
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              mainAxisSize: MainAxisSize.min,
-                              children: <Widget>[
-                                SizedBox(height: 10.0),
-                                Text(
-                                  "Side Dishes",
-                                  style: TextStyle(
-                                    fontWeight: FontWeight.w900,
-                                    //       fontFamily: 'Vivaldii',
-                                    letterSpacing: 1.4,
-                                    fontSize: 17,
-                                  ),
-                                ),
-                                Text(
-                                  "2 Items",
-                                  style: TextStyle(
-                                    fontWeight: FontWeight.w400,
-                                    fontSize: 10,
-                                  ),
-                                ),
-                                SizedBox(height: 5),
-                              ],
-                            ),
-                            SizedBox(width: 5),
-                          ],
-                        ),
-                      ),
-                    ),
-                  ),
+               
                 ],
                 // itemCount: categories == null ? 0 : categories.length,
                 // itemBuilder: (BuildContext context, int index) {

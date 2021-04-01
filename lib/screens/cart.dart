@@ -297,6 +297,7 @@ class _CartScreenState extends State<CartScreen>
                     padding: const EdgeInsets.all(8.0),
                     child: ListView.builder(
                       shrinkWrap: true,
+                      physics: NeverScrollableScrollPhysics(),
                       itemCount: cartlist.length,
                       itemBuilder: (context, index) {
                         return Dismissible(
@@ -340,109 +341,91 @@ class _CartScreenState extends State<CartScreen>
                           },
                           child: Padding(
                             padding: EdgeInsets.fromLTRB(0, 4, 0, 4),
-                            child: InkWell(
-                              onTap: () {
-                                // Navigator.of(context).push(
-                                //   MaterialPageRoute(
-                                //     builder: (BuildContext context) {
-                                //       return ProductDetails(
-                                //         id: snapshot.data.documents[index][userID],
-                                //         description: description,
-                                //         name: name,
-                                //         img: snapshot.data.documents[index]
-                                //             [photoUrl],
-                                //         price: price,
-                                //       );
-                                //     },
-                                //   ),
-                                // );
-                              },
-                              child: Row(
-                                children: <Widget>[
-                                  Padding(
-                                    padding:
-                                        EdgeInsets.only(left: 0.0, right: 10.0),
-                                    child: Container(
-                                      height:
-                                          MediaQuery.of(context).size.width /
-                                              3.5,
-                                      width:
-                                          MediaQuery.of(context).size.width / 3,
-                                      child: ClipRRect(
-                                        borderRadius:
-                                            BorderRadius.circular(8.0),
-                                        child: Image.network(
-                                          cartlist[index].photoUrl,
-                                          fit: BoxFit.cover,
-                                        ),
+                            child: Row(
+                              children: <Widget>[
+                                Padding(
+                                  padding:
+                                      EdgeInsets.only(left: 0.0, right: 10.0),
+                                  child: Container(
+                                    height:
+                                        MediaQuery.of(context).size.width /
+                                            3.5,
+                                    width:
+                                        MediaQuery.of(context).size.width / 3,
+                                    child: ClipRRect(
+                                      borderRadius:
+                                          BorderRadius.circular(8.0),
+                                      child: Image.network(
+                                        cartlist[index].photoUrl,
+                                        fit: BoxFit.cover,
                                       ),
                                     ),
                                   ),
-                                  Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    mainAxisSize: MainAxisSize.min,
-                                    children: <Widget>[
-                                      Text(
-                                        "${cartlist[index].productTitle}",
-                                        style: TextStyle(
-                                          fontWeight: FontWeight.w900,
+                                ),
+                                Column(
+                                  crossAxisAlignment:
+                                      CrossAxisAlignment.start,
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: <Widget>[
+                                    Text(
+                                      "${cartlist[index].productTitle}",
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.w900,
+                                      ),
+                                    ),
+                                    SizedBox(height: 10.0),
+                                    Row(
+                                      children: <Widget>[
+                                        SmoothStarRating(
+                                          starCount: 1,
+                                          color: Constants.ratingBG,
+                                          allowHalfRating: true,
+                                          rating: 5.0,
+                                          size: 12.0,
                                         ),
-                                      ),
-                                      SizedBox(height: 10.0),
-                                      Row(
-                                        children: <Widget>[
-                                          SmoothStarRating(
-                                            starCount: 1,
-                                            color: Constants.ratingBG,
-                                            allowHalfRating: true,
-                                            rating: 5.0,
-                                            size: 12.0,
+                                        SizedBox(width: 6.0),
+                                        Text(
+                                          "4.5 ",
+                                          style: TextStyle(
+                                            fontSize: 12,
+                                            fontWeight: FontWeight.w300,
                                           ),
-                                          SizedBox(width: 6.0),
-                                          Text(
-                                            "4.5 ",
-                                            style: TextStyle(
-                                              fontSize: 12,
-                                              fontWeight: FontWeight.w300,
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                      SizedBox(height: 10.0),
-                                      Row(
-                                        children: <Widget>[
-                                          Text(
-                                            "${int.parse(cartlist[index].itemQuantity)} Pieces",
-                                            style: TextStyle(
-                                              fontSize: 11.0,
-                                              fontWeight: FontWeight.w300,
-                                            ),
-                                          ),
-                                          SizedBox(width: 10.0),
-                                          Text(
-                                            "N${double.parse(cartlist[index].productPrice) * int.parse(cartlist[index].itemQuantity) }",
-                                            style: TextStyle(
-                                              fontSize: 14.0,
-                                              fontWeight: FontWeight.w900,
-                                              color:
-                                                  Theme.of(context).accentColor,
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                      SizedBox(height: 10.0),
-                                      Text(
-                                        "Quantity: ${int.parse(cartlist[index].itemQuantity)}",
-                                        style: TextStyle(
-                                          fontSize: 11.0,
-                                          fontWeight: FontWeight.w300,
                                         ),
+                                      ],
+                                    ),
+                                    SizedBox(height: 10.0),
+                                    Row(
+                                      children: <Widget>[
+                                        Text(
+                                          "${int.parse(cartlist[index].itemQuantity)} Pieces",
+                                          style: TextStyle(
+                                            fontSize: 11.0,
+                                            fontWeight: FontWeight.w300,
+                                          ),
+                                        ),
+                                        SizedBox(width: 10.0),
+                                        Text(
+                                          "N${double.parse(cartlist[index].productPrice) * int.parse(cartlist[index].itemQuantity) }",
+                                          style: TextStyle(
+                                            fontSize: 14.0,
+                                            fontWeight: FontWeight.w900,
+                                            color:
+                                                Theme.of(context).accentColor,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                    SizedBox(height: 10.0),
+                                    Text(
+                                      "Quantity: ${int.parse(cartlist[index].itemQuantity)}",
+                                      style: TextStyle(
+                                        fontSize: 11.0,
+                                        fontWeight: FontWeight.w300,
                                       ),
-                                    ],
-                                  ),
-                                ],
-                              ),
+                                    ),
+                                  ],
+                                ),
+                              ],
                             ),
                           ),
                         );
@@ -456,7 +439,7 @@ class _CartScreenState extends State<CartScreen>
             cartlist.length != 0
                 ? Container(
                     height: 70,
-                    width: MediaQuery.of(context).size.width / 2.3,
+                    width: MediaQuery.of(context).size.width / 2.0,
                     child: Card(
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(10.0)),
@@ -472,7 +455,7 @@ class _CartScreenState extends State<CartScreen>
                                 color: Theme.of(context).accentColor,
                               ),
                             ),
-                            SizedBox(width: 5),
+                            SizedBox(width: 10),
                             Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               mainAxisSize: MainAxisSize.min,
@@ -597,7 +580,7 @@ class _TakeOutState extends State<TakeOut> {
               Navigator.of(context).pushReplacement(
                 MaterialPageRoute(
                   builder: (BuildContext context) {
-                    return MainScreen();
+                    return MainScreen(mypage: 0,);
                   },
                 ),
               );
@@ -734,7 +717,11 @@ class _SeatInState extends State<SeatIn> {
                         height: 55,
                         width: 40,
                         decoration: BoxDecoration(
-                          color: Colors.grey,
+                         // color: Colors.grey,
+                          border: Border.all(
+                            width: 1.5,
+
+color: Colors.grey                          ),
                           borderRadius: BorderRadius.circular(8.0),
                         ),
                         child: Padding(

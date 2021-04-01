@@ -13,11 +13,32 @@ class AppProvider extends ChangeNotifier {
   Key key = UniqueKey();
   GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
   int cartlength = 0;
+
   int totalamount = 0;
+  // int navpages = 0;
+  // PageController pageController = PageController(initialPage: 0);
   String mytable;
 
   void changeNumbertoBig() {
     cartlength++;
+    notifyListeners();
+  }
+  //   void onPageChanged(int page) {
+
+  //     navpages = page;
+
+  // }
+  int _currentIndex = 0;
+
+  get currentIndex => _currentIndex;
+
+  set currentIndex(int index) {
+    _currentIndex = index;
+    notifyListeners();
+  }
+
+  void changecurrentIndex(int index) {
+     _currentIndex = index;
     notifyListeners();
   }
 
@@ -26,10 +47,19 @@ class AppProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  // void navigationTapped(int page) {
+  //   pageController.jumpToPage(page);
+  // }
+
   void setNumbertozero() {
     cartlength = 0;
     notifyListeners();
   }
+
+  // void navigateToMyPage(int page) {
+  //   navpages = page;
+  //   notifyListeners();
+  // }
 
   void addtoTotalAmount(int addedamount) {
     totalamount = totalamount + addedamount;

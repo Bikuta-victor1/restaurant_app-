@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:menuapp/screens/main_screen.dart';
+import 'package:menuapp/widgets/badge.dart';
 //import 'package:menuapp/screens/notifications.dart';
 import 'package:menuapp/widgets/cat_product.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -30,21 +32,28 @@ class _DrinkScreenState extends State<DrinkScreen> {
         ),
         elevation: 0.0,
         actions: <Widget>[
-          //   IconButton(
-          //     icon: IconBadge(
-          //       icon: Icons.notifications,
-          //       size: 22.0,
-          //     ),
-          //     onPressed: () {
-          //       Navigator.of(context).push(
-          //         MaterialPageRoute(
-          //           builder: (BuildContext context) {
-          //             return Notifications();
-          //           },
-          //         ),
-          //       );
-          //     },
-          //   ),
+      IconButton(
+            icon:IconBadge(
+                    icon: Icons.shopping_cart,
+                    size: 24.0,
+                  ),
+            onPressed: () {
+             Navigator.of(context).pushReplacement(
+                MaterialPageRoute(
+                  builder: (BuildContext context) {
+                    return MainScreen(mypage: 2,);
+                  },
+                ),
+              );
+              // Navigator.of(context).push(
+              //   MaterialPageRoute(
+              //     builder: (BuildContext context) {
+              //       return Notifications();
+              //     },
+              //   ),
+              // );
+            },
+          ),
         ],
       ),
       body: Padding(

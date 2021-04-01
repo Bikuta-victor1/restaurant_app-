@@ -1,11 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
-import 'package:menuapp/providers/app_provider.dart';
-import 'package:menuapp/widgets/badge.dart';
-import 'package:provider/provider.dart';
+
 import 'dart:convert' as con;
 import 'package:shared_preferences/shared_preferences.dart';
+
 
 class Food {
   String name;
@@ -108,7 +107,6 @@ String productPrice;
 String itemQuantity;
 String photoUrl;
 String successful = 'Successful';
-
 
 FirebaseFirestore firestore = FirebaseFirestore.instance;
 
