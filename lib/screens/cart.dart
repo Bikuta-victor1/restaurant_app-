@@ -77,6 +77,24 @@ class _CartScreenState extends State<CartScreen>
     super.initState();
   }
 
+  void addquantity(int i, List<Cart> list) {
+    list[i].itemQuantity = '${int.parse(list[i].itemQuantity) + 1}';
+    Provider.of<AppProvider>(context, listen: false)
+        .addtoTotalAmount(int.parse(list[i].productPrice));
+  }
+
+  void remmovequantity(int i, List<Cart> list) {
+    if (int.parse(list[i].itemQuantity) <= 0) {
+      list[i].itemQuantity = '0';
+
+      //  list[i].itemQuantity = '${int.parse( list[i].itemQuantity) - 1}';
+    } else {
+      list[i].itemQuantity = '${int.parse(list[i].itemQuantity) - 1}';
+      Provider.of<AppProvider>(context, listen: false)
+          .subFromTotalAmount(int.parse(list[i].productPrice));
+    }
+  }
+
   @override
   void dispose() {
     // TODO: implement dispose
@@ -99,12 +117,11 @@ class _CartScreenState extends State<CartScreen>
   }
 
   _showDialog(BuildContext context) {
-
     return showDialog(
-        context: context,        
+        context: context,
         builder: (BuildContext context) {
-              int mynewtotalamount =
-        Provider.of<AppProvider>(context, listen: true).totalamount;
+          int mynewtotalamount =
+              Provider.of<AppProvider>(context, listen: true).totalamount;
           return new AlertDialog(
             content: new Container(
               width: MediaQuery.of(context).size.width / 1.5,
@@ -120,7 +137,7 @@ class _CartScreenState extends State<CartScreen>
                 children: <Widget>[
                   GestureDetector(
                     onTap: () {
-                       Navigator.pop(context);
+                      Navigator.pop(context);
                       Navigator.of(context).push(
                         MaterialPageRoute(
                           builder: (BuildContext context) {
@@ -153,7 +170,6 @@ class _CartScreenState extends State<CartScreen>
                   // dialog bottom
                   GestureDetector(
                     onTap: () async {
-                     
                       print(cartlist.length);
                       int index1 = cartlist.length;
                       for (int i = 0; i < index1; i++) {
@@ -201,7 +217,6 @@ class _CartScreenState extends State<CartScreen>
         });
   }
 
-
   Future<void> checkoutTakeOut(List<Cart> cart, int index, int total) async {
     // bool isSignedIn = await googleSignIn.isSignedIn();
     String token = await gettoken();
@@ -212,7 +227,7 @@ class _CartScreenState extends State<CartScreen>
       print(token);
       print(cart.length);
       DocumentReference documentReference =
-          FirebaseFirestore.instance.doc("Orders/${date}");
+          FirebaseFirestore.instance.doc("TakeOrders / ${date}takeout ");
       await documentReference.get().then((datasnapshot) async {
         if (datasnapshot.exists) {
           // warning = "User already exist";
@@ -227,7 +242,7 @@ class _CartScreenState extends State<CartScreen>
             "photoUrl": cart[index].photoUrl,
             "itemname": cart[index].productTitle,
             "ordertype": type,
-            "totalamount" : total.toString(),
+            "totalamount": total.toString(),
           };
           await documentReference.set(data).whenComplete(() {
             print('document added');
@@ -293,6 +308,62 @@ class _CartScreenState extends State<CartScreen>
         child: Column(
           children: [
             cartlist.length != 0
+                ? Container(
+                    height: 70,
+                    width: MediaQuery.of(context).size.width / 2.0,
+                    child: Card(
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10.0)),
+                      elevation: 4.0,
+                      child: Padding(
+                        padding: EdgeInsets.fromLTRB(10.0, 0.0, 10.0, 0.0),
+                        child: Row(
+                          children: <Widget>[
+                            Padding(
+                              padding: EdgeInsets.only(left: 0.0, right: 10.0),
+                              child: Icon(
+                                FontAwesomeIcons.moneyBill,
+                                color: Theme.of(context).accentColor,
+                              ),
+                            ),
+                            SizedBox(width: 10),
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              mainAxisSize: MainAxisSize.min,
+                              children: <Widget>[
+                                SizedBox(height: 10.0),
+                                Text(
+                                  "Total amount",
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.w900,
+                                    //       fontFamily: 'Vivaldii',
+                                    letterSpacing: 1.4,
+                                    fontSize: 15,
+                                  ),
+                                ),
+                                SizedBox(
+                                  height: 10,
+                                ),
+                                Text(
+                                  "\u20A6${formatCurrency.format(mynewtotalamount)}",
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.w400,
+                                    fontSize: 16,
+                                  ),
+                                ),
+                                SizedBox(height: 5),
+                              ],
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  )
+                : Container(),
+            SizedBox(
+              height: 5.0,
+            ),
+            cartlist.length != 0
                 ? Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: ListView.builder(
@@ -315,9 +386,9 @@ class _CartScreenState extends State<CartScreen>
                             });
                             print('${cartlist[index].productPrice.toString()}');
                             Provider.of<AppProvider>(context, listen: false)
-                                .subFromTotalAmount(
-                                    int.parse(cartlist[index].productPrice) *
-                                        int.parse(cartlist[index].itemQuantity) );
+                                .subFromTotalAmount(int.parse(
+                                        cartlist[index].productPrice) *
+                                    int.parse(cartlist[index].itemQuantity));
                             // print(
                             //     '${Provider.of<AppProvider>(context, listen: true).totalamount * 1}');
                             cartlist.removeWhere((element) =>
@@ -348,13 +419,11 @@ class _CartScreenState extends State<CartScreen>
                                       EdgeInsets.only(left: 0.0, right: 10.0),
                                   child: Container(
                                     height:
-                                        MediaQuery.of(context).size.width /
-                                            3.5,
+                                        MediaQuery.of(context).size.width / 3.5,
                                     width:
                                         MediaQuery.of(context).size.width / 3,
                                     child: ClipRRect(
-                                      borderRadius:
-                                          BorderRadius.circular(8.0),
+                                      borderRadius: BorderRadius.circular(8.0),
                                       child: Image.network(
                                         cartlist[index].photoUrl,
                                         fit: BoxFit.cover,
@@ -363,8 +432,7 @@ class _CartScreenState extends State<CartScreen>
                                   ),
                                 ),
                                 Column(
-                                  crossAxisAlignment:
-                                      CrossAxisAlignment.start,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
                                   mainAxisSize: MainAxisSize.min,
                                   children: <Widget>[
                                     Text(
@@ -405,7 +473,7 @@ class _CartScreenState extends State<CartScreen>
                                         ),
                                         SizedBox(width: 10.0),
                                         Text(
-                                          "N${double.parse(cartlist[index].productPrice) * int.parse(cartlist[index].itemQuantity) }",
+                                          "N${double.parse(cartlist[index].productPrice) * int.parse(cartlist[index].itemQuantity)}",
                                           style: TextStyle(
                                             fontSize: 14.0,
                                             fontWeight: FontWeight.w900,
@@ -425,6 +493,62 @@ class _CartScreenState extends State<CartScreen>
                                     ),
                                   ],
                                 ),
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceEvenly,
+                                  //crossAxisAlignment: CrossAxisAlignment.end,
+                                  children: <Widget>[
+                                    new CircleAvatar(
+                                      radius: 15,
+                                      backgroundColor: Constants.lightAccent,
+                                      child: Center(
+                                        child: IconButton(
+                                          icon: Icon(
+                                            Icons.remove,
+                                            color: Colors.white,
+                                            size: 12,
+                                          ),
+                                          onPressed: () {
+                                            setState(() {
+                                              remmovequantity(index, cartlist);
+                                            });
+                                            //  print(cartlist[index].itemQuantity);
+                                          },
+                                        ),
+                                      ),
+                                    ),
+                                    SizedBox(
+                                      width: 5.0,
+                                    ),
+                                    Text(
+                                      '${int.parse(cartlist[index].itemQuantity)}',
+                                      style: TextStyle(
+                                        fontSize: 16.0,
+                                        fontWeight: FontWeight.w400,
+                                      ),
+                                    ),
+                                    SizedBox(
+                                      width: 5.0,
+                                    ),
+                                    CircleAvatar(
+                                      backgroundColor: Constants.lightAccent,
+                                      radius: 15,
+                                      child: Center(
+                                        child: IconButton(
+                                            icon: Icon(
+                                              Icons.add,
+                                              size: 15,
+                                              color: Colors.white,
+                                            ),
+                                            onPressed: () {
+                                              setState(() {
+                                                addquantity(index, cartlist);
+                                              });
+                                            }),
+                                      ),
+                                    ),
+                                  ],
+                                ),
                               ],
                             ),
                           ),
@@ -436,7 +560,7 @@ class _CartScreenState extends State<CartScreen>
             SizedBox(
               height: 20.0,
             ),
-            cartlist.length != 0
+            cartlist.length != 0 && cartlist.length >= 4
                 ? Container(
                     height: 70,
                     width: MediaQuery.of(context).size.width / 2.0,
@@ -548,65 +672,70 @@ class TakeOut extends StatefulWidget {
 class _TakeOutState extends State<TakeOut> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.white,
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Container(
-            width: MediaQuery.of(context).size.width / 1.5,
-            height: MediaQuery.of(context).size.height / 1.8,
-            child: Lottie.asset(
-              'assets/cooking.json',
-              repeat: true,
-              reverse: true,
-              animate: true,
-            ),
-          ),
-          SizedBox(
-            height: 20.0,
-          ),
-          Center(
-            child: Text(
-              ' Please hold on, while your order is processing ',
-              style: TextStyle(color: Colors.black, fontSize: 17),
-            ),
-          ),
-          SizedBox(
-            height: 20.0,
-          ),
-          GestureDetector(
-            onTap: () {
-              Navigator.of(context).pushReplacement(
-                MaterialPageRoute(
-                  builder: (BuildContext context) {
-                    return MainScreen(mypage: 0,);
-                  },
-                ),
-              );
-            },
-            child: Container(
-              height: 45,
-              width: MediaQuery.of(context).size.width / 1.7,
-              decoration: BoxDecoration(
-                color: Theme.of(context).accentColor,
-                borderRadius: BorderRadius.circular(25.0),
+    return WillPopScope(
+        onWillPop: () => Future.value(false),
+      child: Scaffold(
+        backgroundColor: Colors.white,
+        body: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Container(
+              width: MediaQuery.of(context).size.width / 1.5,
+              height: MediaQuery.of(context).size.height / 1.8,
+              child: Lottie.asset(
+                'assets/cooking.json',
+                repeat: true,
+                reverse: true,
+                animate: true,
               ),
-              child: Center(
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Text(
-                    ' Return to Menu',
-                    style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 17,
-                        fontWeight: FontWeight.w500),
+            ),
+            SizedBox(
+              height: 20.0,
+            ),
+            Center(
+              child: Text(
+                ' Please hold on, while your order is processing ',
+                style: TextStyle(color: Colors.black, fontSize: 17),
+              ),
+            ),
+            SizedBox(
+              height: 20.0,
+            ),
+            GestureDetector(
+              onTap: () {
+                Navigator.of(context).pushReplacement(
+                  MaterialPageRoute(
+                    builder: (BuildContext context) {
+                      return MainScreen(
+                        mypage: 0,
+                      );
+                    },
+                  ),
+                );
+              },
+              child: Container(
+                height: 45,
+                width: MediaQuery.of(context).size.width / 1.7,
+                decoration: BoxDecoration(
+                  color: Theme.of(context).accentColor,
+                  borderRadius: BorderRadius.circular(25.0),
+                ),
+                child: Center(
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Text(
+                      ' Return to Menu',
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 17,
+                          fontWeight: FontWeight.w500),
+                    ),
                   ),
                 ),
               ),
-            ),
-          )
-        ],
+            )
+          ],
+        ),
       ),
     );
   }
@@ -623,7 +752,8 @@ class SeatIn extends StatefulWidget {
   _SeatInState createState() => _SeatInState();
 }
 
-Future<void> checkoutseatin(List<Cart> cart, int index, String table, int total) async {
+Future<void> checkoutseatin(
+    List<Cart> cart, int index, String table, int total) async {
   // bool isSignedIn = await googleSignIn.isSignedIn();
   String token = await gettoken();
   var date = DateTime.now().toString();
@@ -631,9 +761,10 @@ Future<void> checkoutseatin(List<Cart> cart, int index, String table, int total)
     // if so, return the current user
     print(token);
     print(cart.length);
-    int producttottalamount = int.parse(cart[index].itemQuantity) * int.parse(cart[index].productPrice);
-    DocumentReference documentReference = 
-        FirebaseFirestore.instance.doc("Orders/table ${table} ,${date}");
+    int producttottalamount = int.parse(cart[index].itemQuantity) *
+        int.parse(cart[index].productPrice);
+    DocumentReference documentReference = FirebaseFirestore.instance
+        .doc("SeatOrders table${table}/ ${date}table ${table} ");
     await documentReference.get().then((datasnapshot) async {
       if (datasnapshot.exists) {
         // warning = "User already exist";
@@ -649,7 +780,7 @@ Future<void> checkoutseatin(List<Cart> cart, int index, String table, int total)
           "table": table,
           "ordertype": "Seat In ",
           "itemname": cart[index].productTitle,
-          "totalamountoforder": total.toString()
+          "totalamountoforderMadeByUser": total.toString()
         };
         await documentReference.set(data).whenComplete(() {
           print('document added');
@@ -662,140 +793,157 @@ Future<void> checkoutseatin(List<Cart> cart, int index, String table, int total)
   }
 }
 
-
 class _SeatInState extends State<SeatIn> {
+ 
   @override
   Widget build(BuildContext context) {
-       int mynewtotalamount =
+     bool _checkoutseatbool = false;
+    int mynewtotalamount =
         Provider.of<AppProvider>(context, listen: true).totalamount;
     String _selectedtable =
         Provider.of<AppProvider>(context, listen: true).mytable;
-    return Scaffold(
-        appBar: AppBar(
-          leading: IconButton(
-            icon: Icon(
-              Icons.arrow_back,
-              color: Colors.black,
-              size: 25,
+    return WillPopScope(
+       onWillPop: () => Future.value(false),
+      child: Scaffold(
+          appBar: AppBar(
+            leading: IconButton(
+              icon: Icon(
+                Icons.arrow_back,
+                color: Colors.black,
+                size: 25,
+              ),
+              onPressed: () {
+                //Navigator.of(context, rootNavigator: true).pop();
+                Navigator.pop(context);
+              },
             ),
-            onPressed: () {
-              //Navigator.of(context, rootNavigator: true).pop();
-              Navigator.pop(context);
-            },
+            title: Text("Tables"),
+            automaticallyImplyLeading: false,
+            centerTitle: true,
           ),
-          title: Text("Tables"),
-          automaticallyImplyLeading: false,
-          centerTitle: true,
-        ),
-        body: SingleChildScrollView(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              GridView.builder(
-                shrinkWrap: true,
-                primary: false,
-                physics: NeverScrollableScrollPhysics(),
-                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 5, childAspectRatio: 4 / 6),
-                itemCount: tables.length,
-                itemBuilder: (BuildContext context, int index) {
-                  //Food food = Food.fromJson(foods[index]);
-                  // Map food = foods[index];
-                  return GestureDetector(
-                    onTap: () {
-                      // _selectTable = true;
-                      //mytable = tables[index];
-                      Provider.of<AppProvider>(context, listen: false)
-                          .setTable(tables[index]);
-                      print('mytable');
+          body: SingleChildScrollView(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                GridView.builder(
+                  shrinkWrap: true,
+                  primary: false,
+                  physics: NeverScrollableScrollPhysics(),
+                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 5, childAspectRatio: 4 / 6),
+                  itemCount: tables.length,
+                  itemBuilder: (BuildContext context, int index) {
+                    //Food food = Food.fromJson(foods[index]);
+                    // Map food = foods[index];
+                    return GestureDetector(
+                      onTap: () {
+                        // _selectTable = true;
+                        //mytable = tables[index];
+                        Provider.of<AppProvider>(context, listen: false)
+                            .setTable(tables[index]);
+                        print('mytable');
 
-                      print(_selectedtable);
-                    },
-                    child: Padding(
-                      padding: const EdgeInsets.all(10.0),
-                      child: Container(
-                        height: 55,
-                        width: 40,
-                        decoration: BoxDecoration(
-                         // color: Colors.grey,
-                          border: Border.all(
-                            width: 1.5,
-
-color: Colors.grey                          ),
-                          borderRadius: BorderRadius.circular(8.0),
-                        ),
-                        child: Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Text(
-                            tables[index],
-                            style: TextStyle(fontSize: 17),
+                        print(_selectedtable);
+                      },
+                      child: Padding(
+                        padding: const EdgeInsets.all(10.0),
+                        child: Container(
+                          height: 55,
+                          width: 40,
+                          decoration: BoxDecoration(
+                            // color: Colors.grey,
+                            border: Border.all(width: 1.5, color: Colors.grey),
+                            borderRadius: BorderRadius.circular(8.0),
+                          ),
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Text(
+                              tables[index],
+                              style: TextStyle(fontSize: 17),
+                            ),
                           ),
                         ),
                       ),
-                    ),
-                  );
-                },
-              ),
-              SizedBox(
-                height: 10,
-              ),
-              _selectedtable == null
-                  ? Center(
-                      child: Text(
-                        ' Select A Table  ',
+                    );
+                  },
+                ),
+                SizedBox(
+                  height: 10,
+                ),
+                _selectedtable == null
+                    ? Center(
+                        child: Text(
+                          ' Select A Table  ',
+                          style: TextStyle(
+                              color: Colors.red,
+                              fontSize: 19,
+                              fontWeight: FontWeight.w700),
+                        ),
+                      )
+                    : Text(
+                        ' Selected Table : $_selectedtable  ',
                         style: TextStyle(
                             color: Colors.red,
                             fontSize: 19,
                             fontWeight: FontWeight.w700),
                       ),
-                    )
-                  : Text(
-                      ' Selected Table : ${_selectedtable}  ',
-                      style: TextStyle(
-                          color: Colors.red,
-                          fontSize: 19,
-                          fontWeight: FontWeight.w700),
-                    ),
-            ],
+              ],
+            ),
           ),
-        ),
-        floatingActionButton: FloatingActionButton(
-          tooltip: "Checkout",
-          
-          onPressed: () async {
-           
-            //_selectedtable = null;
-            print(cartlist.length);
-            print(cartlist.length);
-            int index1 = cartlist.length;
-            for (int i = 0; i < index1; i++) {
-              await checkoutseatin(cartlist, i, _selectedtable, mynewtotalamount);
-            }
+          floatingActionButton: FloatingActionButton(
+            tooltip: "Checkout",
+            onPressed: () async {
+              if (_selectedtable != null) {
+                setState(() {
+                   _checkoutseatbool = true;
+                });
+                //_selectedtable = null;
+                print(cartlist.length);
+                int index1 = cartlist.length;
+                for (int i = 0; i < index1; i++) {
+                  await checkoutseatin(
+                      cartlist, i, _selectedtable, mynewtotalamount);
+                }
+                setState(() {
+                   _checkoutseatbool = false;
+                });
 
-            setState(() {
-              // showCart = false;
-              Provider.of<AppProvider>(context, listen: false)
-                  .setNumbertozero();
-              Provider.of<AppProvider>(context, listen: false)
-                  .setTotalAmounttoZero();
+                setState(() {
+                  // showCart = false;
                   Provider.of<AppProvider>(context, listen: false)
-                  .setTable(null);
-              cartlist = [];
-            });
-            Navigator.of(context).push(
-              MaterialPageRoute(
-                builder: (BuildContext context) {
-                  return TakeOut();
-                },
-              ),
-            );
-          },
-          child: Icon(
-            Icons.arrow_forward,
-            size: 21,
-            color: Colors.white,
-          ),
-          heroTag: Object(),
-        ));
+                      .setNumbertozero();
+                  Provider.of<AppProvider>(context, listen: false)
+                      .setTotalAmounttoZero();
+                  Provider.of<AppProvider>(context, listen: false).setTable(null);
+                  cartlist = [];
+                });
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (BuildContext context) {
+                      return TakeOut();
+                    },
+                  ),
+                );
+              } else {
+                 Fluttertoast.showToast(
+                                msg: "Please Select a Table",
+                                toastLength: Toast.LENGTH_SHORT,
+                                gravity: ToastGravity.BOTTOM,
+                                timeInSecForIosWeb: 1,
+                                backgroundColor: Constants.darkAccent,
+                                textColor: Colors.white,
+                                fontSize: 15.0);
+              }
+            },
+            child: _checkoutseatbool
+                ? CircularProgressIndicator(backgroundColor: Colors.white)
+                : Icon(
+                    Icons.arrow_forward,
+                    size: 21,
+                    color: Colors.white,
+                  ),
+            heroTag: Object(),
+          )),
+    );
   }
 }

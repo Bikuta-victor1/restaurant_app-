@@ -202,7 +202,7 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin<Home> {
             SizedBox(height: 20.0),
 
             Text(
-              "Food Categories",
+              "Categories",
               style: TextStyle(
                 fontSize: 23,
                 letterSpacing: 1.4,
@@ -272,8 +272,7 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin<Home> {
                       ),
                     ),
                   ),
-
-                    SizedBox(width: 15),
+                  SizedBox(width: 15),
                   InkWell(
                     onTap: () {
                       Navigator.of(context).push(
@@ -330,7 +329,6 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin<Home> {
                       ),
                     ),
                   ),
-               
                 ],
                 // itemCount: categories == null ? 0 : categories.length,
                 // itemBuilder: (BuildContext context, int index) {

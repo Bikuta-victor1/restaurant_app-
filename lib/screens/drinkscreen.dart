@@ -11,6 +11,37 @@ class DrinkScreen extends StatefulWidget {
 }
 
 class _DrinkScreenState extends State<DrinkScreen> {
+    String myredwine = 'redwine-list';
+    String mychampagne = 'champagne-list';
+    String mygins = 'gins-list';
+    String myvodka = 'vodka-list';
+    String mywhiskey = 'whiskey-list';
+    String mywhite = 'whitewine-list';
+    String myrosewine = 'rosewine-list';
+
+  Future getmyFoodWidget(String mystring) async {
+    var firestore = FirebaseFirestore.instance;
+    QuerySnapshot qn = await firestore.collection('$mystring').get();
+    return qn.docs;
+  }
+    Widget noDataFoundYet() {
+    return Center(
+      child: Container(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            CircularProgressIndicator(),
+            SizedBox(height: 5),
+            Text("No Food Item available yet",
+                style: TextStyle(color: Colors.black45, fontSize: 20.0)),
+            Text("Please hold on...",
+                style: TextStyle(color: Colors.red, fontSize: 15.0))
+          ],
+        ),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -71,21 +102,18 @@ class _DrinkScreenState extends State<DrinkScreen> {
               maxLines: 2,
             ),
             Divider(),
-            StreamBuilder<QuerySnapshot>(
-                stream: FirebaseFirestore.instance
-                    .collection('redwine-list')
-                    .snapshots(),
+            FutureBuilder(
+                future:getmyFoodWidget(myredwine),
                 builder:
-                    (BuildContext ctx, AsyncSnapshot<QuerySnapshot> snapshot) {
-                  if (snapshot.connectionState == ConnectionState.waiting) {
-                    return Center(
-                      child: CircularProgressIndicator(),
-                    );
+                    ( context, AsyncSnapshot snapshot) {
+                  if (snapshot.connectionState == ConnectionState.none) {
+                    return noDataFoundYet();
                   }
-                  if (snapshot.hasError) {
-                    return Text("Something went wrong");
-                  }
-                  final documents = snapshot.data.docs;
+                    if (!snapshot.hasData || snapshot.data == null)
+                    return noDataFoundYet();
+                  if (snapshot.data.isEmpty) return noDataFoundYet();
+
+                  //final documents = snapshot.data.docs;
                   return GridView.builder(
                     shrinkWrap: true,
                     primary: false,
@@ -95,15 +123,15 @@ class _DrinkScreenState extends State<DrinkScreen> {
                       childAspectRatio: MediaQuery.of(context).size.width /
                           (MediaQuery.of(context).size.height / 1.25),
                     ),
-                    itemCount: documents.length,
+                    itemCount:  snapshot.data.length,
                     itemBuilder: (BuildContext context, int index) {
                       // Map food = foods[index];
                       return CatProduct(
-                        img: documents[index].data()['photourl'],
-                        name: documents[index].data()['name'],
-                        id: documents[index].data()['id'],
-                        price: documents[index].data()['price'],
-                        description: documents[index].data()['description'],
+                        img: snapshot.data[index].data()['photourl'],
+                        name: snapshot.data[index].data()['name'],
+                        id: snapshot.data[index].data()['id'],
+                        price: snapshot.data[index].data()['price'],
+                        description: snapshot.data[index].data()['description'],
                       );
                     },
                   );
@@ -122,21 +150,18 @@ class _DrinkScreenState extends State<DrinkScreen> {
               maxLines: 2,
             ),
             Divider(),
-            StreamBuilder<QuerySnapshot>(
-                stream: FirebaseFirestore.instance
-                    .collection('champagne-list')
-                    .snapshots(),
+            FutureBuilder(
+                future:getmyFoodWidget(mychampagne),
                 builder:
-                    (BuildContext ctx, AsyncSnapshot<QuerySnapshot> snapshot) {
-                  if (snapshot.connectionState == ConnectionState.waiting) {
-                    return Center(
-                      child: CircularProgressIndicator(),
-                    );
+                    ( context, AsyncSnapshot snapshot) {
+                  if (snapshot.connectionState == ConnectionState.none) {
+                    return noDataFoundYet();
                   }
-                  if (snapshot.hasError) {
-                    return Text("Something went wrong");
-                  }
-                  final documents = snapshot.data.docs;
+                    if (!snapshot.hasData || snapshot.data == null)
+                    return noDataFoundYet();
+                  if (snapshot.data.isEmpty) return noDataFoundYet();
+
+                  //final documents = snapshot.data.docs;
                   return GridView.builder(
                     shrinkWrap: true,
                     primary: false,
@@ -146,15 +171,15 @@ class _DrinkScreenState extends State<DrinkScreen> {
                       childAspectRatio: MediaQuery.of(context).size.width /
                           (MediaQuery.of(context).size.height / 1.25),
                     ),
-                    itemCount: documents.length,
+                    itemCount:  snapshot.data.length,
                     itemBuilder: (BuildContext context, int index) {
                       // Map food = foods[index];
                       return CatProduct(
-                        img: documents[index].data()['photourl'],
-                        name: documents[index].data()['name'],
-                        id: documents[index].data()['id'],
-                        price: documents[index].data()['price'],
-                        description: documents[index].data()['description'],
+                        img: snapshot.data[index].data()['photourl'],
+                        name: snapshot.data[index].data()['name'],
+                        id: snapshot.data[index].data()['id'],
+                        price: snapshot.data[index].data()['price'],
+                        description: snapshot.data[index].data()['description'],
                       );
                     },
                   );
@@ -173,21 +198,18 @@ class _DrinkScreenState extends State<DrinkScreen> {
               maxLines: 2,
             ),
             Divider(),
-            StreamBuilder<QuerySnapshot>(
-                stream: FirebaseFirestore.instance
-                    .collection('gins-list')
-                    .snapshots(),
+            FutureBuilder(
+                future:getmyFoodWidget(mygins),
                 builder:
-                    (BuildContext ctx, AsyncSnapshot<QuerySnapshot> snapshot) {
-                  if (snapshot.connectionState == ConnectionState.waiting) {
-                    return Center(
-                      child: CircularProgressIndicator(),
-                    );
+                    ( context, AsyncSnapshot snapshot) {
+                  if (snapshot.connectionState == ConnectionState.none) {
+                    return noDataFoundYet();
                   }
-                  if (snapshot.hasError) {
-                    return Text("Something went wrong");
-                  }
-                  final documents = snapshot.data.docs;
+                    if (!snapshot.hasData || snapshot.data == null)
+                    return noDataFoundYet();
+                  if (snapshot.data.isEmpty) return noDataFoundYet();
+
+                  //final documents = snapshot.data.docs;
                   return GridView.builder(
                     shrinkWrap: true,
                     primary: false,
@@ -197,15 +219,15 @@ class _DrinkScreenState extends State<DrinkScreen> {
                       childAspectRatio: MediaQuery.of(context).size.width /
                           (MediaQuery.of(context).size.height / 1.25),
                     ),
-                    itemCount: documents.length,
+                    itemCount:  snapshot.data.length,
                     itemBuilder: (BuildContext context, int index) {
                       // Map food = foods[index];
                       return CatProduct(
-                        img: documents[index].data()['photourl'],
-                        name: documents[index].data()['name'],
-                        id: documents[index].data()['id'],
-                        price: documents[index].data()['price'],
-                        description: documents[index].data()['description'],
+                        img: snapshot.data[index].data()['photourl'],
+                        name: snapshot.data[index].data()['name'],
+                        id: snapshot.data[index].data()['id'],
+                        price: snapshot.data[index].data()['price'],
+                        description: snapshot.data[index].data()['description'],
                       );
                     },
                   );
@@ -223,21 +245,18 @@ class _DrinkScreenState extends State<DrinkScreen> {
               maxLines: 2,
             ),
             Divider(),
-            StreamBuilder<QuerySnapshot>(
-                stream: FirebaseFirestore.instance
-                    .collection('champagne-list')
-                    .snapshots(),
+            FutureBuilder(
+                future:getmyFoodWidget(myvodka),
                 builder:
-                    (BuildContext ctx, AsyncSnapshot<QuerySnapshot> snapshot) {
-                  if (snapshot.connectionState == ConnectionState.waiting) {
-                    return Center(
-                      child: CircularProgressIndicator(),
-                    );
+                    ( context, AsyncSnapshot snapshot) {
+                  if (snapshot.connectionState == ConnectionState.none) {
+                    return noDataFoundYet();
                   }
-                  if (snapshot.hasError) {
-                    return Text("Something went wrong");
-                  }
-                  final documents = snapshot.data.docs;
+                    if (!snapshot.hasData || snapshot.data == null)
+                    return noDataFoundYet();
+                  if (snapshot.data.isEmpty) return noDataFoundYet();
+
+                  //final documents = snapshot.data.docs;
                   return GridView.builder(
                     shrinkWrap: true,
                     primary: false,
@@ -247,15 +266,15 @@ class _DrinkScreenState extends State<DrinkScreen> {
                       childAspectRatio: MediaQuery.of(context).size.width /
                           (MediaQuery.of(context).size.height / 1.25),
                     ),
-                    itemCount: documents.length,
+                    itemCount:  snapshot.data.length,
                     itemBuilder: (BuildContext context, int index) {
                       // Map food = foods[index];
                       return CatProduct(
-                        img: documents[index].data()['photourl'],
-                        name: documents[index].data()['name'],
-                        id: documents[index].data()['id'],
-                        price: documents[index].data()['price'],
-                        description: documents[index].data()['description'],
+                        img: snapshot.data[index].data()['photourl'],
+                        name: snapshot.data[index].data()['name'],
+                        id: snapshot.data[index].data()['id'],
+                        price: snapshot.data[index].data()['price'],
+                        description: snapshot.data[index].data()['description'],
                       );
                     },
                   );
@@ -273,21 +292,18 @@ class _DrinkScreenState extends State<DrinkScreen> {
               maxLines: 2,
             ),
             Divider(),
-            StreamBuilder<QuerySnapshot>(
-                stream: FirebaseFirestore.instance
-                    .collection('vodka-list')
-                    .snapshots(),
+            FutureBuilder(
+                future:getmyFoodWidget(myvodka),
                 builder:
-                    (BuildContext ctx, AsyncSnapshot<QuerySnapshot> snapshot) {
-                  if (snapshot.connectionState == ConnectionState.waiting) {
-                    return Center(
-                      child: CircularProgressIndicator(),
-                    );
+                    ( context, AsyncSnapshot snapshot) {
+                  if (snapshot.connectionState == ConnectionState.none) {
+                    return noDataFoundYet();
                   }
-                  if (snapshot.hasError) {
-                    return Text("Something went wrong");
-                  }
-                  final documents = snapshot.data.docs;
+                    if (!snapshot.hasData || snapshot.data == null)
+                    return noDataFoundYet();
+                  if (snapshot.data.isEmpty) return noDataFoundYet();
+
+                  //final documents = snapshot.data.docs;
                   return GridView.builder(
                     shrinkWrap: true,
                     primary: false,
@@ -297,15 +313,15 @@ class _DrinkScreenState extends State<DrinkScreen> {
                       childAspectRatio: MediaQuery.of(context).size.width /
                           (MediaQuery.of(context).size.height / 1.25),
                     ),
-                    itemCount: documents.length,
+                    itemCount:  snapshot.data.length,
                     itemBuilder: (BuildContext context, int index) {
                       // Map food = foods[index];
                       return CatProduct(
-                        img: documents[index].data()['photourl'],
-                        name: documents[index].data()['name'],
-                        id: documents[index].data()['id'],
-                        price: documents[index].data()['price'],
-                        description: documents[index].data()['description'],
+                        img: snapshot.data[index].data()['photourl'],
+                        name: snapshot.data[index].data()['name'],
+                        id: snapshot.data[index].data()['id'],
+                        price: snapshot.data[index].data()['price'],
+                        description: snapshot.data[index].data()['description'],
                       );
                     },
                   );
@@ -323,21 +339,18 @@ class _DrinkScreenState extends State<DrinkScreen> {
               maxLines: 2,
             ),
             Divider(),
-            StreamBuilder<QuerySnapshot>(
-                stream: FirebaseFirestore.instance
-                    .collection('champagne-list')
-                    .snapshots(),
+            FutureBuilder(
+                future:getmyFoodWidget(mywhiskey),
                 builder:
-                    (BuildContext ctx, AsyncSnapshot<QuerySnapshot> snapshot) {
-                  if (snapshot.connectionState == ConnectionState.waiting) {
-                    return Center(
-                      child: CircularProgressIndicator(),
-                    );
+                    ( context, AsyncSnapshot snapshot) {
+                  if (snapshot.connectionState == ConnectionState.none) {
+                    return noDataFoundYet();
                   }
-                  if (snapshot.hasError) {
-                    return Text("Something went wrong");
-                  }
-                  final documents = snapshot.data.docs;
+                    if (!snapshot.hasData || snapshot.data == null)
+                    return noDataFoundYet();
+                  if (snapshot.data.isEmpty) return noDataFoundYet();
+
+                  //final documents = snapshot.data.docs;
                   return GridView.builder(
                     shrinkWrap: true,
                     primary: false,
@@ -347,15 +360,15 @@ class _DrinkScreenState extends State<DrinkScreen> {
                       childAspectRatio: MediaQuery.of(context).size.width /
                           (MediaQuery.of(context).size.height / 1.25),
                     ),
-                    itemCount: documents.length,
+                    itemCount:  snapshot.data.length,
                     itemBuilder: (BuildContext context, int index) {
                       // Map food = foods[index];
                       return CatProduct(
-                        img: documents[index].data()['photourl'],
-                        name: documents[index].data()['name'],
-                        id: documents[index].data()['id'],
-                        price: documents[index].data()['price'],
-                        description: documents[index].data()['description'],
+                        img: snapshot.data[index].data()['photourl'],
+                        name: snapshot.data[index].data()['name'],
+                        id: snapshot.data[index].data()['id'],
+                        price: snapshot.data[index].data()['price'],
+                        description: snapshot.data[index].data()['description'],
                       );
                     },
                   );
@@ -373,21 +386,18 @@ class _DrinkScreenState extends State<DrinkScreen> {
               maxLines: 2,
             ),
             Divider(),
-            StreamBuilder<QuerySnapshot>(
-                stream: FirebaseFirestore.instance
-                    .collection('whiskey-list')
-                    .snapshots(),
+           FutureBuilder(
+                future:getmyFoodWidget(mywhiskey),
                 builder:
-                    (BuildContext ctx, AsyncSnapshot<QuerySnapshot> snapshot) {
-                  if (snapshot.connectionState == ConnectionState.waiting) {
-                    return Center(
-                      child: CircularProgressIndicator(),
-                    );
+                    ( context, AsyncSnapshot snapshot) {
+                  if (snapshot.connectionState == ConnectionState.none) {
+                    return noDataFoundYet();
                   }
-                  if (snapshot.hasError) {
-                    return Text("Something went wrong");
-                  }
-                  final documents = snapshot.data.docs;
+                    if (!snapshot.hasData || snapshot.data == null)
+                    return noDataFoundYet();
+                  if (snapshot.data.isEmpty) return noDataFoundYet();
+
+                  //final documents = snapshot.data.docs;
                   return GridView.builder(
                     shrinkWrap: true,
                     primary: false,
@@ -397,15 +407,15 @@ class _DrinkScreenState extends State<DrinkScreen> {
                       childAspectRatio: MediaQuery.of(context).size.width /
                           (MediaQuery.of(context).size.height / 1.25),
                     ),
-                    itemCount: documents.length,
+                    itemCount:  snapshot.data.length,
                     itemBuilder: (BuildContext context, int index) {
                       // Map food = foods[index];
                       return CatProduct(
-                        img: documents[index].data()['photourl'],
-                        name: documents[index].data()['name'],
-                        id: documents[index].data()['id'],
-                        price: documents[index].data()['price'],
-                        description: documents[index].data()['description'],
+                        img: snapshot.data[index].data()['photourl'],
+                        name: snapshot.data[index].data()['name'],
+                        id: snapshot.data[index].data()['id'],
+                        price: snapshot.data[index].data()['price'],
+                        description: snapshot.data[index].data()['description'],
                       );
                     },
                   );
@@ -423,21 +433,18 @@ class _DrinkScreenState extends State<DrinkScreen> {
               maxLines: 2,
             ),
             Divider(),
-            StreamBuilder<QuerySnapshot>(
-                stream: FirebaseFirestore.instance
-                    .collection('whitewine-list')
-                    .snapshots(),
+           FutureBuilder(
+                future:getmyFoodWidget(mywhite),
                 builder:
-                    (BuildContext ctx, AsyncSnapshot<QuerySnapshot> snapshot) {
-                  if (snapshot.connectionState == ConnectionState.waiting) {
-                    return Center(
-                      child: CircularProgressIndicator(),
-                    );
+                    ( context, AsyncSnapshot snapshot) {
+                  if (snapshot.connectionState == ConnectionState.none) {
+                    return noDataFoundYet();
                   }
-                  if (snapshot.hasError) {
-                    return Text("Something went wrong");
-                  }
-                  final documents = snapshot.data.docs;
+                    if (!snapshot.hasData || snapshot.data == null)
+                    return noDataFoundYet();
+                  if (snapshot.data.isEmpty) return noDataFoundYet();
+
+                  //final documents = snapshot.data.docs;
                   return GridView.builder(
                     shrinkWrap: true,
                     primary: false,
@@ -447,15 +454,15 @@ class _DrinkScreenState extends State<DrinkScreen> {
                       childAspectRatio: MediaQuery.of(context).size.width /
                           (MediaQuery.of(context).size.height / 1.25),
                     ),
-                    itemCount: documents.length,
+                    itemCount:  snapshot.data.length,
                     itemBuilder: (BuildContext context, int index) {
                       // Map food = foods[index];
                       return CatProduct(
-                        img: documents[index].data()['photourl'],
-                        name: documents[index].data()['name'],
-                        id: documents[index].data()['id'],
-                        price: documents[index].data()['price'],
-                        description: documents[index].data()['description'],
+                        img: snapshot.data[index].data()['photourl'],
+                        name: snapshot.data[index].data()['name'],
+                        id: snapshot.data[index].data()['id'],
+                        price: snapshot.data[index].data()['price'],
+                        description: snapshot.data[index].data()['description'],
                       );
                     },
                   );
@@ -473,21 +480,18 @@ class _DrinkScreenState extends State<DrinkScreen> {
               maxLines: 2,
             ),
             Divider(),
-            StreamBuilder<QuerySnapshot>(
-                stream: FirebaseFirestore.instance
-                    .collection('rosewine-list')
-                    .snapshots(),
+            FutureBuilder(
+                future:getmyFoodWidget(myrosewine),
                 builder:
-                    (BuildContext ctx, AsyncSnapshot<QuerySnapshot> snapshot) {
-                  if (snapshot.connectionState == ConnectionState.waiting) {
-                    return Center(
-                      child: CircularProgressIndicator(),
-                    );
+                    ( context, AsyncSnapshot snapshot) {
+                  if (snapshot.connectionState == ConnectionState.none) {
+                    return noDataFoundYet();
                   }
-                  if (snapshot.hasError) {
-                    return Text("Something went wrong");
-                  }
-                  final documents = snapshot.data.docs;
+                    if (!snapshot.hasData || snapshot.data == null)
+                    return noDataFoundYet();
+                  if (snapshot.data.isEmpty) return noDataFoundYet();
+
+                  //final documents = snapshot.data.docs;
                   return GridView.builder(
                     shrinkWrap: true,
                     primary: false,
@@ -497,15 +501,15 @@ class _DrinkScreenState extends State<DrinkScreen> {
                       childAspectRatio: MediaQuery.of(context).size.width /
                           (MediaQuery.of(context).size.height / 1.25),
                     ),
-                    itemCount: documents.length,
+                    itemCount:  snapshot.data.length,
                     itemBuilder: (BuildContext context, int index) {
                       // Map food = foods[index];
                       return CatProduct(
-                        img: documents[index].data()['photourl'],
-                        name: documents[index].data()['name'],
-                        id: documents[index].data()['id'],
-                        price: documents[index].data()['price'],
-                        description: documents[index].data()['description'],
+                        img: snapshot.data[index].data()['photourl'],
+                        name: snapshot.data[index].data()['name'],
+                        id: snapshot.data[index].data()['id'],
+                        price: snapshot.data[index].data()['price'],
+                        description: snapshot.data[index].data()['description'],
                       );
                     },
                   );
@@ -523,21 +527,18 @@ class _DrinkScreenState extends State<DrinkScreen> {
               maxLines: 2,
             ),
             Divider(),
-            StreamBuilder<QuerySnapshot>(
-                stream: FirebaseFirestore.instance
-                    .collection('whiskey-list')
-                    .snapshots(),
+            FutureBuilder(
+                future:getmyFoodWidget(myrosewine),
                 builder:
-                    (BuildContext ctx, AsyncSnapshot<QuerySnapshot> snapshot) {
-                  if (snapshot.connectionState == ConnectionState.waiting) {
-                    return Center(
-                      child: CircularProgressIndicator(),
-                    );
+                    ( context, AsyncSnapshot snapshot) {
+                  if (snapshot.connectionState == ConnectionState.none) {
+                    return noDataFoundYet();
                   }
-                  if (snapshot.hasError) {
-                    return Text("Something went wrong");
-                  }
-                  final documents = snapshot.data.docs;
+                    if (!snapshot.hasData || snapshot.data == null)
+                    return noDataFoundYet();
+                  if (snapshot.data.isEmpty) return noDataFoundYet();
+
+                  //final documents = snapshot.data.docs;
                   return GridView.builder(
                     shrinkWrap: true,
                     primary: false,
@@ -547,15 +548,15 @@ class _DrinkScreenState extends State<DrinkScreen> {
                       childAspectRatio: MediaQuery.of(context).size.width /
                           (MediaQuery.of(context).size.height / 1.25),
                     ),
-                    itemCount: documents.length,
+                    itemCount:  snapshot.data.length,
                     itemBuilder: (BuildContext context, int index) {
                       // Map food = foods[index];
                       return CatProduct(
-                        img: documents[index].data()['photourl'],
-                        name: documents[index].data()['name'],
-                        id: documents[index].data()['id'],
-                        price: documents[index].data()['price'],
-                        description: documents[index].data()['description'],
+                        img: snapshot.data[index].data()['photourl'],
+                        name: snapshot.data[index].data()['name'],
+                        id: snapshot.data[index].data()['id'],
+                        price: snapshot.data[index].data()['price'],
+                        description: snapshot.data[index].data()['description'],
                       );
                     },
                   );
