@@ -220,14 +220,14 @@ class _CartScreenState extends State<CartScreen>
   Future<void> checkoutTakeOut(List<Cart> cart, int index, int total) async {
     // bool isSignedIn = await googleSignIn.isSignedIn();
     String token = await gettoken();
-    var date = DateTime.now().toString();
+    var date = DateTime.now();
     String type = 'Take Out';
     if (token != null) {
       // if so, return the current user
       print(token);
       print(cart.length);
       DocumentReference documentReference =
-          FirebaseFirestore.instance.doc("TakeOrders / ${date}takeout ");
+          FirebaseFirestore.instance.doc("Orders /TakeOut Orders/ ${date.year}-${date.month}-${date.day} ${date.hour}:${date.minute}/${cart[index].itemQuantity} ${cart[index].productTitle}");
       await documentReference.get().then((datasnapshot) async {
         if (datasnapshot.exists) {
           // warning = "User already exist";
@@ -235,7 +235,7 @@ class _CartScreenState extends State<CartScreen>
           Map<String, String> data = <String, String>{
             "mytoken": token,
             "id": cart[index].userID,
-            "ordermade": date,
+            "ordermade": date.toString(),
             "created": cart[index].created,
             "productPrice": cart[index].productPrice,
             "itemQuantity": cart[index].itemQuantity,
@@ -673,7 +673,7 @@ class _TakeOutState extends State<TakeOut> {
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
-        onWillPop: () => Future.value(false),
+      onWillPop: () => Future.value(false),
       child: Scaffold(
         backgroundColor: Colors.white,
         body: Column(
@@ -756,15 +756,15 @@ Future<void> checkoutseatin(
     List<Cart> cart, int index, String table, int total) async {
   // bool isSignedIn = await googleSignIn.isSignedIn();
   String token = await gettoken();
-  var date = DateTime.now().toString();
+  var date = DateTime.now();
   if (token != null) {
     // if so, return the current user
     print(token);
     print(cart.length);
     int producttottalamount = int.parse(cart[index].itemQuantity) *
         int.parse(cart[index].productPrice);
-    DocumentReference documentReference = FirebaseFirestore.instance
-        .doc("SeatOrders table${table}/ ${date}table ${table} ");
+    DocumentReference documentReference = FirebaseFirestore.instance.doc(
+        "Orders /SeatOrder table $table/ ${date.year}-${date.month}-${date.day} ${date.hour}:${date.minute}/${cart[index].itemQuantity} ${cart[index].productTitle}" );
     await documentReference.get().then((datasnapshot) async {
       if (datasnapshot.exists) {
         // warning = "User already exist";
@@ -772,7 +772,7 @@ Future<void> checkoutseatin(
         Map<String, String> data = <String, String>{
           "mytoken": token,
           "id": cart[index].userID,
-          "ordermade": date,
+          "ordermade": date.toString(),
           "created": cart[index].created,
           "producttotalPrice": producttottalamount.toString(),
           "itemQuantity": cart[index].itemQuantity,
@@ -794,16 +794,15 @@ Future<void> checkoutseatin(
 }
 
 class _SeatInState extends State<SeatIn> {
- 
   @override
   Widget build(BuildContext context) {
-     bool _checkoutseatbool = false;
+    bool _checkoutseatbool = false;
     int mynewtotalamount =
         Provider.of<AppProvider>(context, listen: true).totalamount;
     String _selectedtable =
         Provider.of<AppProvider>(context, listen: true).mytable;
     return WillPopScope(
-       onWillPop: () => Future.value(false),
+      onWillPop: () => Future.value(false),
       child: Scaffold(
           appBar: AppBar(
             leading: IconButton(
@@ -895,7 +894,7 @@ class _SeatInState extends State<SeatIn> {
             onPressed: () async {
               if (_selectedtable != null) {
                 setState(() {
-                   _checkoutseatbool = true;
+                  _checkoutseatbool = true;
                 });
                 //_selectedtable = null;
                 print(cartlist.length);
@@ -905,7 +904,7 @@ class _SeatInState extends State<SeatIn> {
                       cartlist, i, _selectedtable, mynewtotalamount);
                 }
                 setState(() {
-                   _checkoutseatbool = false;
+                  _checkoutseatbool = false;
                 });
 
                 setState(() {
@@ -914,7 +913,8 @@ class _SeatInState extends State<SeatIn> {
                       .setNumbertozero();
                   Provider.of<AppProvider>(context, listen: false)
                       .setTotalAmounttoZero();
-                  Provider.of<AppProvider>(context, listen: false).setTable(null);
+                  Provider.of<AppProvider>(context, listen: false)
+                      .setTable(null);
                   cartlist = [];
                 });
                 Navigator.of(context).push(
@@ -925,14 +925,14 @@ class _SeatInState extends State<SeatIn> {
                   ),
                 );
               } else {
-                 Fluttertoast.showToast(
-                                msg: "Please Select a Table",
-                                toastLength: Toast.LENGTH_SHORT,
-                                gravity: ToastGravity.BOTTOM,
-                                timeInSecForIosWeb: 1,
-                                backgroundColor: Constants.darkAccent,
-                                textColor: Colors.white,
-                                fontSize: 15.0);
+                Fluttertoast.showToast(
+                    msg: "Please Select a Table",
+                    toastLength: Toast.LENGTH_SHORT,
+                    gravity: ToastGravity.BOTTOM,
+                    timeInSecForIosWeb: 1,
+                    backgroundColor: Constants.darkAccent,
+                    textColor: Colors.white,
+                    fontSize: 15.0);
               }
             },
             child: _checkoutseatbool
