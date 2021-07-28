@@ -9,7 +9,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 class Food {
   String name;
   String photourl;
-  int totalrating;
+  var totalrating;
   String description;
   int price;
   int id;
@@ -97,6 +97,9 @@ List<Food> alldishes = [];
 List<Food> suggestionList = [];
 List<Food> searchlist = [];
 List<Food> mydishes = [];
+List<Food> drinklists = [];
+List<Food> sidelists = [];
+List<Food> foodslists = [];
 
 bool addedtocart = false;
 
@@ -118,6 +121,16 @@ Future<List> getalldishes() async {
       // .orderBy('timeupload', descending: true)
       .get();
   await documentReference.docs.forEach((document) {
+    Food grilledlists = Food.fromMap(document.data());
+    alldishes.add(grilledlists);
+    // print(alldishes);
+  });
+    QuerySnapshot afdocumentReference = await FirebaseFirestore.instance
+      // .doc("grill-list")
+      .collection("champagne-list")
+      // .orderBy('timeupload', descending: true)
+      .get();
+  await documentReference.docs.forEach((document) {
     Food airfriedlists = Food.fromMap(document.data());
     alldishes.add(airfriedlists);
     // print(alldishes);
@@ -129,8 +142,19 @@ Future<List> getalldishes() async {
       // .orderBy('timeupload', descending: true)
       .get();
   await gdocumentReference.docs.forEach((document) {
-    Food airfriedlists = Food.fromMap(document.data());
-    alldishes.add(airfriedlists);
+    Food airfriedlists1 = Food.fromMap(document.data());
+    alldishes.add(airfriedlists1);
+    // print(alldishes);
+  });
+
+    QuerySnapshot rdocumentReference = await FirebaseFirestore.instance
+      // .doc("grill-list")
+      .collection("redwine-list")
+      // .orderBy('timeupload', descending: true)
+      .get();
+  await gdocumentReference.docs.forEach((document) {
+    Food airfriedlists2 = Food.fromMap(document.data());
+    alldishes.add(airfriedlists2);
     // print(alldishes);
   });
   return alldishes;

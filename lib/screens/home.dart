@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:menuapp/models/foodmodel.dart';
 import 'package:menuapp/screens/drinkscreen.dart';
 import 'package:menuapp/screens/mealscreen.dart';
 import 'package:menuapp/screens/sidedishscreen.dart';
@@ -24,6 +25,16 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin<Home> {
     return result;
   }
 
+  String mygrill = 'grill-list';
+  String myfries = 'fries-list';
+  String mychips = 'chips-list';
+  String myredwine = 'redwine-list';
+  String mychampagne = 'champagne-list';
+  String mygins = 'gins-list';
+  String myvodka = 'vodka-list';
+  String mywhiskey = 'whiskey-list';
+  String mywhite = 'whitewine-list';
+  String myrosewine = 'rosewine-list';
   // Future<String> _getId() async {
   //   SharedPreferences prefs = await SharedPreferences.getInstance();
 
@@ -53,12 +64,7 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin<Home> {
 
   int _current = 0;
   //Future _dishdata;
-  @override
-  void initState() {
-    // TODO: implement initState
-    // checkFirstUser();
-    super.initState();
-  }
+
 
   @override
   void didChangeDependencies() {
@@ -66,6 +72,138 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin<Home> {
     //userID = await gettoken();
     // _dishdata = getDishes();
     super.didChangeDependencies();
+  }
+
+  Future<List> getalldrinks() async {
+    drinklists = [];
+    QuerySnapshot documentReference = await FirebaseFirestore.instance
+        // .doc("grill-list")
+        .collection(myredwine)
+        // .orderBy('timeupload', descending: true)
+        .get();
+    await documentReference.docs.forEach((document) {
+      Food drinklist1 = Food.fromMap(document.data());
+      drinklists.add(drinklist1);
+      // print(alldishes);
+    });
+
+    QuerySnapshot d1documentReference = await FirebaseFirestore.instance
+        // .doc("grill-list")
+        .collection(mychampagne)
+        // .orderBy('timeupload', descending: true)
+        .get();
+    await documentReference.docs.forEach((document) {
+      Food drinklist1 = Food.fromMap(document.data());
+      drinklists.add(drinklist1);
+      // print(alldishes);
+    });
+    QuerySnapshot d2documentReference = await FirebaseFirestore.instance
+        // .doc("grill-list")
+        .collection(mygins)
+        // .orderBy('timeupload', descending: true)
+        .get();
+    await documentReference.docs.forEach((document) {
+      Food drinklist1 = Food.fromMap(document.data());
+      drinklists.add(drinklist1);
+      // print(alldishes);
+    });
+    QuerySnapshot d3documentReference = await FirebaseFirestore.instance
+        // .doc("grill-list")
+        .collection(myvodka)
+        // .orderBy('timeupload', descending: true)
+        .get();
+    await documentReference.docs.forEach((document) {
+      Food drinklist1 = Food.fromMap(document.data());
+      drinklists.add(drinklist1);
+      // print(alldishes);
+    });
+    QuerySnapshot d4documentReference = await FirebaseFirestore.instance
+        // .doc("grill-list")
+        .collection(mywhiskey)
+        // .orderBy('timeupload', descending: true)
+        .get();
+    await documentReference.docs.forEach((document) {
+      Food drinklist1 = Food.fromMap(document.data());
+      drinklists.add(drinklist1);
+      // print(alldishes);
+    });
+    QuerySnapshot d5documentReference = await FirebaseFirestore.instance
+        // .doc("grill-list")
+        .collection(mywhite)
+        // .orderBy('timeupload', descending: true)
+        .get();
+    await documentReference.docs.forEach((document) {
+      Food drinklist1 = Food.fromMap(document.data());
+      drinklists.add(drinklist1);
+      // print(alldishes);
+    });
+    QuerySnapshot d6documentReference = await FirebaseFirestore.instance
+        // .doc("grill-list")
+        .collection(myrosewine)
+        // .orderBy('timeupload', descending: true)
+        .get();
+    await documentReference.docs.forEach((document) {
+      Food drinklist1 = Food.fromMap(document.data());
+      drinklists.add(drinklist1);
+      // print(alldishes);
+    });
+
+    return drinklists;
+  }
+
+  Future<List> getallfoods() async {
+    foodslists = [];
+    QuerySnapshot documentReference = await FirebaseFirestore.instance
+        // .doc("grill-list")
+        .collection(mygrill)
+        // .orderBy('timeupload', descending: true)
+        .get();
+    await documentReference.docs.forEach((document) {
+      Food drinklist1 = Food.fromMap(document.data());
+      foodslists.add(drinklist1);
+      // print(alldishes);
+    });
+
+    return foodslists;
+  }
+
+  Future<List> getallsides() async {
+    sidelists = [];
+    QuerySnapshot documentReference = await FirebaseFirestore.instance
+        // .doc("grill-list")
+        .collection(myfries)
+        // .orderBy('timeupload', descending: true)
+        .get();
+    await documentReference.docs.forEach((document) {
+      Food drinklist1 = Food.fromMap(document.data());
+      sidelists.add(drinklist1);
+      // print(alldishes);
+    });
+        QuerySnapshot cdocumentReference = await FirebaseFirestore.instance
+        // .doc("grill-list")
+        .collection(mychips)
+        // .orderBy('timeupload', descending: true)
+        .get();
+    await documentReference.docs.forEach((document) {
+      Food drinklist1 = Food.fromMap(document.data());
+      sidelists.add(drinklist1);
+      // print(alldishes);
+    });
+
+    return sidelists;
+  }
+ 
+  setfoods() async {
+    foodslists = await getallfoods();
+    drinklists = await getalldrinks();
+    sidelists = await getallsides();
+  }
+
+    @override
+  void initState() {
+    setfoods();
+
+    super.initState();
   }
 
   Future getCarouselWidget() async {
@@ -258,7 +396,7 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin<Home> {
                                   ),
                                 ),
                                 Text(
-                                  "7 Items",
+                                  "${foodslists.length} Items",
                                   style: TextStyle(
                                     fontWeight: FontWeight.w400,
                                     fontSize: 10,
@@ -315,7 +453,7 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin<Home> {
                                   ),
                                 ),
                                 Text(
-                                  "8 Items",
+                                  "${drinklists.length} Items",
                                   style: TextStyle(
                                     fontWeight: FontWeight.w400,
                                     fontSize: 10,
@@ -372,7 +510,7 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin<Home> {
                                   ),
                                 ),
                                 Text(
-                                  "2 Items",
+                                  "${sidelists.length} Items",
                                   style: TextStyle(
                                     fontWeight: FontWeight.w400,
                                     fontSize: 10,
@@ -387,7 +525,7 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin<Home> {
                       ),
                     ),
                   ),
-                SizedBox(width: 10),
+                  SizedBox(width: 10),
                 ],
                 // itemCount: categories == null ? 0 : categories.length,
                 // itemBuilder: (BuildContext context, int index) {

@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:menuapp/models/foodmodel.dart';
 import 'package:menuapp/widgets/badge.dart';
 import 'package:menuapp/widgets/cat_product.dart';
 
@@ -12,7 +13,9 @@ class SideDish extends StatefulWidget {
 
 class _SideDishState extends State<SideDish> {
 
-    String mygrill = 'grill-list';
+ String mygrill = 'grill-list';
+ String myfries = 'fries-list';
+ String mychips = 'chips-list';
 
   Future getmyFoodWidget(String mystring) async {
     var firestore = FirebaseFirestore.instance;
@@ -27,7 +30,7 @@ class _SideDishState extends State<SideDish> {
           children: <Widget>[
             CircularProgressIndicator(),
             SizedBox(height: 5),
-            Text("No Food Item available yet",
+            Text("No Side Item available yet",
                 style: TextStyle(color: Colors.black45, fontSize: 20.0)),
             Text("Please hold on...",
                 style: TextStyle(color: Colors.red, fontSize: 15.0))
@@ -35,6 +38,44 @@ class _SideDishState extends State<SideDish> {
         ),
       ),
     );
+  }
+
+  
+  Future<List> getallsides() async {
+    sidelists = [];
+    QuerySnapshot documentReference = await FirebaseFirestore.instance
+        // .doc("grill-list")
+        .collection(myfries)
+        // .orderBy('timeupload', descending: true)
+        .get();
+    await documentReference.docs.forEach((document) {
+      Food drinklist1 = Food.fromMap(document.data());
+      sidelists.add(drinklist1);
+      // print(alldishes);
+    });
+        QuerySnapshot cdocumentReference = await FirebaseFirestore.instance
+        // .doc("grill-list")
+        .collection(mychips)
+        // .orderBy('timeupload', descending: true)
+        .get();
+    await documentReference.docs.forEach((document) {
+      Food drinklist1 = Food.fromMap(document.data());
+      sidelists.add(drinklist1);
+      // print(alldishes);
+    });
+
+    return sidelists;
+  }
+
+  setsides() async {
+    sidelists = await getallsides();
+  }
+
+  @override
+  void initState() {
+    setsides();
+    print(sidelists);
+    super.initState();
   }
 
   @override
@@ -100,7 +141,7 @@ class _SideDishState extends State<SideDish> {
             ),
             Divider(),
              FutureBuilder(
-                future:getmyFoodWidget(mygrill),
+                future:getmyFoodWidget(mychips),
                 builder:
                     ( context, AsyncSnapshot snapshot) {
                   if (snapshot.connectionState == ConnectionState.none) {
@@ -147,7 +188,7 @@ class _SideDishState extends State<SideDish> {
             ),
             Divider(),
              FutureBuilder(
-                future:getmyFoodWidget(mygrill),
+                future:getmyFoodWidget(myfries),
                 builder:
                     ( context, AsyncSnapshot snapshot) {
                   if (snapshot.connectionState == ConnectionState.none) {

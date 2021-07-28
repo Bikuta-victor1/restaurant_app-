@@ -60,11 +60,7 @@ class _CartScreenState extends State<CartScreen>
 
   List cartItems = [];
 
-  // getTotoalCount() {
-  //   for (int i = 0; i < 1000; i++) {
-  //     total = price * quantity;
-  //   }
-  // }
+  
 
   @override
   void initState() {
@@ -394,11 +390,7 @@ class _CartScreenState extends State<CartScreen>
                             cartlist.removeWhere((element) =>
                                 element.created == cartlist[index].created);
                             print('productPrice');
-                            //print(cartlist[index].created.toString());
-
-                            // mycartlength == null
-                            //     ? mycartlength = 0
-                            //     : mycartlength--;
+                       
                             prefs.setString(
                                 'cartlist', con.json.encode(cartlist));
 

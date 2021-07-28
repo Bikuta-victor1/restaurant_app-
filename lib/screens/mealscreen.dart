@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:menuapp/models/foodmodel.dart';
 import 'package:menuapp/providers/app_provider.dart';
 import 'package:menuapp/screens/main_screen.dart';
 import 'package:menuapp/widgets/badge.dart';
@@ -41,6 +42,33 @@ class _MealScreenState extends State<MealScreen> {
         ),
       ),
     );
+  }
+
+  Future<List> getallfoods() async {
+    foodslists = [];
+    QuerySnapshot documentReference = await FirebaseFirestore.instance
+        // .doc("grill-list")
+        .collection(mygrill)
+        // .orderBy('timeupload', descending: true)
+        .get();
+    await documentReference.docs.forEach((document) {
+      Food drinklist1 = Food.fromMap(document.data());
+      sidelists.add(drinklist1);
+      // print(alldishes);
+    });
+
+    return foodslists;
+  }
+
+  setfoods() async {
+    foodslists = await getallfoods();
+  }
+
+  @override
+  void initState() {
+    setfoods();
+    print(foodslists);
+    super.initState();
   }
 
   @override

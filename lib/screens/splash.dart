@@ -57,7 +57,7 @@ class _SplashScreenState extends State<SplashScreen> {
       Navigator.of(context).push(
         MaterialPageRoute(
           builder: (BuildContext context) {
-            return Walkthrough();
+            return MainScreen(mypage:  0 ,);
           },
         ),
       );

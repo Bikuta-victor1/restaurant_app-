@@ -119,7 +119,7 @@ class _SearchScreenState extends State<SearchScreen>
                 leading: CircleAvatar(
                   radius: 25.0,
                   backgroundImage: NetworkImage(
-                     "${alldishes[index].photourl}",
+                    "${alldishes[index].photourl}",
                   ),
                 ),
                 trailing: Text("${alldishes[index].price}"),
@@ -189,6 +189,8 @@ class _SearchAppBarDelegate extends SearchDelegate<String> {
     // );
   }
 
+
+
   @override
   Widget buildSuggestions(BuildContext context) {
     int getlength(final suggestions) {
@@ -219,7 +221,7 @@ class _SearchAppBarDelegate extends SearchDelegate<String> {
         : ListView.builder(
             shrinkWrap: true,
             primary: false,
-            physics: NeverScrollableScrollPhysics(),
+            // physics: NeverScrollableScrollPhysics(),
             itemCount: getlength(suggestionList),
             itemBuilder: (BuildContext context, int index) {
               //Map food = foods[index];
@@ -244,7 +246,7 @@ class _SearchAppBarDelegate extends SearchDelegate<String> {
                       starCount: 1,
                       color: Constants.ratingBG,
                       allowHalfRating: true,
-                      rating: 5.0,
+                      rating: 4.0,
                       size: 12.0,
                     ),
                     SizedBox(width: 6.0),
