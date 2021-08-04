@@ -35,32 +35,7 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin<Home> {
   String mywhiskey = 'whiskey-list';
   String mywhite = 'whitewine-list';
   String myrosewine = 'rosewine-list';
-  // Future<String> _getId() async {
-  //   SharedPreferences prefs = await SharedPreferences.getInstance();
 
-  //   var deviceInfo = DeviceInfoPlugin();
-  //   if (Platform.isIOS) {
-  //     // import 'dart:io'
-  //     var iosDeviceInfo = await deviceInfo.iosInfo;
-  //     prefs.setString('deviceinfo', iosDeviceInfo.toString());
-  //     return iosDeviceInfo.identifierForVendor; // unique ID on iOS
-  //   } else {
-  //     var androidDeviceInfo = await deviceInfo.androidInfo;
-  //     prefs.setString('deviceinfo', androidDeviceInfo.toString());
-  //     return androidDeviceInfo.androidId; // unique ID on Android
-  //   }
-  // }
-
-  // void checkFirstUser() async {
-  //   //  await _getId();
-  //   SharedPreferences prefs = await SharedPreferences.getInstance();
-  //   var token = prefs.getString('deviceinfo');
-  //   if (token != null) {
-  //     return null;
-  //   } else {
-  //     await _getId();
-  //   }
-  // }
 
   int _current = 0;
   //Future _dishdata;
