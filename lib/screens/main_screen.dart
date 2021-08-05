@@ -28,14 +28,13 @@ class _MainScreenState extends State<MainScreen> {
 
   @override
   void initState() {
-    WidgetsBinding.instance.addPostFrameCallback((_){
+    WidgetsBinding.instance.addPostFrameCallback((_) {
 //super.initState();
-    var provider = Provider.of<AppProvider>(context, listen: false);
-    provider.changecurrentIndex(widget.mypage);
-  // Add Your Code here.
+      var provider = Provider.of<AppProvider>(context, listen: false);
+      provider.changecurrentIndex(widget.mypage);
+      // Add Your Code here.
+    });
 
-});
-    
     // myappprovider.navpages = 0 ;
   }
 
@@ -44,12 +43,18 @@ class _MainScreenState extends State<MainScreen> {
     // TODO: implement didChangeDependencies
 
     await addUserWithToken();
-    
+
     super.didChangeDependencies();
   }
 
   @override
   Widget build(BuildContext context) {
+    Widget appTitle = Container(
+        height: 80,
+        width: MediaQuery.of(context).size.width / 4,
+        decoration: BoxDecoration(
+            image: DecorationImage(
+                image: AssetImage("assets/Group 8.png"), fit: BoxFit.fill)));
     var provider = Provider.of<AppProvider>(context);
     return WillPopScope(
       onWillPop: () => Future.value(false),
@@ -57,18 +62,9 @@ class _MainScreenState extends State<MainScreen> {
         appBar: AppBar(
           automaticallyImplyLeading: false,
           centerTitle: true,
-          title: Text(
-            Constants.appName,
-            style: TextStyle(
-              //         fontFamily: 'Vivaldii',
-              fontSize: 32,
-              letterSpacing: 1.3,
-            ),
-          ),
+          title: appTitle,
           elevation: 0.0,
-          actions: <Widget>[
-      
-          ],
+          actions: <Widget>[],
         ),
         body: currentTab[provider.currentIndex],
         // PageView(
@@ -91,9 +87,8 @@ class _MainScreenState extends State<MainScreen> {
             currentIndex: provider.currentIndex,
             onTap: (index) {
               setState(() {
-                      provider.currentIndex = index;         
-                            });
-             
+                provider.currentIndex = index;
+              });
             },
             items: [
               BottomNavigationBarItem(

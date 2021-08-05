@@ -134,8 +134,8 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin<Home> {
         // .orderBy('timeupload', descending: true)
         .get();
     await documentReference.docs.forEach((document) {
-      Food drinklist1 = Food.fromMap(document.data());
-      foodslists.add(drinklist1);
+      Food foodlist = Food.fromMap(document.data());
+      foodslists.add(foodlist);
       // print(alldishes);
     });
 
@@ -177,7 +177,6 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin<Home> {
     @override
   void initState() {
     setfoods();
-
     super.initState();
   }
 
